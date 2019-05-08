@@ -2,7 +2,7 @@
 title: PCA--主成分分析
 date: 2018-03-01
 tag: [Machine Learning, Data Analysis]
-categories: [机器学习, 数学]
+categories: [机器学习]
 ---
 
 `PCA`在很多方面均有应用，但是之前没有仔细探究过，最近看了一些博客和论文，做一下总结。
