@@ -2,6 +2,7 @@
 title: 一些常见的分布
 date: 2018-02-05
 tag: [Math]
+categories: [数学]
 ---
        
 
