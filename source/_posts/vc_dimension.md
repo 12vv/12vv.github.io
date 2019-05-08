@@ -1,6 +1,7 @@
 ---
 title: VC-Dimension
 date: 2018-01-02
+categories: [机器学习, 数学]
 ---
 
 > 在看林轩田老师的《机器学习基石》视频的时候对`VC-dimension`那一节不是很理解，又看到了youtube上一个有关的视频，记录总结下来。

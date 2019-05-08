@@ -2,6 +2,7 @@
 title: SVM理解
 date: 2018-02-01
 tag: [Machine Learning]
+categories: [机器学习]
 ---
       
 
