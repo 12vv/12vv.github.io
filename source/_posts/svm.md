@@ -125,6 +125,95 @@ $$b^{\*}=y_{i}- \sum_{i=1}^n \alpha_{i}^{*}y_{i}(x_{i} \cdot x_{j})$$
 
 二次规划求解可以使用更加优化的`SMO(Sequential Minimal Optimization)`替代，更加高效，暂时自己还没有看懂，先放着。
 
+
+### Kernels
+
+当数据在当前维度(`or features`)不是线性可分的，我们想要进行如下转换
+
+> for vector `$\mathbf{x}\in\mathbb{R}^d$`, apply transformation `$\mathbf{x} \rightarrow \phi(\mathbf{x})$`where `$\phi(\mathbf{x})\in\mathbb{R}^D$`, usually `$D \gg d$`。
+
+
+$$
+\mathbf{x}=\begin{pmatrix}x_1\\ x_2\\ \vdots \\ x_d \end{pmatrix} \;\;\;\phi(\mathbf{x})=\begin{pmatrix}1\\ x_1\\ \vdots \\x_d \\ x_1x_2 \\ \vdots \\ x_{d-1}x_d\\ \vdots \\x_1x_2\cdots x_d \end{pmatrix}
+$$
+
+这样`$\phi(x)$`的维度达到了`$2^d$`，难以计算。
+
+#### The Kernel Trick
+
+
+##### Gradient Descent with Squared Loss
+
+$$
+\ell(\mathbf{w}) = \sum_{i=1}^n (\mathbf{w}^\top  \mathbf{x}_i-y_i)^2
+$$
+使用梯度下降更新得到
+$$
+w_{t+1} \leftarrow w_t - s(\frac{\partial \ell}{\partial \mathbf{w}})\  where: 
+  \frac{\partial \ell}{\partial \mathbf{w}}=\sum_{i=1}^n2(w^Tx_i-y_i)x_i=\sum_{i=1}^n\gamma_i \mathbf{x}_i
+$$
+
+把`$w$`表示成所有`input vector x`的线性组合：
+$$
+  \mathbf{w}=\sum_{i=1}^n \alpha_i {\mathbf{x}}_i
+$$
+因为损失是凸函数，结果与初始点的选取无关，方便起见取`$\mathbf{w}_0=\begin{pmatrix}0 \\ \vdots \\ 0\end{pmatrix}$`
+
+
+$$
+
+\mathbf{w}_1=\mathbf{w}_0-s\sum_{i=1}^n2(\mathbf{w}_0^\top  \mathbf{x}_i-y_i)\mathbf{x}_i=\sum_{i=1}^n \alpha_i^0 {\mathbf{x}}_i-s\sum_{i=1}^n\gamma_i^0\mathbf{x}_i=\sum_{i=1}^n\alpha_i^1\mathbf{x}_i
+
+(with \;\;\;  \alpha_i^1=\alpha_i^0-s\gamma_i^0)
+
+
+\mathbf{w}_2=\mathbf{w}_1-s\sum_{i=1}^n2(\mathbf{w}_1^\top  \mathbf{x}_i-y_i)\mathbf{x}_i=\sum_{i=1}^n \alpha_i^1\mathbf{x}_i-s\sum_{i=1}^n\gamma_i^1\mathbf{x}_i=\sum_{i=1}^n\alpha_i^2\mathbf{x}_i
+
+(with \;\;\;\alpha_i^2=\alpha_i^1\mathbf{x}_i-s\gamma_i^1)
+
+
+\mathbf{w}_3=\mathbf{w}_2-s\sum_{i=1}^n2(\mathbf{w}_2^\top  \mathbf{x}_i-y_i)\mathbf{x}_i=\sum_{i=1}^n \alpha_i^2\mathbf{x}_i-s\sum_{i=1}^n\gamma_i^2\mathbf{x}_i=\sum_{i=1}^n\alpha_i^3\mathbf{x}_i
+
+(with \;\;\;\alpha_i^3=\alpha_i^2-s\gamma_i^2)
+
+... \qquad\qquad\qquad ... 
+
+
+\mathbf{w}_t=\mathbf{w}_{t-1}-s\sum_{i=1}^n2(\mathbf{w}_{t-1}^\top  \mathbf{x}_i-y_i)\mathbf{x}_i=\sum_{i=1}^n \alpha_i^{t-1}\mathbf{x}_i-s\sum_{i=1}^n\gamma_i^{t-1}\mathbf{x}_i=\sum_{i=1}^n\alpha_i^t\mathbf{x}_i
+
+(with \;\;\;\alpha_i^t=\alpha_i^{t-1}-s\gamma_i^{t-1})
+
+$$
+
+数学归纳法得出`$\alpha$`的更新规则
+
+$$
+\alpha_i^t=\alpha_i^{t-1}-s\gamma_i^{t-1}, 
+
+
+\alpha_i^t=-s\sum_{r=0}^{t-1}\gamma_i^{r}.
+
+$$
+
+就可以把计算高维度`w`的任务转换成`$x$`的内积。
+
+$$
+\mathbf{w}^\top {\mathbf{x}}_j=\sum_{i=1}^n \alpha_i {\mathbf{x}}_i^\top{\mathbf{x}}_j
+$$
+损失函数变为:
+$$
+\ell(\mathbf{\alpha}) = \sum_{i=1}^n \left(\sum_{j=1}^n\alpha_j\mathbf{x}_j^\top  \mathbf{x}_i-y_i\right)^2
+$$
+
+计算内积的`trick`。
+The sum of `$2^d$` terms becomes the product of `d` terms. 
+$$
+\phi(\mathbf{x})^\top \phi(\mathbf{z})=1\cdot 1+x_1z_1+x_2z_2+\cdots +x_1x_2z_1z_2+ \cdots +x_1\cdots x_dz_1\cdots z_d=\prod_{k=1}^d(1+x_kz_k)
+$$
+
+
+
+
 ## 补充
 
 个人感觉SVM挺难理解的，前前后后参考了很多资料，感谢大神们的总结和指导，自己仍有不足，若有错漏欢迎指出。有引用部分，侵删。
@@ -133,4 +222,5 @@ $$b^{\*}=y_{i}- \sum_{i=1}^n \alpha_{i}^{*}y_{i}(x_{i} \cdot x_{j})$$
 2.《统计学习方法》 李航
 3.[支持向量机：Duality](http://blog.pluskid.org/?p=702)
 4.《机器学习》 周志华
+5. [cornellCS4780/CS5780] (http://www.cs.cornell.edu/courses/cs4780/2018fa/syllabus/index.html)
 
