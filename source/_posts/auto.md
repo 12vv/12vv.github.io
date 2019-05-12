@@ -6,12 +6,12 @@ categories: [机器学习]
 ---
 
 
-## 超参数(Hyperparameter)
+### 超参数(Hyperparameter)
 在机器学习中，超参数是在开始学习过程之前设置值的参数，例如`学习率(learning rate)` , `决策树最大深度`等等，这些超参数不是通过训练取得。
 
 <!--more-->
 
-## 超参数优化算法
+### 超参数优化算法
 超参数的优化可以表示成：
 $$
 x^{*} = arg \underset{x\epsilon \chi }{min}f(x)
@@ -24,13 +24,13 @@ $$
 当优化目标函数时，代价太高，因为每次一改动参数，就要重新在整个训练集上训练模型，然后在验证集评估。(当参数很多或模型较复杂就尤其困难)
 
 
-### 网格搜索(Grid Search)
+#### 网格搜索(Grid Search)
 搜索整个`超参数空间(Domain)`, 及所有参数的所有取值。可以想像其代价之高。
 
-### 随机搜索(Random search)
+#### 随机搜索(Random search)
 在整个`超参数空间(Domain)中`，随机选取训练。
 
-### 贝叶斯优化(Bayesian optimization)
+#### 贝叶斯优化(Bayesian optimization)
 不同于`网格搜索`和`随机搜索`, 贝叶斯优化会根据之前的结果来进行参数的优化，学习一个概率模型，比目标函数容易优化，步骤可以归纳为以下：
 1. 为目标函数建立一个概率模型
 2. 找到超参数在这个概率模型上表现最好
@@ -45,7 +45,7 @@ $$
 
 下面主要讨论贝叶斯优化(Bayesian optimization)，内容主要来自，[这篇文章](https://towardsdatascience.com/automated-machine-learning-hyperparameter-tuning-in-python-dfda59b72f8a)
 
-## Parts of Bayesian Optimization
+### Parts of Bayesian Optimization
 
 1. 目标函数(Objective Function)：输入超参数
 2. Domain space: 输入的超参数的范围
@@ -63,7 +63,7 @@ $$
 
 就这样一直进行下去，不需要所有的点就能够找到目标函数的最优解。
 
-### Domain
+#### Domain
 举例，要优化随机森林的参数：
 对于`网格搜索`和`随机搜索`，`domain`看作是`grid`。
 
@@ -77,7 +77,7 @@ hyperparameter_grid = {
 对于基于模型的方法，如贝叶斯优化，domain看作是又概率分布组成。如下图![](/images/auto/2.png)
 
 
-### 目标函数
+#### 目标函数
 目标函数接收超参数为输入，输出一个分数(score)，这就是我们要最小化的目标。一个标准的目标函数模型如下：
 ```
 def objective(hyperparameters):
@@ -111,17 +111,17 @@ def objective(hyperparameters):
     return rmse
 ```
 
-### 概率模型(Probability Model)
+#### 概率模型(Probability Model)
 有很多中选择，比如`GP(Gaussian Processes)`或`Random Forest regression`等。
 
-### Acquisition Functions
+#### Acquisition Functions
 这是我们基于过去的数据选择新一轮的超参数的标准，在贝叶斯优化中通常选择` Expected Improvement`作为`Acquisition Functions`。
 
 $$
 EI_{y^{*}}(x) = \int_{ - \infty}^{y^{*}}(y^{*}-y)p(y|x)dy
 $$
 
-#### Tree-structured Parzen Estimator (TPE)
+##### Tree-structured Parzen Estimator (TPE)
 
 根据`Bayes rule`
 
@@ -159,6 +159,6 @@ $$
 另外，贝叶斯优化(Bayesian optimization)的表现也和数据集的大小有关。
 
 
-#### 参考资料
+### 参考资料
 1. [A Conceptual Explanation of Bayesian Hyperparameter Optimization for Machine Learning](https://towardsdatascience.com/a-conceptual-explanation-of-bayesian-model-based-hyperparameter-optimization-for-machine-learning-b8172278050f)
 2. [Bayesian optimization and multi-armed bandits](https://www.youtube.com/watch?v=vz3D36VXefI)
