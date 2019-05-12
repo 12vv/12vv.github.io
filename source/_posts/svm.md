@@ -17,13 +17,20 @@ categories: [机器学习]
 
 ## 函数距离与几何距离
 
-`函数间隔(function margin)`定义：对于给定训练数据集T和超平面$(w, b)$,定义超平面$(w,b)$关于样本点$(x_{i},y_{i})$的函数间隔为$$\widehat{\gamma_{i}}=y_{i}(w\cdot x_{i}+b)$$
-定义超平面$(w,b)$关于数据集T的几何间隔为超平面$(w,b)$T中所有样本点$(x_{i},y_{i})$的函数间隔之最小值，即
+### 函数间隔(function margin)
+对于给定训练数据集T和超平面$(w, b)$,定义超平面$(w,b)$关于样本点$(x_{i},y_{i})$的函数间隔为
+
+$$\widehat{\gamma_{i}}=y_{i}(w\cdot x_{i}+b)$$
+
+
+定义超平面$(w,b)$关于数据集T的几何间隔为超平面$(w,b)$关于T中所有样本点$(x_{i},y_{i})$的函数间隔之最小值，即
 $$\widehat{\gamma}=min\widehat{\gamma _{i}}$$
 
-`几何间隔(geimetric margin)`定义：对于给定训练数据集T和超平面$(w, b)$,定义超平面$(w,b)$关于样本点
+### 几何间隔(geimetric margin)
+
+对于给定训练数据集T和超平面$(w, b)$,定义超平面$(w,b)$关于样本点
 $(x_{i},y_{i})$的几何间隔为$$\gamma_{i}=y_{i}(\frac{w}{\left \| w \right \|}\cdot x_{i}+\frac{b}{\left \| w \right \|})$$
-定义超平面$(w,b)$关于数据集T的几何间隔为超平面$(w,b)$T中所有样本点$(x_{i},y_{i})$的函数间隔之最小值，即
+定义超平面$(w,b)$关于数据集T的几何间隔为超平面$(w,b)$T中所有样本点$(x_{i},y_{i})$的几何间隔之最小值，即
 $$\gamma=min\gamma _{i}$$
 因为如果超平面参数$w$和$b$成比例改变，虽然超平面不变，但是函数间隔离变了。因此使用几何间隔，并且令$\left | w \right |=1$，下图为《机器学习》中的一张插图。
 ![](/images/svm/2-1.png)
@@ -34,7 +41,7 @@ $$\gamma=min\gamma _{i}$$
 
 $$max\frac{1}{\left \|w \right \|} \hspace{0.5cm} s.t., \gamma_{i}(w^{T}+b)\geq 1$$
 
-$由于求\frac{1}{\left |w \right |}的最大值相当于求\frac{1}{2}\left |w \right |^{2}的最小值，所以上面的目标函数等价于$
+由于求$\frac{1}{\left |w \right |}$的最大值相当于求$\frac{1}{2}\left |w \right |^{2}$的最小值，所以上面的目标函数等价于
 
 $$min\frac{1}{2}\left \|w \right \|^{2} \hspace{0.5cm} s.t., \gamma_{i}(w^{T}+b)\geq 1$$
 
@@ -130,14 +137,14 @@ $$b^{\*}=y_{i}- \sum_{i=1}^n \alpha_{i}^{*}y_{i}(x_{i} \cdot x_{j})$$
 
 当数据在当前维度(`or features`)不是线性可分的，我们想要进行如下转换
 
-> for vector `$\mathbf{x}\in\mathbb{R}^d$`, apply transformation `$\mathbf{x} \rightarrow \phi(\mathbf{x})$`where `$\phi(\mathbf{x})\in\mathbb{R}^D$`, usually `$D \gg d$`。
+> for vector $\mathbf{x}\in\mathbb{R}^d$, apply transformation $\mathbf{x} \rightarrow \phi(\mathbf{x})$ where $\phi(\mathbf{x})\in\mathbb{R}^D$, usually $D \gg d$。
 
 
 $$
 \mathbf{x}=\begin{pmatrix}x_1\\ x_2\\ \vdots \\ x_d \end{pmatrix} \;\;\;\phi(\mathbf{x})=\begin{pmatrix}1\\ x_1\\ \vdots \\x_d \\ x_1x_2 \\ \vdots \\ x_{d-1}x_d\\ \vdots \\x_1x_2\cdots x_d \end{pmatrix}
 $$
 
-这样`$\phi(x)$`的维度达到了`$2^d$`，难以计算。
+这样$\phi(x)$的维度达到了$2^d$，难以计算。
 
 #### The Kernel Trick
 
@@ -153,11 +160,11 @@ w_{t+1} \leftarrow w_t - s(\frac{\partial \ell}{\partial \mathbf{w}})\  where:
   \frac{\partial \ell}{\partial \mathbf{w}}=\sum_{i=1}^n2(w^Tx_i-y_i)x_i=\sum_{i=1}^n\gamma_i \mathbf{x}_i
 $$
 
-把`$w$`表示成所有`input vector x`的线性组合：
+把$w$表示成所有`input vector x`的线性组合：
 $$
   \mathbf{w}=\sum_{i=1}^n \alpha_i {\mathbf{x}}_i
 $$
-因为损失是凸函数，结果与初始点的选取无关，方便起见取`$\mathbf{w}_0=\begin{pmatrix}0 \\ \vdots \\ 0\end{pmatrix}$`
+因为损失是凸函数，结果与初始点的选取无关，方便起见取$\mathbf{w}_0=\begin{pmatrix}0 \\ \vdots \\ 0\end{pmatrix}$
 
 
 $$
@@ -185,7 +192,7 @@ $$
 
 $$
 
-数学归纳法得出`$\alpha$`的更新规则
+数学归纳法得出$\alpha$的更新规则
 
 $$
 \alpha_i^t=\alpha_i^{t-1}-s\gamma_i^{t-1}, 
@@ -195,7 +202,7 @@ $$
 
 $$
 
-就可以把计算高维度`w`的任务转换成`$x$`的内积。
+就可以把计算高维度`w`的任务转换成$x$的内积。
 
 $$
 \mathbf{w}^\top {\mathbf{x}}_j=\sum_{i=1}^n \alpha_i {\mathbf{x}}_i^\top{\mathbf{x}}_j
@@ -206,7 +213,7 @@ $$
 $$
 
 计算内积的`trick`。
-The sum of `$2^d$` terms becomes the product of `d` terms. 
+The sum of $2^d$ terms becomes the product of `d` terms. 
 $$
 \phi(\mathbf{x})^\top \phi(\mathbf{z})=1\cdot 1+x_1z_1+x_2z_2+\cdots +x_1x_2z_1z_2+ \cdots +x_1\cdots x_dz_1\cdots z_d=\prod_{k=1}^d(1+x_kz_k)
 $$
