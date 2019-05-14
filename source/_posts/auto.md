@@ -7,7 +7,7 @@ categories: [机器学习]
 
 
 ### 超参数(Hyperparameter)
-在机器学习中，超参数是在开始学习过程之前设置值的参数，例如`学习率(learning rate)` , `决策树最大深度`等等，这些超参数不是通过训练取得。
+在机器学习中，超参数是在开始学习过程之前设置值的参数，例如`学习率(learning rate)` , `决策树最大深度`等等，这些超参数不是通过训练取得。模型的表现很大程度上依赖于超参数的选取。
 
 <!--more-->
 
@@ -67,7 +67,7 @@ $$
 举例，要优化随机森林的参数：
 对于`网格搜索`和`随机搜索`，`domain`看作是`grid`。
 
-```
+```python
 hyperparameter_grid = {
     'n_estimators': [100, 200, 300, 400, 500, 600],
     'max_depth': [2, 5, 10, 15, 20, 25, 30, 35, 40],
@@ -79,7 +79,7 @@ hyperparameter_grid = {
 
 #### 目标函数
 目标函数接收超参数为输入，输出一个分数(score)，这就是我们要最小化的目标。一个标准的目标函数模型如下：
-```
+```python
 def objective(hyperparameters):
     """Returns validation score from hyperparameters"""
     
@@ -91,7 +91,7 @@ def objective(hyperparameters):
 
 举随机森林为例，我们想要最小化`RMSE(Root Mean Squared Error)`，可以定义目标函数如下。
 
-```
+```python
 import numpy as np
 from sklearn.ensemble improt RandomForestRegressor
 
