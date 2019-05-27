@@ -2,7 +2,7 @@
 title: Leetcode-Database题解
 date: 2019-05-16
 tag: [Leetcode]
-categories: [Leetcode, 数据库]
+categories: [Leetcode,数据库]
 ---
 
 
