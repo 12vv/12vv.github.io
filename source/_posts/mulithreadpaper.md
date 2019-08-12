@@ -14,7 +14,7 @@ categories: [Paper]
 ## 摘要
 具有大量内核的处理器现已非常普遍。为了利用这些系统中的可用资源，编程必须朝着增加的并行性方向发展。但是，提高程序中的并发性并不一定会带来更好的性能。并行的编程模型必须提供定义并行任务的灵活方法，同时有效地管理创建的任务。 OpenMP是一个被广泛接受的共享内存架构模型。在本文中，我们重点介绍了OpenMP任务分配方法中的一些缺点，并提出了基于格拉斯哥并行约简机（GPRM）编程框架的替代模型。作为本研究的主要焦点，我们部署模型来解决基本线性代数问题，稀疏矩阵的LU因子分解。我们使用了BOTS基准测试套件中的SparseLU基准测试，并将从我们的模型获得的结果与OpenMP任务分配方法的结果进行了比较。 TILEPro64系统用于运行实验且结果十分可观，不仅因为这个特定问题的性能提高，而且验证了我们模型的任务管理效率，稳定性和灵活性，可用于解决未来多核系统中的问题。
 
-## 引言
+## I. 引言
 
 基于任务的并行编程模型正在迅速发展。随着多核处理器的出现，它们可以与数据并行方法竞争，同时由于其MIMD特性而提供更大的灵活性。一个任务是可以与其他任务并行运行的任何形式的计算(如果它们的数据依赖性允许)。大多数这些编程模型为程序员提供了一些关键字，用于在C / C ++等命令式语言中表示并行性。另一方面，纯函数式编程语言提供了原生并行性，但与主流语言（如C ++和Java）相比，它们都没有得到广泛采用。即使多核心编程语言被广泛采用，在短期内显然也不可能重写大量的单核遗留代码库，而且也不会有效率。因此，我们的任务是提出一种编程模型，该模型可以用命令式语言集成到现有代码中，同时提供与函数式语言类似的本机并行性。在详细介绍我们的方法 - 格拉斯哥并行减速机（GPRM）之前，我们想简要回顾一下市场上的一些可用型号，即Clojure，Chapel，Intel Cilk Plus，Intel Threading Building Blocks（TBB），和OpenMP。
 
@@ -39,7 +39,7 @@ OpenMP可以称为共享内存架构中使用最广泛的编程标准。自OpenM
 
 稀疏矩阵的LU分解是一个基本的线性代数问题。由于矩阵的稀疏性，传统的工作共享解决方案是不够的，因为存在大量的负载不平衡。作为一个众所周知的测试用例，我们使用了Barcelona OpenMP Tasks Suite（BOTS）[11]中的SparseLU基准测试。在这个问题中，矩阵被组织成可能未被分配的块。更多信息以及源代码是公开可用的。
 
-## GPRM
+## II. GPRM
 格拉斯哥并行约简机（GPRM）[9]为多核编程提供了一种基于任务的方法。程序员将程序结构化为任务代码，编写为C ++类，以及通信代码，编写在C ++的受限子集中。任务是表示S表达式的字节码列表，例如，`$(S_{1}(S_{2}10)20)$`表示具有两个参数的任务S1，第一参数是任务S2，且有数值常数10作为参数，S1第二参数是数值常数20。GPRM执行相应的字节码列表，同时评估函数参数。有关S表达式和字节码编译的更多详细信息，请参见[9]。用我们的说法，任务节点由任务内核和任务管理器组成。任务内核通常是一个复杂的，自包含的实体，为系统提供特定的功能，它本身并不知道系统的其余部分。任务内核具有运行到完成语义。相应的任务管理器提供内核的接口。计算任务内核被编写为C ++类。这意味着终端用户只需在GPRM::Kernel命名空间中创建类。
 
 从概念上讲，GPRM由一组通过网络连接的`瓦片`组成。每个`瓦片`由一个任务节点和一个用于传入数据包的FIFO(First In First Out, 先进先出)队列组成。每个`瓦片`都在自己的线程中运行或在FIFO队列中阻塞。系统是事件驱动的，有两种可能的事件类型：数据包到达或任务内核生成的事件。后者可以是创建数据包，或是修改本地状态。即任务管理器(task manager,reduction engine)通过并行分派请求计算到其他区块的分组来评估字节码。
@@ -48,7 +48,7 @@ GPRM中的线程被视为执行资源。因此，对于每个处理核心，在�
 
 通常，当任务相当时，通过选择并发级别与线程数相同可获得最佳结果，即GPRM中的核心数。虽然在第VI节中任务不相当，但作为解决方案，可以使用GPRM并行循环来平衡线程之间的负载。如将示出的，当使用中等大小或大的稀疏矩阵时，该解决方案非常有效。
 
-## 平行化循环(PARALLEL LOOPS)
+## III. 平行化循环(PARALLEL LOOPS)
 
 我们已经创建了许多用于GPRM的有用的并行循环结构。这些工作共享构造对应于OpenMP中的工作共享构造，在某种意义上它们用于在不同线程之间分配工作的不同部分。但是，他们执行操作的方式有很大差异。在OpenMP中，用户将循环标记为具有所需调度策略的OpenMP，并且OpenMP运行时决定哪些线程应该运行循环的哪个部分;在GPRM中，生成相同任务的多个实例 -- 通常与并发级别一样多 -- 每个实例具有不同的索引（类似于OpenCL中的global_id）。这些任务中的每一个都调用并行循环传递它们自己的索引，以指定它们的主线程应该执行哪些工作部分。
 
@@ -61,17 +61,121 @@ GPRM中的线程被视为执行资源。因此，对于每个处理核心，在�
 
 GPRM 中的`par_for`和`par_nested_for`循环使用C ++模板和成员函数指针实现。`Listing1`和`Listing2`给出了这些工作共享结构的实现。默认情况下，它们将是我们的工作共享结构。连续并行循环具有类似的实现。我们将连续的并行循环表示为连续的 GPRM 方法。另一个有用的工作共享构造是并行嵌套循环。由于GPRM `par_nested_for`以最小的开销实现，因此它是一个非常有用的工作共享构造，我们将在下一节中看到。
 
-## 实验环境设定(EXPERIMENTAL SETUP)
+## IV. 实验环境设定(EXPERIMENTAL SETUP)
 
 `Tilera TILEPro64`多核处理器(Tilera TILEPro64 Tile Processor)是一个32位VLIW多核，具有64个核心，通过多个8×8网状网络互连。默认情况下，它提供分布式缓存一致的共享内存。它有16GB的DDR内存，但为了使用所有核心共享的全局地址空间，寻址限制为32位，即4GB。它具有8KB的每核L1高速缓存和64KB的L2高速缓存。芯片上所有L2高速缓存的并集构成了分布式L3高速缓存。内核的工作频率为866MHz。在64个核心中，一个用于PCI通信，另外63个核心用于我们的实验。对于我们在本研究中的实验，我们使用了Tilera公司的MDE 3.0提供的tile-g ++编译器，它基于GCC版本4.4.3。已指定编译器标志`-O2`和`-std=c++ 0x`。值得一提的是，TILEPro64运行Tile Linux，它基于标准的开源Linux版本2.6.36。
 
-## 矩阵的乘法微基准测试(MATRIX MULTIPLICATION MICRO-BENCHMARK)
+## V. 矩阵的乘法微基准测试(MATRIX MULTIPLICATION MICRO-BENCHMARK)
+在本节中，我们使用带有三重嵌套循环的朴素矩阵乘法算法作为微观基准来评估OpenMP方法与我们用于解决矩阵问题的模型相比的开销。代码在`Listing3`中给出。
+![](/images/multi/l3.jpg)
+
+我们的目标是使用这个微观基准来确定最重要的屏障(barrier)，我们将问题的解释为执行多个工作。假设$m×n$矩阵 A 和$n×p$矩阵 B 的乘积是$m×p$矩阵C.我们想要并行化三重嵌套循环的第一个循环，其在m上循环，因此$m$即为作业的数量。每个作业的大小由三重嵌套循环中内部的两个循环的大小来标识，即$p*n$。我们选择$n = p$来使问题更加常规。最终得到具有以下矩阵：$A：m×n，B：n×n，C：m×n$。由于该算法的数据局部性较差，线性加速的表现无法达到。
+
+比较四种方法：I）OpenMP工作共享构造，II）动态调度和块大小为1下的OpenMP，III）OpenMP 任务，以及IV）`GPRM par_for`构造。
+
+![](/images/multi/fig2.jpg)
+图2显示了不同作业大小的性能测量。在所有情况下，GPRM都优于OpenMP，尤其是对于小型工作案例（即便如此，工作规模仍然不足以显示在OpenMP中具有细粒度任务的实际开销）。据我们所知，性能差异是由于线程调度的开销，这在执行时间短的小作业案例中更为明显。
+
+为了研究任务粒度对OpenMP性能行为的影响，我们进一步减小了任务的规模。我们还研究了截止值对性能的影响。由于OpenMP工作共享结构的行为非常相似，因此只有默认的`omp for`用于下一个实验。
+
+为了改善任务方法的行为，我们为任务添加了一个截止值，这样就只创建了$m/cutoff$个任务。这类似于对多个任务进行排序。图3比较了基于`OpenMP`任务的模型的调优版本与其他替代方案的加速情况。我们认为`GPRM`在将任务分配给其线程时的规律性以及其任务的较低开销使其成为赢家。
+
+图3表明，通过使用适当的截止值，可以在相当大程度上弥补细粒度任务的表现不佳。当作业的大小增加时，OpenMP方法逐渐变得更好。我们选择前两个案例来更详细地显示使用截止值的效果，如果根本不使用截止值，这些情况与顺序实现相比会显示性能下降。
+
+![](/images/multi/fig3.jpg)
+
+图4显示，对于没有截止的情况，如果选取好的截止值，与没有截止的情况相比，提高了38.6倍的加速，比顺序版本也提高了7.8倍，对于具有63个线程的50×50的作业大小。与没有截止的情况相比，作业大小100×100的加速也提高了10.8倍，与顺序运行时相比提高了8.2倍。
+![](/images/multi/fig4.jpg)
+
+## VI. 稀疏矩阵的LU分解(SPARSE LU FACTORISATION)
+来自BOTS套件的SparseLU基准测试计算稀疏矩阵上的LU因子分解，是负载不平衡的矩阵运算的一个恰当示例。在OpenMP方法中，为每个非空块创建任务。来自[5]SparseLU主要代码（省略了基于OpenMP任务的编程的细节，例如处理共享和私有变量）复制在图5。
+
+![](/images/multi/fig5.jpg)
+
+任务的数量和它们的粒度取决于非空块的数量和每个块的大小，因此无法在用户编写的OpenMP代码中定义截止值。正如[5]中所讨论的，与使用动态调度的工作共享结构相比，使用OpenMP任务可以获得更好的性能。因此，我们使用任务方法进行比较。可以在`Listing5`中找到GPRM中SparseLU基准测试的代码。
+
+![](/images/multi/l5.jpg)
+
+`unroll pragma`导致对任何控制构造进行编译时评估，其中参数列表中的任何变量都会出现。在该示例中，这意味着将展开for循环。默认情况下，非内核GPRM代码中的表达式是并行计算的。`seq pragma`强制对其前面的块进行顺序评估。
+
+值得一提的是，我们还没有改变BOTS基准测试套件中生成稀疏矩阵的初始化阶段。随着块数的增加，矩阵变得更稀疏。例如，在`50×50`块的情况下，矩阵是85％稀疏的，而`100×100`块的情况，矩阵变为89％稀疏。
+
+为了在不同的线程中获得矩阵元素的公平分布(考虑到矩阵的稀疏性)，我们使用了`par_nested_for`，因为迭代次数在这个问题中不固定。随着kk的增长，循环变得越来越小，使用`par_for`会导致一些线程的饥饿这意味（在几次迭代之后，当$outer iters> concurrency level$）。通过使用`par_nested_for`，只要$outer iters * inner ters > concurrency level$线程就可以获得一些工作。因此，为了实现`fwd`，`bdiv`和`bmod`任务，可以将`GPRM API`用于并行循环，如`Listing6`所示。
+
+![](/images/multi/l6.jpg)
+
+图6显示了`4000×4000`的稀疏矩阵，它被分成不同大小的块。每个维度中的块数越多，块大小越小，OpenMP的性能急剧下降。`GPRM`可以处理微小的`8×8`块，比`OpenMP`获得的最佳结果好`6.2`倍。
+
+![](/images/multi/t1.jpg)
+
+表I显示，使用默认设置(即线程数与核心数一样多)无法获得OpenMP方法的最佳结果。除了块小于`20×20`时执行时间的巨大差异，如果线程数被设置为默认值`63`，则存在显着的性能下降。例如，执行时间比最后一种情况的最佳时间差了`12.2​​5`倍。但是，`GPRM`无需调整线程数j就达到了最佳执行时间，其中，线程数和并发级别对于`GPRM`-是相同的。这也是因为GPRM提供了一种在线程之间分配工作的有效方式，而不是创建非常小的任务。
+
+![](/images/multi/fig7.jpg)
+
+`SparseLU`基准测试的加速图如图7所示。我们将并发级别提高到`128`，以显示我们的方法的常规性，因为它可以通过核心数量获得最佳性能。这并不奇怪，因为任务已经在线程之间进行划分，因此它们可以更有效地利用底层架构。由于`OpenMP`任务模型与我们的不同，我们只是在这种情况下增加了线程数。
+
+## VII. 讨论(DISCUSSIONS)
+
+### A. OpenMP的效能瓶颈(OpenMP Performance Bottlenecks)
+
+在使用`OpenMP`进行编程时，我们发现了许多性能瓶颈。第一个是线程迁移开销。通过将`OpenMP`线程静态映射(mapping, or 固定pinning)到执行核心，通常可以消除此开销。在具有每个内核缓存的平台中使用静态线程映射可能非常有用，特别是对于负载平衡数据并行问题，其中每个线程要完成的工作部分相当，因此CPU时间和可以和本地缓存可以被有效地利用。我们的研究[12]表明，对于这样的平台，静态线程映射在单程序环境中通常是一种很好的做法，但对于不同程序竞争资源的多程序设计环境，它并不总是有效的。我们引用[12]-[14]有关文献，这些文献详细讨论OpenMP程序的线程映射。
+
+另一个障碍是找到一个合适的截止点，以避免产生过于细粒度的任务。程序员必须非常小心任务的粒度，否则结果可能完全出乎意料。而且也无法保证运行具有最大线程数（即等于核心数量）的`OpenMP`程序就会获得最佳性能。
 
 
+### B. OpenMP 和 GPRM方法的对比(Comparison of OpenMP and GPRM Approaches)
+对于`SparseLU(稀疏矩阵分解)`问题，尽管为非空块创建`OpenMP`任务是一种智能解决方案，但它并不适用于所有矩阵。第一个原因是单个线程探索整个矩阵并为非空块创建相对较小的任务，而在GPRM中实现的建议解决方案中，多个线程并行查看它们的工作部分。
 
+性能上的差异可能是显而易见的，特别是在具有嵌套循环的bmod阶段。正如[15]中所展示的，将OpenMP`for`的共享工作构造与任务，如在BOTS基准套件中的`sparselu_for`中实现的那样，对于`OpenMP 3.0`来说并不是一种可行的方法。
 
-## Ongoing
+其次，在`GPRM`中，每个线程都有基于程序任务描述文件的特定工作。如果需要，将应用运行时决策来提高性能，而`OpenMP`动态创建任务，并且所有决策都是在运行时动态获取的，这使得任务管理在任务和/或线程数量变大时效率降低。此外，当任务变得更细粒度时，任务管理的开销变得显着，正如矩阵乘法微基准所明确的那样。
 
+在`GPRM`中，使用`par_nested_for`构造以非连续方式对矩阵进行分区可以获得良好的负载平衡。此外，我们的混合工作共享任务技术非常简单。与许多其他并行编程模型（包括OpenMP）相比，程序员不必担心私有和共享变量。
+
+与OpenMP相比，编程工具包`GPRM`具有稳定，可扩展，低开销和灵活性。稳定，因为无需更改默认配置，例如线程数以获得最佳性能。它按预期进行扩展，随着并发级别增加到核心数量而显示持续加速。即使对于细粒度的任务，任务管理的开销也可以忽略不计。它很灵活，因为程序员可以轻松控制任务数量。指定最初在哪个线程上运行哪个任务也很简单。如果需要，运行时系统可以动态更改主线程。
+
+## VIII. 结论(CONCLUSION)
+已经出现了许多核心系统来更快地解决现有问题。为更多的执行资源提供相同数量的工作只意味着拥有更细粒度的任务。在本文中，我们提出了一种常规的任务组合方法，可以解决常规和不规则的并行问题。我们已经证明它适用于具有每核高速缓存的系统，因此也很有希望用于未来的多核。
+
+在本文中，我们的新模型用于解决基本线性代数问题，即稀疏矩阵LU分解。我们使用矩阵乘法微基准来突出提出的模型和`OpenMP`之间的差异。对于小型工作，GPRM的性能优于`OpenMP` 2.8倍至11倍。对于中型工作，加速改进范围从1.5倍到3.3倍。随着工作变得越来越大，差异变得越来越小。对于大型工作，加速范围从1.3倍到2.2倍。
+
+作为一个真实的例子，我们使用了`BOTS`基准测试套件中的`SparseLU`测试用例。我们使用`4000×4000`的稀疏矩阵划分为不同大小的块。我们证明了对于更大数量的块，即更小的块大小，差异是相当大的。 GPRM的主要优点是它不需要调整它的线程数。相比之下，调优对`OpenMP`至关重要，否则对于细粒度的任务而言，性能的大幅下降是不可避免的。
+
+我们还调查了并发级别对加速的影响。同样，对于`50×50`和`100×100`的情况，`GPRM`是使用`OpenMP`获得的最佳结果2倍。对于并发级别为63的默认设置，加速改进分别为2.1倍和4.9倍。
+
+由于`GPRM`可以提供混合任务数据并行性，因此在混合CPU-GPU系统上使用它仍然需要进一步研究。
+
+## 引用
+
+[1] R. Hickey, “The clojure programming language,” in Proceedings of the 2008 symposium on Dynamic languages. ACM, 2008, p. 1.
+
+[2] J. E. Stone, D. Gohara, and G. Shi, “Opencl: A parallel programming standard for heterogeneous computing systems,” Computing in science & engineering, vol. 12, no. 3, p. 66, 2010.
+
+[3] C. E. Leiserson, “The cilk++ concurrency platform,” The Journal of Supercomputing, vol. 51, no. 3, pp. 244–257, 2010.
+
+[4] J. Reinders, Intel threading building blocks: outfitting C++ for multi- core processor parallelism. O’Reilly Media, Inc., 2007.
+
+[5] E. Ayguade ́, N. Copty, A. Duran, J. Hoeflinger, Y. Lin, F. Massaioli, X. Teruel, P. Unnikrishnan, and G. Zhang, “The design of openmp tasks,” Parallel and Distributed Systems, IEEE Transactions on, vol. 20, no. 3, pp. 404–418, 2009.
+
+[6] A. Duran, J. Corbala ́n, and E. Ayguade ́, “An adaptive cut-off for task parallelism,” in High Performance Computing, Networking, Storage and Analysis, 2008. SC 2008. International Conference for. IEEE, 2008, pp. 1–11.
+
+[7] A. Podobas and M. Brorsson, “A comparison of some recent task-based parallel programming models,” in Proceedings of the 3rd Workshop on Programmability Issues for Multi-Core Comput- ers,(MULTIPROG’2010), Jan 2010, Pisa, 2010.
+
+[8] X. Teruel, C. Barton, A. Duran, X. Martorell, E. Ayguade ́, P. Un- nikrishnan, G. Zhang, and R. Silvera, “Openmp tasking analysis for programmers,” in Proceedings of the 2009 Conference of the Center for Advanced Studies on Collaborative Research. IBM Corp., 2009, pp. 32–42.
+
+[9] A.TousimojaradandW.Vanderbauwhede,“Theglasgowparallelreduc- tion machine: Programming shared-memory many-core systems using parallel task composition,” EPTCS, vol. 137, pp. 79–94.
+
+[10] A. Duran, J. Corbala ́n, and E. Ayguade ́, “Evaluation of openmp task schedulingstrategies,”inOpenMPinaneweraofparallelism. Springer, 2008, pp. 100–110.
+
+[11] A.Duran,X.Teruel,R.Ferrer,X.Martorell,andE.Ayguade,“Barcelona openmp tasks suite: A set of benchmarks targeting the exploitation of task parallelism in openmp,” in Parallel Processing, 2009. ICPP’09. International Conference on. IEEE, 2009, pp. 124–131.
+
+[12] A.TousimojaradandW.Vanderbauwhede,“Anefficientthreadmapping strategy for multiprogramming on manycore processors,” in Interna- tional Conference on Parallel Computing (ParCo 2013). IOS Press, 2013, pp. 63–71.
+
+[13] A. Mazouz, S. Touati, and D. Barthou, “Performance evaluation and analysis of thread pinning strategies on multi-core platforms: Case study of spec omp applications on intel architectures,” in High Performance Computing and Simulation (HPCS), 2011 International Conference on. IEEE, 2011, pp. 273–279.
+
+[14] A. Tousimojarad and W. Vanderbauwhede, “Cache-aware parallel pro- gramming for manycore processors,” ACM SIGARCH Computer Archi- tecture News, vol. 41, 2013.
+
+[15] S.L.Olivier,A.K.Porterfield,K.B.Wheeler,andJ.F.Prins,“Schedul- ing task parallelism on multi-socket multicore systems,” in Proceedings of the 1st International Workshop on Runtime and Operating Systems for Supercomputers. ACM, 2011, pp. 49–56.
 
 
 ## 原文链接

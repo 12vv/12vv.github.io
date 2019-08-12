@@ -2,7 +2,7 @@
 title: 激活函数 --- Activation function
 date: 2019-05-24
 tag: [Deep Learning]
-categories: [深度学习]
+categories: [机器学习]
 ---
 
 

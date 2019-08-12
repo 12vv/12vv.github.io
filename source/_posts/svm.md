@@ -221,13 +221,13 @@ $$
 
 
 
-## 补充
+## 参考资料
 
 个人感觉SVM挺难理解的，前前后后参考了很多资料，感谢大神们的总结和指导，自己仍有不足，若有错漏欢迎指出。有引用部分，侵删。
 参考如下：
-1.[SVM三重境界](https://blog.csdn.net/v_july_v/article/details/7624837)
-2.《统计学习方法》 李航
-3.[支持向量机：Duality](http://blog.pluskid.org/?p=702)
-4.《机器学习》 周志华
+1. [SVM三重境界](https://blog.csdn.net/v_july_v/article/details/7624837)
+2. 《统计学习方法》 李航
+3. [支持向量机：Duality](http://blog.pluskid.org/?p=702)
+4. 《机器学习》 周志华
 5. [cornellCS4780/CS5780] (http://www.cs.cornell.edu/courses/cs4780/2018fa/syllabus/index.html)
 

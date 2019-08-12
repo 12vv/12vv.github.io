@@ -36,6 +36,19 @@ typedef struct_object {
 当对象的引用数减为0，`Python`将立即释放内存。
 
 
+##### 引用计数加一
+1. 对象被创建，如：`a=23`。
+2. 对象被引用，如：`b=a`。
+3. 对象被作为参数，传入一个函数中，如：`func(a)`。
+4. 对象作为一个元素，存储在容器中，如：`list1=[a,a]`。
+
+##### 引用计数减一
+1. 对象的别名被显示销毁，如：`del a`。
+2. 对象的别名被赋予新的对象，如：`a=24`。
+3. 一个对象离开它的作用域，如f函数执行完毕时，func函数中的`局部变量`。
+4. 对象所在的容器被销毁，或从容器中删除对象。
+
+
 ##### 优点
 
 1. 简单
@@ -133,6 +146,40 @@ print "Garbage collector: collected %d objects." % (collected)
 剩下的活跃的对象则被移动到一个新的链表：一代链表。
 
 
+### python的gc模块
+[Garbage Collector interface](https://docs.python.org/2/library/gc.html)
+有三种情况触发垃圾回收：
+1. 调用gc.collect()。
+2. 当gc模块的计数器达到阈值的时候。
+3. 程序退出的时候。
+
+#### 常用函数
+1. gc.set_debug(flags): 设置gc的debug日志，一般设置为gc.DEBUG_LEAK
+2. gc.collect([generation]): 显式进行垃圾回收，可以输入参数，0代表只检查第一代的对象，1代表检查一，二代的对象，2代表检查一，二，三代的对象，如果不传参数，执行一个full collection，也就是等于传2。返回不可达（unreachable objects）对象的数目。
+3. gc.set_threshold(threshold0[, threshold1[, threshold2]): 设置自动执行垃圾回收的频率。
+4. gc.get_count(): 获取当前自动执行垃圾回收的计数器，返回一个长度为3的列表。
+
+##### 补充
+get_count()长度为3的列表，第一位代表距离上一次一代垃圾检查，python分配内存数目减去释放内存的数目。同理第二位代表距离上一次二代垃圾检查，一代垃圾检查的次数，第三位代表距离上一次三代垃圾检查，二代垃圾检查的次数。
+
+gc模快有一个自动垃圾回收的阀值，即通过`gc.get_threshold`函数获取到的长度为3的元组，例如`(700,10,10)`
+
+每一次计数器的增加，gc模块就会检查增加后的计数是否达到阀值的数目，如果是，就会执行对应的代数的垃圾检查，然后重置计数器。
+
+例如，假设阀值是`(700,10,10)`：
+
+- 当计数器从`(699,3,0)`增加到`(700,3,0)`，gc模块就会执行`gc.collect(0)`,即检查一代对象的垃圾，并重置计数器为`(0,4,0)`
+- 当计数器从(699,9,0)增加到`(700,9,0)`，gc模块就会执行`gc.collect(1)`,即检查一、二代对象的垃圾，并重置计数器为`(0,0,1)`
+- 当计数器从`(699,9,9)`增加到`(700,9,9)`，gc模块就会执行`gc.collect(2)`,即检查一、二、三代对象的垃圾，并重置计数器为`(0,0,0)`
+
+### 总结
+- 应避免循环引用
+- 引入gc模块，启动gc模块的自动清理循环引用的对象机制
+- 由于分代收集，所以把需要长期使用的变量集中管理，并尽快移到二代以后，减少GC检查时的消耗
+
+
+
 ### 参考资料
 1. [python垃圾回收机制](https://my.oschina.net/hebianxizao/blog/57367?fromerr=KJozamtm)
 2. [Garbage Collection in Python](https://www.geeksforgeeks.org/garbage-collection-python/)
+3. [Python垃圾回收机制详解](https://www.cnblogs.com/Xjng/p/5128269.html)

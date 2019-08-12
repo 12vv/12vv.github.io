@@ -86,7 +86,7 @@ $$
 缺点是当n很大的时候计算量很大。
 
 ##### k-Fold Cross-Validation
-把数据集分成k个部分，每个部分的样本个数为`$\frac{n}{k}$`，每一个部分用于做验证集一次，每一次剩余的`k-1`个部分用于训练，总共进行`k`次。
+把数据集分成k个部分，每个部分的样本个数为$\frac{n}{k}$，每一个部分用于做验证集一次，每一次剩余的`k-1`个部分用于训练，总共进行`k`次。
 
 > 这样就解决留一验证的计算量大的问题，当`k=n`时则等同与留一验证。
 
@@ -96,7 +96,7 @@ $$
 > k-fold CV 往往比 LOOCV 对`test error`有更好的估计！！！
 
 ###### bias
-由于`k-fold CV`每一次的训练集样本个数为`$(k-1)n/k$`比`LOOCV`中每一次训练集样本个数`k-1`要少，所以`k-fold CV`的bias是比较高的。
+由于`k-fold CV`每一次的训练集样本个数为$(k-1)n/k$比`LOOCV`中每一次训练集样本个数`k-1`要少，所以`k-fold CV`的bias是比较高的。
 
 ###### variance
 但是，每一次的训练样本，`LOOCV`的重叠度，或者说样本间的相关度比较高，会造成`LOOCV`的variance比较高。
@@ -104,5 +104,9 @@ $$
 
 一般来说选用`k-fold CV`取`k=5`或`k=10`是比较好的选择。
 
+
+### 参考文献
+1. [The VC dimension](https://www.bilibili.com/video/av36731342/?p=26)
+2. [Lecture 12: Bias-Variance Tradeoff](http://www.cs.cornell.edu/courses/cs4780/2018fa/syllabus/index.html)
 
 
