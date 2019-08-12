@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>leetcode-database题解 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Leetcode数据库">
+  
+  
+  
+  
+  <meta name="description" content="175. Combine Two TablesDescription12345678910Table: Person+-------------+---------+| Column Name | Type    |+-------------+---------+| PersonId    | int     || FirstName   | varchar || LastName    | v">
+<meta name="keywords" content="Leetcode,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode-Database题解">
+<meta property="og:url" content="https://12vv.github.io/2019/05/16/lcdb/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="175. Combine Two TablesDescription12345678910Table: Person+-------------+---------+| Column Name | Type    |+-------------+---------+| PersonId    | int     || FirstName   | varchar || LastName    | v">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-27T07:34:33.108Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode-Database题解">
+<meta name="twitter:description" content="175. Combine Two TablesDescription12345678910Table: Person+-------------+---------+| Column Name | Type    |+-------------+---------+| PersonId    | int     || FirstName   | varchar || LastName    | v">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-lcdb" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Leetcode-Database题解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/05/16/lcdb/" class="article-date">
+	  <time datetime="2019-05-15T16:00:00.000Z" itemprop="datePublished">2019-05-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="175-Combine-Two-Tables"><a href="#175-Combine-Two-Tables" class="headerlink" title="175. Combine Two Tables"></a>175. Combine Two Tables</h2><h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Table: Person</span><br><span class="line"></span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">| Column Name | Type    |</span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">| PersonId    | int     |</span><br><span class="line">| FirstName   | varchar |</span><br><span class="line">| LastName    | varchar |</span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">PersonId is the primary key column for this table.</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Table: Address</span><br><span class="line"></span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">| Column Name | Type    |</span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">| AddressId   | int     |</span><br><span class="line">| PersonId    | int     |</span><br><span class="line">| City        | varchar |</span><br><span class="line">| State       | varchar |</span><br><span class="line">+<span class="comment">-------------+---------+</span></span><br><span class="line">AddressId is the primary key column for this table.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query for a report that provides the following information for each person in the Person table, regardless if there is an address for each of those people:</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FirstName, LastName, City, State</span><br></pre></td></tr></table></figure>
+<h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><p>不一定每个人都有地址，所以要使用<code>外连接(outer join)</code>，而不是<code>内链接(inner join)</code>。</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Write your MySQL query statement below</span></span><br><span class="line"><span class="keyword">SELECT</span> FirstName, LastName, City, State</span><br><span class="line"><span class="keyword">FROM</span> Person P <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> Address A</span><br><span class="line"><span class="keyword">ON</span> P.PersonId = A.PersonId;</span><br></pre></td></tr></table></figure>
+<h2 id="176-Second-Highest-Salary"><a href="#176-Second-Highest-Salary" class="headerlink" title="176. Second Highest Salary"></a>176. Second Highest Salary</h2><h3 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: Employee</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+--------+</span></span><br><span class="line">| Id | Salary |</span><br><span class="line">+<span class="comment">----+--------+</span></span><br><span class="line">| 1  | 100    |</span><br><span class="line">| 2  | 200    |</span><br><span class="line">| 3  | 300    |</span><br><span class="line">+<span class="comment">----+--------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to get the second highest salary from the Employee table.</p>
+</blockquote>
+<p>For example, given the above Employee table, the query should return 200 as the second highest salary. If there is no second highest salary, then the query should return null.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br><span class="line">| 200                 |</span><br><span class="line">+<span class="comment">---------------------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-1"><a href="#Analysis-1" class="headerlink" title="Analysis"></a>Analysis</h3><p>使用<code>MAX</code>可选取最高的工资，那么使用嵌套选择比最高工资低的最高工资即可以选到第二高的工资。</p>
+<h3 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(salary) <span class="keyword">AS</span> SecondHighestSalary</span><br><span class="line"><span class="keyword">FROM</span> employee</span><br><span class="line"><span class="keyword">WHERE</span> salary &lt; (<span class="keyword">SELECT</span> <span class="keyword">MAX</span>(salary)</span><br><span class="line">                 <span class="keyword">FROM</span> employee);</span><br></pre></td></tr></table></figure>
+<h2 id="177-Nth-Highest-Salary"><a href="#177-Nth-Highest-Salary" class="headerlink" title="177. Nth Highest Salary"></a>177. Nth Highest Salary</h2><h3 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: Employee</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+--------+</span></span><br><span class="line">| Id | Salary |</span><br><span class="line">+<span class="comment">----+--------+</span></span><br><span class="line">| 1  | 100    |</span><br><span class="line">| 2  | 200    |</span><br><span class="line">| 3  | 300    |</span><br><span class="line">+<span class="comment">----+--------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to get the nth highest salary from the Employee table.</p>
+</blockquote>
+<p>For example, given the above Employee table, the nth highest salary where n = 2 is 200. If there is no nth highest salary, then the query should return null.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">------------------------+</span></span><br><span class="line">| getNthHighestSalary(2) |</span><br><span class="line">+<span class="comment">------------------------+</span></span><br><span class="line">| 200                    |</span><br><span class="line">+<span class="comment">------------------------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-2"><a href="#Analysis-2" class="headerlink" title="Analysis"></a>Analysis</h3><p>当<code>N</code>比较大用嵌套循环就不太合适了，考虑使用<code>LIMIT</code>，<code>LIMIT</code>两个参数，第一个参数是表示<code>OFFSET</code>，第二个参数表示选取多少条记录。</p>
+<h3 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> getNthHighestSalary(N <span class="built_in">INT</span>) <span class="keyword">RETURNS</span> <span class="built_in">INT</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> m <span class="built_in">int</span>;</span><br><span class="line"><span class="keyword">SET</span> m = N - <span class="number">1</span>;</span><br><span class="line">  RETURN (</span><br><span class="line">      <span class="comment"># Write your MySQL query statement below.</span></span><br><span class="line">      <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> Salary</span><br><span class="line">      <span class="keyword">FROM</span> Employee</span><br><span class="line">      <span class="keyword">ORDER</span> <span class="keyword">BY</span> Salary <span class="keyword">DESC</span> </span><br><span class="line">      <span class="keyword">LIMIT</span> m, <span class="number">1</span></span><br><span class="line">  );</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引入新变量<code>N</code>是因为<code>LIMIT</code>中不能写<code>n-1</code>。</p>
+</blockquote>
+<h2 id="178-Rank-Scores"><a href="#178-Rank-Scores" class="headerlink" title="178. Rank Scores"></a>178. Rank Scores</h2><h3 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Table: Scores</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| Id | Score |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| 1  | 3.50  |</span><br><span class="line">| 2  | 3.65  |</span><br><span class="line">| 3  | 4.00  |</span><br><span class="line">| 4  | 3.85  |</span><br><span class="line">| 5  | 4.00  |</span><br><span class="line">| 6  | 3.65  |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to rank scores. If there is a tie between two scores, both should have the same ranking. Note that after a tie, the next ranking number should be the next consecutive integer value. In other words, there should be no “holes” between ranks.</p>
+</blockquote>
+<p>For example, given the above Scores table, your query should generate the following report (order by highest score):</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">-------+------+</span></span><br><span class="line">| Score | Rank |</span><br><span class="line">+<span class="comment">-------+------+</span></span><br><span class="line">| 4.00  | 1    |</span><br><span class="line">| 4.00  | 1    |</span><br><span class="line">| 3.85  | 2    |</span><br><span class="line">| 3.65  | 3    |</span><br><span class="line">| 3.65  | 3    |</span><br><span class="line">| 3.50  | 4    |</span><br><span class="line">+<span class="comment">-------+------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-3"><a href="#Analysis-3" class="headerlink" title="Analysis"></a>Analysis</h3><p>可以把<code>rank</code>是大于等于本成绩的成绩个数。</p>
+<h3 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Score, </span><br><span class="line">    (<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> Score) </span><br><span class="line">     <span class="keyword">FROM</span> Scores </span><br><span class="line">     <span class="keyword">WHERE</span> Score &gt;= s.Score) <span class="keyword">Rank</span> </span><br><span class="line"><span class="keyword">FROM</span> Scores s </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> Score <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="180-Consecutive-Numbers"><a href="#180-Consecutive-Numbers" class="headerlink" title="180. Consecutive Numbers"></a>180. Consecutive Numbers</h2><h3 id="Description-4"><a href="#Description-4" class="headerlink" title="Description"></a>Description</h3><blockquote>
+<p>Write a SQL query to find all numbers that appear at least three times consecutively.</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">----+-----+</span></span><br><span class="line">| Id | Num |</span><br><span class="line">+<span class="comment">----+-----+</span></span><br><span class="line">| 1  |  1  |</span><br><span class="line">| 2  |  1  |</span><br><span class="line">| 3  |  1  |</span><br><span class="line">| 4  |  2  |</span><br><span class="line">| 5  |  1  |</span><br><span class="line">| 6  |  2  |</span><br><span class="line">| 7  |  2  |</span><br><span class="line">+<span class="comment">----+-----+</span></span><br></pre></td></tr></table></figure>
+<p>For example, given the above Logs table, 1 is the only number that appears consecutively for at least three times.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| ConsecutiveNums |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| 1               |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-4"><a href="#Analysis-4" class="headerlink" title="Analysis"></a>Analysis</h3><p>查找出<code>Id</code>连续且<code>Num</code>相等的数字即可。</p>
+<h3 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> L1.num ConsecutiveNums</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">Logs</span> L1, <span class="keyword">Logs</span> L2, <span class="keyword">Logs</span> L3</span><br><span class="line"><span class="keyword">WHERE</span> L1.id = l2.id - <span class="number">1</span></span><br><span class="line"><span class="keyword">AND</span> L2.id = L3.id - <span class="number">1</span></span><br><span class="line"><span class="keyword">AND</span> L1.num = L2.num</span><br><span class="line"><span class="keyword">AND</span> l2.num = l3.num;</span><br></pre></td></tr></table></figure>
+<h2 id="181-Employees-Earning-More-Than-Their-Managers"><a href="#181-Employees-Earning-More-Than-Their-Managers" class="headerlink" title="181. Employees Earning More Than Their Managers"></a>181. Employees Earning More Than Their Managers</h2><h3 id="Description-5"><a href="#Description-5" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Table: Employee</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| Id | Score |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| 1  | 3.50  |</span><br><span class="line">| 2  | 3.65  |</span><br><span class="line">| 3  | 4.00  |</span><br><span class="line">| 4  | 3.85  |</span><br><span class="line">| 5  | 4.00  |</span><br><span class="line">| 6  | 3.65  |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Given the Employee table, write a SQL query that finds out employees who earn more than their managers. For the above table, Joe is the only employee who earns more than his manager.</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">----------+</span></span><br><span class="line">| Employee |</span><br><span class="line">+<span class="comment">----------+</span></span><br><span class="line">| Joe      |</span><br><span class="line">+<span class="comment">----------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e1.Name <span class="keyword">as</span> Employee</span><br><span class="line"><span class="keyword">FROM</span> Employee e1 , Employee e2</span><br><span class="line"><span class="keyword">WHERE</span> e1.ManagerId = e2.Id <span class="keyword">AND</span> e1.Salary &gt; e2.Salary</span><br></pre></td></tr></table></figure>
+<h2 id="182-Duplicate-Emails"><a href="#182-Duplicate-Emails" class="headerlink" title="182. Duplicate Emails"></a>182. Duplicate Emails</h2><h3 id="Description-6"><a href="#Description-6" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: Person</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+---------+</span></span><br><span class="line">| Id | Email   |</span><br><span class="line">+<span class="comment">----+---------+</span></span><br><span class="line">| 1  | a@b.com |</span><br><span class="line">| 2  | c@d.com |</span><br><span class="line">| 3  | a@b.com |</span><br><span class="line">+<span class="comment">----+---------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to find all duplicate emails in a table named Person.</p>
+</blockquote>
+<p>For example, your query should return the following for the above table:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">---------+</span></span><br><span class="line">| Email   |</span><br><span class="line">+<span class="comment">---------+</span></span><br><span class="line">| a@b.com |</span><br><span class="line">+<span class="comment">---------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>All emails are in lowercase.</p>
+</blockquote>
+<h3 id="Analysis-5"><a href="#Analysis-5" class="headerlink" title="Analysis"></a>Analysis</h3><p>可以使用<code>distinct</code>找出<code>Id</code>不同但是<code>Email</code>相同的，或使用<code>count</code>找出次数大于2的即为重复。</p>
+<h3 id="Solution-6"><a href="#Solution-6" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> (p.Email)</span><br><span class="line"><span class="keyword">FROM</span> Person p, Person p1</span><br><span class="line"><span class="keyword">WHERE</span> (p.Id&lt;&gt;p1.Id <span class="keyword">and</span> p.Email=p1.Email);</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> p.Email</span><br><span class="line"><span class="keyword">FROM</span> Person p</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> p.Email</span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(p.Email)&gt;<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="183-Customers-Who-Never-Order"><a href="#183-Customers-Who-Never-Order" class="headerlink" title="183. Customers Who Never Order"></a>183. Customers Who Never Order</h2><h3 id="Description-7"><a href="#Description-7" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Table: Customers</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| Id | Name  |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| 1  | Joe   |</span><br><span class="line">| 2  | Henry |</span><br><span class="line">| 3  | Sam   |</span><br><span class="line">| 4  | Max   |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Table: Orders</span><br><span class="line">+<span class="comment">----+------------+</span></span><br><span class="line">| Id | CustomerId |</span><br><span class="line">+<span class="comment">----+------------+</span></span><br><span class="line">| 1  | 3          |</span><br><span class="line">| 2  | 1          |</span><br><span class="line">+<span class="comment">----+------------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to find all customers who never order anything.</p>
+</blockquote>
+<p>Using the above tables as example, return the following:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| Customers |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| Henry     |</span><br><span class="line">| Max       |</span><br><span class="line">+<span class="comment">-----------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-6"><a href="#Analysis-6" class="headerlink" title="Analysis"></a>Analysis</h3><p>可使用<code>NOT IN</code>或<code>NOT EXISTS</code>做排除。</p>
+<h3 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> C.Name</span><br><span class="line"><span class="keyword">FROM</span> Customers C</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">Id</span></span><br><span class="line"><span class="keyword">FROM</span> Orders O</span><br><span class="line"><span class="keyword">WHERE</span> C.Id = O.CustomerId)</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> C.Name</span><br><span class="line"><span class="keyword">FROM</span> Customers C</span><br><span class="line"><span class="keyword">WHERE</span> C.Id <span class="keyword">NOT</span> <span class="keyword">IN</span></span><br><span class="line">(<span class="keyword">SELECT</span> O.CustomerId</span><br><span class="line"><span class="keyword">FROM</span> Orders O)</span><br></pre></td></tr></table></figure>
+<h2 id="184-Department-Highest-Salary"><a href="#184-Department-Highest-Salary" class="headerlink" title="184. Department Highest Salary"></a>184. Department Highest Salary</h2><h3 id="Description-8"><a href="#Description-8" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Table: Employee</span><br><span class="line"></span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| Id | Score |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br><span class="line">| 1  | 3.50  |</span><br><span class="line">| 2  | 3.65  |</span><br><span class="line">| 3  | 4.00  |</span><br><span class="line">| 4  | 3.85  |</span><br><span class="line">| 5  | 4.00  |</span><br><span class="line">| 6  | 3.65  |</span><br><span class="line">+<span class="comment">----+-------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Solution-8"><a href="#Solution-8" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">d.Name, e.Name, e.Salary</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">Department d,</span><br><span class="line">Employee e,</span><br><span class="line">(<span class="keyword">select</span> <span class="keyword">MAX</span>(Salary) <span class="keyword">as</span> Salary,  DepartmentId <span class="keyword">as</span> DepartmentId <span class="keyword">from</span> Employee <span class="keyword">GROUP</span> <span class="keyword">BY</span> DepartmentId) h</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">e.Salary = h.Salary <span class="keyword">and</span></span><br><span class="line">e.DepartmentId = h.DepartmentId <span class="keyword">and</span></span><br><span class="line">e.DepartmentId = d.Id;</span><br></pre></td></tr></table></figure>
+<h2 id="185-Department-Top-Three-Salaries"><a href="#185-Department-Top-Three-Salaries" class="headerlink" title="185. Department Top Three Salaries"></a>185. Department Top Three Salaries</h2><h3 id="Description-9"><a href="#Description-9" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Table: Employee</span><br><span class="line">+<span class="comment">----+-------+--------+--------------+</span></span><br><span class="line">| Id | Name  | Salary | DepartmentId |</span><br><span class="line">+<span class="comment">----+-------+--------+--------------+</span></span><br><span class="line">| 1  | Joe   | 85000  | 1            |</span><br><span class="line">| 2  | Henry | 80000  | 2            |</span><br><span class="line">| 3  | Sam   | 60000  | 2            |</span><br><span class="line">| 4  | Max   | 90000  | 1            |</span><br><span class="line">| 5  | Janet | 69000  | 1            |</span><br><span class="line">| 6  | Randy | 85000  | 1            |</span><br><span class="line">| 7  | Will  | 70000  | 1            |</span><br><span class="line">+<span class="comment">----+-------+--------+--------------+</span></span><br><span class="line"></span><br><span class="line">Table: Department</span><br><span class="line">+<span class="comment">----+----------+</span></span><br><span class="line">| Id | Name     |</span><br><span class="line">+<span class="comment">----+----------+</span></span><br><span class="line">| 1  | IT       |</span><br><span class="line">| 2  | Sales    |</span><br><span class="line">+<span class="comment">----+----------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to find employees who earn the top three salaries in each of the department. For the above tables, your SQL query should return the following rows (order of rows does not matter).</p>
+</blockquote>
+<p>Explanation:</p>
+<p>In IT department, Max earns the highest salary, both Randy and Joe earn the second highest salary, and Will earns the third highest salary. There are only two employees in the Sales department, Henry earns the highest salary while Sam earns the second highest salary.</p>
+<h3 id="Analysis-7"><a href="#Analysis-7" class="headerlink" title="Analysis"></a>Analysis</h3><p>满足部门<code>id</code>相同，表示在同一个部门，且比当前高的工资个数要小于 3 个即可。</p>
+<h3 id="Solution-9"><a href="#Solution-9" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> d.name <span class="keyword">AS</span> Department, e.Name <span class="keyword">AS</span> Employee, e.Salary </span><br><span class="line"><span class="keyword">FROM</span> Employee <span class="keyword">AS</span> e <span class="keyword">INNER</span> <span class="keyword">JOIN</span> Department <span class="keyword">AS</span> d </span><br><span class="line"><span class="keyword">ON</span> e.DepartmentId = d.Id </span><br><span class="line"><span class="keyword">WHERE</span> (<span class="keyword">SELECT</span> <span class="keyword">count</span>(<span class="keyword">DISTINCT</span> Salary) </span><br><span class="line">       <span class="keyword">FROM</span> Employee </span><br><span class="line">       <span class="keyword">WHERE</span> DepartmentId = d.Id <span class="keyword">AND</span> Salary &gt; e.Salary ) &lt; <span class="number">3</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> e.Salary <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="196-Delete-Duplicate-Emails"><a href="#196-Delete-Duplicate-Emails" class="headerlink" title="196. Delete Duplicate Emails"></a>196. Delete Duplicate Emails</h2><h3 id="Description-10"><a href="#Description-10" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: Person</span><br><span class="line">+<span class="comment">----+------------------+</span></span><br><span class="line">| Id | Email            |</span><br><span class="line">+<span class="comment">----+------------------+</span></span><br><span class="line">| 1  | john@example.com |</span><br><span class="line">| 2  | bob@example.com  |</span><br><span class="line">| 3  | john@example.com |</span><br><span class="line">+<span class="comment">----+------------------+</span></span><br><span class="line">Id is the primary key column for this table.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to delete all duplicate email entries in a table named Person, keeping only unique emails based on its smallest Id.</p>
+</blockquote>
+<p>For example, after running your query, the above Person table should have the following rows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">----+------------------+</span></span><br><span class="line">| Id | Email            |</span><br><span class="line">+<span class="comment">----+------------------+</span></span><br><span class="line">| 1  | john@example.com |</span><br><span class="line">| 2  | bob@example.com  |</span><br><span class="line">+<span class="comment">----+------------------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Solution-10"><a href="#Solution-10" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> p1 <span class="keyword">FROM</span> Person p1 ,Person p2</span><br><span class="line"><span class="keyword">WHERE</span> p1.Email =p2.Email <span class="keyword">AND</span> p1.Id &gt; p2.Id</span><br></pre></td></tr></table></figure>
+<h2 id="197-Rising-Temperature"><a href="#197-Rising-Temperature" class="headerlink" title="197. Rising Temperature"></a>197. Rising Temperature</h2><h3 id="Description-11"><a href="#Description-11" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: Weather</span><br><span class="line">+<span class="comment">---------+------------------+------------------+</span></span><br><span class="line">| Id(INT) | RecordDate(DATE) | Temperature(INT) |</span><br><span class="line">+<span class="comment">---------+------------------+------------------+</span></span><br><span class="line">|       1 |       2015-01-01 |               10 |</span><br><span class="line">|       2 |       2015-01-02 |               25 |</span><br><span class="line">|       3 |       2015-01-03 |               20 |</span><br><span class="line">|       4 |       2015-01-04 |               30 |</span><br><span class="line">+<span class="comment">---------+------------------+------------------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>write a SQL query to find all dates’ Ids with higher temperature compared to its previous (yesterday’s) dates.</p>
+</blockquote>
+<p>For example, return the following Ids for the above Weather table:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">----+</span></span><br><span class="line">| Id |</span><br><span class="line">+<span class="comment">----+</span></span><br><span class="line">|  2 |</span><br><span class="line">|  4 |</span><br><span class="line">+<span class="comment">----+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-8"><a href="#Analysis-8" class="headerlink" title="Analysis"></a>Analysis</h3><p>使用<code>DATEDIFF</code>，使两个日期的天数差为1。</p>
+<h3 id="Solution-11"><a href="#Solution-11" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> a.id <span class="keyword">as</span> <span class="keyword">Id</span> </span><br><span class="line"><span class="keyword">FROM</span> weather a ,weather b </span><br><span class="line"><span class="keyword">WHERE</span> a.temperature &gt; b.temperature </span><br><span class="line"><span class="keyword">AND</span> <span class="keyword">datediff</span>(a.recorddate, b.recorddate) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="262-Trips-and-Users"><a href="#262-Trips-and-Users" class="headerlink" title="262. Trips and Users"></a>262. Trips and Users</h2><h3 id="Description-12"><a href="#Description-12" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">Table: Trips</span><br><span class="line">+<span class="comment">----+-----------+-----------+---------+--------------------+----------+</span></span><br><span class="line">| Id | Client_Id | Driver_Id | City_Id |        Status      |Request_at|</span><br><span class="line">+<span class="comment">----+-----------+-----------+---------+--------------------+----------+</span></span><br><span class="line">| 1  |     1     |    10     |    1    |     completed      |2013-10-01|</span><br><span class="line">| 2  |     2     |    11     |    1    | cancelled_by_driver|2013-10-01|</span><br><span class="line">| 3  |     3     |    12     |    6    |     completed      |2013-10-01|</span><br><span class="line">| 4  |     4     |    13     |    6    | cancelled_by_client|2013-10-01|</span><br><span class="line">| 5  |     1     |    10     |    1    |     completed      |2013-10-02|</span><br><span class="line">| 6  |     2     |    11     |    6    |     completed      |2013-10-02|</span><br><span class="line">| 7  |     3     |    12     |    6    |     completed      |2013-10-02|</span><br><span class="line">| 8  |     2     |    12     |    12   |     completed      |2013-10-03|</span><br><span class="line">| 9  |     3     |    10     |    12   |     completed      |2013-10-03| </span><br><span class="line">| 10 |     4     |    13     |    12   | cancelled_by_driver|2013-10-03|</span><br><span class="line">+<span class="comment">----+-----------+-----------+---------+--------------------+----------+</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Table: Users</span><br><span class="line">+<span class="comment">----------+--------+--------+</span></span><br><span class="line">| Users_Id | Banned |  Role  |</span><br><span class="line">+<span class="comment">----------+--------+--------+</span></span><br><span class="line">|    1     |   No   | client |</span><br><span class="line">|    2     |   Yes  | client |</span><br><span class="line">|    3     |   No   | client |</span><br><span class="line">|    4     |   No   | client |</span><br><span class="line">|    10    |   No   | driver |</span><br><span class="line">|    11    |   No   | driver |</span><br><span class="line">|    12    |   No   | driver |</span><br><span class="line">|    13    |   No   | driver |</span><br><span class="line">+<span class="comment">----------+--------+--------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Write a SQL query to find the cancellation rate of requests made by unbanned users between Oct 1, 2013 and Oct 3, 2013. For the above tables, your SQL query should return the following rows with the cancellation rate being rounded to two decimal places.</p>
+</blockquote>
+<h3 id="Analysis-9"><a href="#Analysis-9" class="headerlink" title="Analysis"></a>Analysis</h3><p>可以使用<code>Case When ... Then ... Else ...End</code>关键字来做，使用<code>cancelled%</code>来表示开头是<code>cancelled</code>的所有项(包括<code>client</code>和<code>driver</code>)。</p>
+<h3 id="Solution-12"><a href="#Solution-12" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t.Request_at <span class="keyword">Day</span>, </span><br><span class="line"><span class="keyword">ROUND</span>(<span class="keyword">SUM</span>(<span class="keyword">CASE</span> <span class="keyword">WHEN</span> t.Status </span><br><span class="line">          <span class="keyword">LIKE</span> <span class="string">'cancelled%'</span> </span><br><span class="line">          <span class="keyword">THEN</span> <span class="number">1</span> <span class="keyword">ELSE</span> <span class="number">0</span> <span class="keyword">END</span>)/<span class="keyword">COUNT</span>(*), <span class="number">2</span>) <span class="string">'Cancellation Rate'</span></span><br><span class="line"><span class="keyword">FROM</span> Trips t <span class="keyword">JOIN</span> <span class="keyword">Users</span> u </span><br><span class="line"><span class="keyword">ON</span> t.Client_Id = u.Users_Id <span class="keyword">AND</span> u.Banned = <span class="string">'No'</span> </span><br><span class="line"><span class="keyword">WHERE</span> t.Request_at <span class="keyword">BETWEEN</span> <span class="string">'2013-10-01'</span> <span class="keyword">AND</span> <span class="string">'2013-10-03'</span> </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> t.Request_at;</span><br></pre></td></tr></table></figure>
+<h2 id="595-Big-Countries"><a href="#595-Big-Countries" class="headerlink" title="595. Big Countries"></a>595. Big Countries</h2><h3 id="Description-13"><a href="#Description-13" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Table: World</span><br><span class="line">+<span class="comment">-----------------+------------+------------+--------------+---------------+</span></span><br><span class="line">| name            | continent  | area       | population   | gdp           |</span><br><span class="line">+<span class="comment">-----------------+------------+------------+--------------+---------------+</span></span><br><span class="line">| Afghanistan     | Asia       | 652230     | 25500100     | 20343000      |</span><br><span class="line">| Albania         | Europe     | 28748      | 2831741      | 12960000      |</span><br><span class="line">| Algeria         | Africa     | 2381741    | 37100000     | 188681000     |</span><br><span class="line">| Andorra         | Europe     | 468        | 78115        | 3712000       |</span><br><span class="line">| Angola          | Africa     | 1246700    | 20609294     | 100990000     |</span><br><span class="line">+<span class="comment">-----------------+------------+------------+--------------+---------------+</span></span><br></pre></td></tr></table></figure>
+<p>A country is big if it has an area of bigger than 3 million square km or a population of more than 25 million.</p>
+<blockquote>
+<p>Write a SQL solution to output big countries’ name, population and area.</p>
+</blockquote>
+<p>For example, according to the above table, we should output:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">--------------+-------------+--------------+</span></span><br><span class="line">| name         | population  | area         |</span><br><span class="line">+<span class="comment">--------------+-------------+--------------+</span></span><br><span class="line">| Afghanistan  | 25500100    | 652230       |</span><br><span class="line">| Algeria      | 37100000    | 2381741      |</span><br><span class="line">+<span class="comment">--------------+-------------+--------------+</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Solution-13"><a href="#Solution-13" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>,population, area</span><br><span class="line"><span class="keyword">FROM</span> World <span class="keyword">WHERE</span> area&gt;<span class="number">3000000</span> </span><br><span class="line"><span class="keyword">OR</span> population&gt;<span class="number">25000000</span></span><br></pre></td></tr></table></figure>
+<h2 id="596-Classes-More-Than-5-Students"><a href="#596-Classes-More-Than-5-Students" class="headerlink" title="596. Classes More Than 5 Students"></a>596. Classes More Than 5 Students</h2><h3 id="Description-14"><a href="#Description-14" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Table: courses</span><br><span class="line">+<span class="comment">---------+------------+</span></span><br><span class="line">| student | class      |</span><br><span class="line">+<span class="comment">---------+------------+</span></span><br><span class="line">| A       | Math       |</span><br><span class="line">| B       | English    |</span><br><span class="line">| C       | Math       |</span><br><span class="line">| D       | Biology    |</span><br><span class="line">| E       | Math       |</span><br><span class="line">| F       | Computer   |</span><br><span class="line">| G       | Math       |</span><br><span class="line">| H       | Math       |</span><br><span class="line">| I       | Math       |</span><br><span class="line">+<span class="comment">---------+------------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Please list out all classes which have more than or equal to 5 students.</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">---------+</span></span><br><span class="line">| class   |</span><br><span class="line">+<span class="comment">---------+</span></span><br><span class="line">| Math    |</span><br><span class="line">+<span class="comment">---------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Solution-14"><a href="#Solution-14" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">class</span> <span class="keyword">FROM</span> courses </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">class</span> </span><br><span class="line"><span class="keyword">HAVING</span> <span class="keyword">count</span>(<span class="keyword">distinct</span> student) &gt;= <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="601-Human-Traffic-of-Stadium"><a href="#601-Human-Traffic-of-Stadium" class="headerlink" title="601. Human Traffic of Stadium"></a>601. Human Traffic of Stadium</h2><h3 id="Description-15"><a href="#Description-15" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Table: stadium</span><br><span class="line">+<span class="comment">------+------------+-----------+</span></span><br><span class="line">| id   | visit_date | people    |</span><br><span class="line">+<span class="comment">------+------------+-----------+</span></span><br><span class="line">| 1    | 2017-01-01 | 10        |</span><br><span class="line">| 2    | 2017-01-02 | 109       |</span><br><span class="line">| 3    | 2017-01-03 | 150       |</span><br><span class="line">| 4    | 2017-01-04 | 99        |</span><br><span class="line">| 5    | 2017-01-05 | 145       |</span><br><span class="line">| 6    | 2017-01-06 | 1455      |</span><br><span class="line">| 7    | 2017-01-07 | 199       |</span><br><span class="line">| 8    | 2017-01-08 | 188       |</span><br><span class="line">+<span class="comment">------+------------+-----------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Please write a query to display the records which have 3 or more consecutive rows and the amount of people more than 100(inclusive).</p>
+</blockquote>
+<p>For the sample data above, the output is:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">------+------------+-----------+</span></span><br><span class="line">| id   | visit_date | people    |</span><br><span class="line">+<span class="comment">------+------------+-----------+</span></span><br><span class="line">| 5    | 2017-01-05 | 145       |</span><br><span class="line">| 6    | 2017-01-06 | 1455      |</span><br><span class="line">| 7    | 2017-01-07 | 199       |</span><br><span class="line">| 8    | 2017-01-08 | 188       |</span><br><span class="line">+<span class="comment">------+------------+-----------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Each day only have one row record, and the dates are increasing with id increasing.</p>
+</blockquote>
+<h3 id="Solution-15"><a href="#Solution-15" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> a.*</span><br><span class="line"><span class="keyword">FROM</span> stadium a, stadium b, stadium c</span><br><span class="line"><span class="keyword">WHERE</span> (a.id=b.id+<span class="number">1</span> <span class="keyword">AND</span> b.id=c.id+<span class="number">1</span></span><br><span class="line">    <span class="keyword">OR</span> a.id+<span class="number">1</span>=b.id <span class="keyword">AND</span> b.id+<span class="number">1</span>=c.id</span><br><span class="line">    <span class="keyword">OR</span> a.id+<span class="number">1</span>=b.id <span class="keyword">AND</span> a.id=c.id+<span class="number">1</span>)</span><br><span class="line"><span class="keyword">AND</span> a.people &gt;= <span class="number">100</span> <span class="keyword">AND</span> b.people&gt;= <span class="number">100</span> <span class="keyword">AND</span> c.people &gt;= <span class="number">100</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.id</span><br></pre></td></tr></table></figure>
+<h2 id="620-Not-Boring-Movies"><a href="#620-Not-Boring-Movies" class="headerlink" title="620. Not Boring Movies"></a>620. Not Boring Movies</h2><h3 id="Description-16"><a href="#Description-16" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Table: cinema</span><br><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br><span class="line">|   id    | movie     |  description |  rating   |</span><br><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br><span class="line">|   1     | War       |   great 3D   |   8.9     |</span><br><span class="line">|   2     | Science   |   fiction    |   8.5     |</span><br><span class="line">|   3     | irish     |   boring     |   6.2     |</span><br><span class="line">|   4     | Ice song  |   Fantacy    |   8.6     |</span><br><span class="line">|   5     | House card|   Interesting|   9.1     |</span><br><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Please write a SQL query to output movies with an odd numbered ID and a description that is not ‘boring’. Order the result by rating.</p>
+</blockquote>
+<p>For the example above, the output should be:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br><span class="line">|   id    | movie     |  description |  rating   |</span><br><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br><span class="line">|   5     | House card|   Interesting|   9.1     |</span><br><span class="line">|   1     | War       |   great 3D   |   8.9     |</span><br><span class="line">+<span class="comment">---------+-----------+--------------+-----------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Solution-16"><a href="#Solution-16" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span>, movie, description, rating <span class="keyword">FROM</span> cinema </span><br><span class="line"><span class="keyword">WHERE</span> description!=<span class="string">'boring'</span> <span class="keyword">AND</span> <span class="keyword">id</span>%<span class="number">2</span>!=<span class="number">0</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> rating <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="626-Exchange-Seats"><a href="#626-Exchange-Seats" class="headerlink" title="626. Exchange Seats"></a>626. Exchange Seats</h2><h3 id="Description-17"><a href="#Description-17" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Table: seat</span><br><span class="line">+<span class="comment">---------+---------+</span></span><br><span class="line">|    id   | student |</span><br><span class="line">+<span class="comment">---------+---------+</span></span><br><span class="line">|    1    | Abbot   |</span><br><span class="line">|    2    | Doris   |</span><br><span class="line">|    3    | Emerson |</span><br><span class="line">|    4    | Green   |</span><br><span class="line">|    5    | Jeames  |</span><br><span class="line">+<span class="comment">---------+---------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> change seats for the adjacent students</p>
+</blockquote>
+<p>For the sample input, the output is:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">---------+---------+</span></span><br><span class="line">|    id   | student |</span><br><span class="line">+<span class="comment">---------+---------+</span></span><br><span class="line">|    1    | Doris   |</span><br><span class="line">|    2    | Abbot   |</span><br><span class="line">|    3    | Green   |</span><br><span class="line">|    4    | Emerson |</span><br><span class="line">|    5    | Jeames  |</span><br><span class="line">+<span class="comment">---------+---------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-10"><a href="#Analysis-10" class="headerlink" title="Analysis"></a>Analysis</h3><p>可以通过交换<code>id</code>来交换座位。如果id是奇数，就加1作为新<code>id</code>。如果是偶数，就减1作为新<code>id</code>。另外，如果学生数为奇数，就不改变最后一个<code>id</code>。</p>
+<h3 id="Solution-17"><a href="#Solution-17" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> (<span class="keyword">CASE</span></span><br><span class="line">            <span class="keyword">WHEN</span> <span class="keyword">id</span> % <span class="number">2</span> = <span class="number">1</span> <span class="keyword">AND</span> <span class="keyword">id</span> != C <span class="keyword">THEN</span> <span class="keyword">id</span>+<span class="number">1</span></span><br><span class="line">            <span class="keyword">WHEN</span> <span class="keyword">id</span> % <span class="number">2</span> = <span class="number">1</span> <span class="keyword">AND</span> <span class="keyword">id</span>  = C <span class="keyword">THEN</span> <span class="keyword">id</span></span><br><span class="line">       <span class="keyword">ELSE</span> <span class="keyword">id</span><span class="number">-1</span> <span class="keyword">END</span>) <span class="keyword">AS</span> <span class="keyword">id</span>,student</span><br><span class="line"><span class="keyword">FROM</span> seat,(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="number">1</span>) <span class="keyword">AS</span> C <span class="keyword">FROM</span> seat) <span class="keyword">AS</span> T</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">id</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="627-Swap-Salary"><a href="#627-Swap-Salary" class="headerlink" title="627. Swap Salary"></a>627. Swap Salary</h2><h3 id="Description-18"><a href="#Description-18" class="headerlink" title="Description"></a>Description</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Table: salary</span><br><span class="line">+<span class="comment">----+------+-----+--------+</span></span><br><span class="line">| id | name | sex | salary |</span><br><span class="line">|<span class="comment">----|------|-----|--------|</span></span><br><span class="line">| 1  | A    | m   | 2500   |</span><br><span class="line">| 2  | B    | f   | 1500   |</span><br><span class="line">| 3  | C    | m   | 5500   |</span><br><span class="line">| 4  | D    | f   | 500    |</span><br><span class="line">+<span class="comment">----+------+-----+--------+</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Swap all f and m values (i.e., change all f values to m and vice versa) with a <code>single update statement</code> and no intermediate temp table.</p>
+</blockquote>
+<p>After running your update statement, the above salary table should have the following rows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+<span class="comment">----+------+-----+--------+</span></span><br><span class="line">| id | name | sex | salary |</span><br><span class="line">|<span class="comment">----|------|-----|--------|</span></span><br><span class="line">| 1  | A    | f   | 2500   |</span><br><span class="line">| 2  | B    | m   | 1500   |</span><br><span class="line">| 3  | C    | f   | 5500   |</span><br><span class="line">| 4  | D    | m   | 500    |</span><br><span class="line">+<span class="comment">----+------+-----+--------+</span></span><br></pre></td></tr></table></figure>
+<h3 id="Analysis-11"><a href="#Analysis-11" class="headerlink" title="Analysis"></a>Analysis</h3><p>可以使用<code>Case When ... Then ... Else ...End</code>或<code>IF</code>来做。</p>
+<h3 id="Solution-18"><a href="#Solution-18" class="headerlink" title="Solution"></a>Solution</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> salary <span class="keyword">SET</span> sex = <span class="keyword">CASE</span> sex <span class="keyword">WHEN</span> <span class="string">'m'</span> <span class="keyword">then</span> <span class="string">'f'</span> <span class="keyword">ELSE</span> <span class="string">'m'</span> <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> salary <span class="keyword">SET</span> sex = <span class="keyword">IF</span>(sex = <span class="string">'m'</span>,<span class="string">'f'</span>,<span class="string">'m'</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: 'Your support will encourage me!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/Wepay.jpeg',
+  alipayImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/AirPay.jpeg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Garrick
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/05/16/lcdb/" target="_blank" title="Leetcode-Database题解">https://12vv.github.io/2019/05/16/lcdb/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Leetcode/">Leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/18/mulithreadpaper/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          A Parallel Task-based Approach to Linear Algebra 论文学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/10/auto/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">自动调参---Automated Hyperparameter Tuning</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#175-Combine-Two-Tables"><span class="nav-text">175. Combine Two Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#176-Second-Highest-Salary"><span class="nav-text">176. Second Highest Salary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-1"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-1"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-1"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#177-Nth-Highest-Salary"><span class="nav-text">177. Nth Highest Salary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-2"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-2"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-2"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#178-Rank-Scores"><span class="nav-text">178. Rank Scores</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-3"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-3"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-3"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#180-Consecutive-Numbers"><span class="nav-text">180. Consecutive Numbers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-4"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-4"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-4"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#181-Employees-Earning-More-Than-Their-Managers"><span class="nav-text">181. Employees Earning More Than Their Managers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-5"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-5"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#182-Duplicate-Emails"><span class="nav-text">182. Duplicate Emails</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-6"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-5"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-6"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#183-Customers-Who-Never-Order"><span class="nav-text">183. Customers Who Never Order</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-7"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-6"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-7"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#184-Department-Highest-Salary"><span class="nav-text">184. Department Highest Salary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-8"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-8"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#185-Department-Top-Three-Salaries"><span class="nav-text">185. Department Top Three Salaries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-9"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-7"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-9"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#196-Delete-Duplicate-Emails"><span class="nav-text">196. Delete Duplicate Emails</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-10"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-10"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#197-Rising-Temperature"><span class="nav-text">197. Rising Temperature</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-11"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-8"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-11"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#262-Trips-and-Users"><span class="nav-text">262. Trips and Users</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-12"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-9"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-12"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#595-Big-Countries"><span class="nav-text">595. Big Countries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-13"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-13"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#596-Classes-More-Than-5-Students"><span class="nav-text">596. Classes More Than 5 Students</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-14"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-14"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#601-Human-Traffic-of-Stadium"><span class="nav-text">601. Human Traffic of Stadium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-15"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-15"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#620-Not-Boring-Movies"><span class="nav-text">620. Not Boring Movies</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-16"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-16"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#626-Exchange-Seats"><span class="nav-text">626. Exchange Seats</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-17"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-10"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-17"><span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#627-Swap-Salary"><span class="nav-text">627. Swap Salary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-18"><span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Analysis-11"><span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Solution-18"><span class="nav-text">Solution</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Garrick‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Garrick All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>

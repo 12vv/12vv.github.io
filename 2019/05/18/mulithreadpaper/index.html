@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>a parallel task-based approach to linear algebra 论文学习 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="PaperTranslation">
+  
+  
+  
+  
+  <meta name="description" content="简述这是一篇论文的翻译和学习。">
+<meta name="keywords" content="Paper,Translation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Parallel Task-based Approach to Linear Algebra 论文学习">
+<meta property="og:url" content="https://12vv.github.io/2019/05/18/mulithreadpaper/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="简述这是一篇论文的翻译和学习。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/li2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/l3.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig3.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig4.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig5.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/l5.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/l6.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/t1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/multi/fig7.jpg">
+<meta property="og:updated_time" content="2019-05-30T11:26:01.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A Parallel Task-based Approach to Linear Algebra 论文学习">
+<meta name="twitter:description" content="简述这是一篇论文的翻译和学习。">
+<meta name="twitter:image" content="https://12vv.github.io/images/multi/fig1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-mulithreadpaper" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      A Parallel Task-based Approach to Linear Algebra 论文学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/05/18/mulithreadpaper/" class="article-date">
+	  <time datetime="2019-05-17T16:00:00.000Z" itemprop="datePublished">2019-05-18</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Paper/">Paper</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>这是一篇<a href="https://ieeexplore.ieee.org/document/6900201/authors#authors" target="_blank" rel="noopener">论文</a>的翻译和学习。</p>
+<a id="more"></a>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>具有大量内核的处理器现已非常普遍。为了利用这些系统中的可用资源，编程必须朝着增加的并行性方向发展。但是，提高程序中的并发性并不一定会带来更好的性能。并行的编程模型必须提供定义并行任务的灵活方法，同时有效地管理创建的任务。 OpenMP是一个被广泛接受的共享内存架构模型。在本文中，我们重点介绍了OpenMP任务分配方法中的一些缺点，并提出了基于格拉斯哥并行约简机（GPRM）编程框架的替代模型。作为本研究的主要焦点，我们部署模型来解决基本线性代数问题，稀疏矩阵的LU因子分解。我们使用了BOTS基准测试套件中的SparseLU基准测试，并将从我们的模型获得的结果与OpenMP任务分配方法的结果进行了比较。 TILEPro64系统用于运行实验且结果十分可观，不仅因为这个特定问题的性能提高，而且验证了我们模型的任务管理效率，稳定性和灵活性，可用于解决未来多核系统中的问题。</p>
+<h2 id="I-引言"><a href="#I-引言" class="headerlink" title="I. 引言"></a>I. 引言</h2><p>基于任务的并行编程模型正在迅速发展。随着多核处理器的出现，它们可以与数据并行方法竞争，同时由于其MIMD特性而提供更大的灵活性。一个任务是可以与其他任务并行运行的任何形式的计算(如果它们的数据依赖性允许)。大多数这些编程模型为程序员提供了一些关键字，用于在C / C ++等命令式语言中表示并行性。另一方面，纯函数式编程语言提供了原生并行性，但与主流语言（如C ++和Java）相比，它们都没有得到广泛采用。即使多核心编程语言被广泛采用，在短期内显然也不可能重写大量的单核遗留代码库，而且也不会有效率。因此，我们的任务是提出一种编程模型，该模型可以用命令式语言集成到现有代码中，同时提供与函数式语言类似的本机并行性。在详细介绍我们的方法 - 格拉斯哥并行减速机（GPRM）之前，我们想简要回顾一下市场上的一些可用型号，即Clojure，Chapel，Intel Cilk Plus，Intel Threading Building Blocks（TBB），和OpenMP。</p>
+<p>并行编程并不像顺序编程那么简单。除了要考虑什么需要计算，程序员还需考虑如何协调计算。<br>Clojure [1]  - 也称为现代Lisp-是一种针对Java虚拟机（JVM）的函数式编程语言。 Clojure的语法基于S表达式，即第一个元素表示操作而其他元素表示操作数的列表。 GPRM使用类似的方法来表示其通信代码。</p>
+<p>OpenCL [2]是异构架构的工业标准。它基本上定义了所有设备都支持的一组核心功能，并允许供应商公开更多的编程接口以及硬件功能。然而，它不像以下用于共享存储器架构的模型那样容易使用。</p>
+<p>基于Cilk ++ [3]的英特尔Cilk Plus是C / C ++的一个扩展，它提供了任务和数据并行性。因其简洁而变得流行。它有_Cilk_spawn和_Cilk_sync关键字来生成和同步任务。 _Cilk_for循环是C / C ++中顺序循环的并行替换。 Intel Cilk Plus在程序开始时启动一个线程池，类似于GPRM线程池。</p>
+<p>英特尔线程构建模块（TBB）是实现基于任务的并行性的另一种众所周知的方法[4]。 Intel TBB是一个面向对象的C ++运行时库，包含要在并行程序中使用的数据结构和算法。它抽象了低级别的线程细节，这与GPRM设计考虑类似。然而，任务带来了开销。将遗留代码转换为TBB需要重构程序的某些部分以适合TBB模板。 TBB优于OpenMP和Cilk Plus的是它不需要特定的编译器支持。</p>
+<p>OpenMP可以称为共享内存架构中使用最广泛的编程标准。自OpenMP 3.0 [5]发布以来，可以通过OpenMP任务表达不规则的并行性。此外，与Cilk Plus和TBB相比，OpenMP在可预测的数据并行情况下运行良好。这使其成为诸如GPRM等新编程模型的具有挑战性的竞争者。我们在两种不同的场景中将GPRM的性能与OpenMP的性能进行了比较：首先是具有结构化并行性的微基准，其次是线性代数问题，它非常适合基于结构化程度低的基于任务的并行性。</p>
+<p>在[6] - [9]中已经研究过OpenMP在细粒度任务(计算强度低)中表现不佳。它表明程序员有责任弄清楚特定输入参数的问题如何适合特定平台。作为一个常见的解决方案，程序员在创建OpenMP任务时使用截止值，以避免编写细粒度的任务。首先，找到合适的截止值并不简单，有时需要对程序进行全面分析。它通常取决于应用程序结构和输入数据集[10]。其次，仅在一些特殊情况下，例如递归，可以通过用户代码控制截止值。已经提出一个替代方案是将决定留给运行时系统。这个想法是通过不创建一些用户指定的任务而不是串行执行来聚合任务。在Nanos运行时系统中实现的自适应任务截止（ATC）[6]  - 一个研究OpenMP运行时系统 - 是一种根据程序执行早期收集的分析数据动态修改截止值的方案。然而，这根本不能在没有任何开销的情况下完成，而且需要扩展该方案以找到截止的所有情况。而在GPRM中有一种技术可以指定哪个任务最初将在哪个线程上运行。这大大减少了任务的开销。此外，还有一些工作共享结构可以与任务一起使用，以避免产生太多细粒度的任务。</p>
+<p>[8]中介绍了任务粒度与OpenMP中任务数量之间的权衡。作者建议任务应该具有足够的粒度，并且随着消费者线程数量的增加，粒度应该增加。这是为了确保所有线程都忙着做一些有用的工作。他们还探讨了任务数量对负载平衡的影响，这意味着程序员必须在任务数量和粒度之间进行权衡，以获得较好的负载平衡，从而获得良好的性能。</p>
+<p>在本文中，我们将展示OpenMP如何无法正常运行细粒度任务，而提出的模型能够应对这种情况（参见第V节）。此外，我们将引入混合工作共享任务方法，以避免创建太多任务（参见第VI节）。换句话说，将采用一种利用任务和数据并行性的混合方法来解决同构多核处理器上的LU分解问题。</p>
+<p>稀疏矩阵的LU分解是一个基本的线性代数问题。由于矩阵的稀疏性，传统的工作共享解决方案是不够的，因为存在大量的负载不平衡。作为一个众所周知的测试用例，我们使用了Barcelona OpenMP Tasks Suite（BOTS）[11]中的SparseLU基准测试。在这个问题中，矩阵被组织成可能未被分配的块。更多信息以及源代码是公开可用的。</p>
+<h2 id="II-GPRM"><a href="#II-GPRM" class="headerlink" title="II. GPRM"></a>II. GPRM</h2><p>格拉斯哥并行约简机（GPRM）[9]为多核编程提供了一种基于任务的方法。程序员将程序结构化为任务代码，编写为C ++类，以及通信代码，编写在C ++的受限子集中。任务是表示S表达式的字节码列表，例如，<code>$(S_{1}(S_{2}10)20)$</code>表示具有两个参数的任务S1，第一参数是任务S2，且有数值常数10作为参数，S1第二参数是数值常数20。GPRM执行相应的字节码列表，同时评估函数参数。有关S表达式和字节码编译的更多详细信息，请参见[9]。用我们的说法，任务节点由任务内核和任务管理器组成。任务内核通常是一个复杂的，自包含的实体，为系统提供特定的功能，它本身并不知道系统的其余部分。任务内核具有运行到完成语义。相应的任务管理器提供内核的接口。计算任务内核被编写为C ++类。这意味着终端用户只需在GPRM::Kernel命名空间中创建类。</p>
+<p>从概念上讲，GPRM由一组通过网络连接的<code>瓦片</code>组成。每个<code>瓦片</code>由一个任务节点和一个用于传入数据包的FIFO(First In First Out, 先进先出)队列组成。每个<code>瓦片</code>都在自己的线程中运行或在FIFO队列中阻塞。系统是事件驱动的，有两种可能的事件类型：数据包到达或任务内核生成的事件。后者可以是创建数据包，或是修改本地状态。即任务管理器(task manager,reduction engine)通过并行分派请求计算到其他区块的分组来评估字节码。</p>
+<p>GPRM中的线程被视为执行资源。因此，对于每个处理核心，在自己的任务管理器都有一个线程。开始时，在实际程序启动之前创建一个线程池。引言中已经指出，GPRM提供了一种将任务与工作共享结构相结合的有效方法，以避免创建细粒度的任务。例如，不像在OpenMP任务方法[5]中常见的循环中创建任务，而是可以创建与GPRM中的并发级别一样多的任务，每个任务都有自己的索引。工作共享构造可以使用这些索引来指定循环的哪些元素属于哪个线程。并发级别定义为理论上可以在系统中同时运行的作业数。</p>
+<p>通常，当任务相当时，通过选择并发级别与线程数相同可获得最佳结果，即GPRM中的核心数。虽然在第VI节中任务不相当，但作为解决方案，可以使用GPRM并行循环来平衡线程之间的负载。如将示出的，当使用中等大小或大的稀疏矩阵时，该解决方案非常有效。</p>
+<h2 id="III-平行化循环-PARALLEL-LOOPS"><a href="#III-平行化循环-PARALLEL-LOOPS" class="headerlink" title="III. 平行化循环(PARALLEL LOOPS)"></a>III. 平行化循环(PARALLEL LOOPS)</h2><p>我们已经创建了许多用于GPRM的有用的并行循环结构。这些工作共享构造对应于OpenMP中的工作共享构造，在某种意义上它们用于在不同线程之间分配工作的不同部分。但是，他们执行操作的方式有很大差异。在OpenMP中，用户将循环标记为具有所需调度策略的OpenMP，并且OpenMP运行时决定哪些线程应该运行循环的哪个部分;在GPRM中，生成相同任务的多个实例 — 通常与并发级别一样多 — 每个实例具有不同的索引（类似于OpenCL中的global_id）。这些任务中的每一个都调用并行循环传递它们自己的索引，以指定它们的主线程应该执行哪些工作部分。</p>
+<p><code>par_for</code>结构用于并行化单个循环。它以<code>Round-Robin(循环制)</code>方式将作品分配给线程。 <code>par_nested_for</code>将嵌套循环视为单个循环，并遵循相同的模式来分发工作。或者，连续方法为每个线程提供$m/n$个块，并且余下$m％n$一个接一个地分配给最前面的线程。这些方法如图1所示，需要并行化嵌套循环，例如，在存在可变大小循环的情况下(第VI节中的SparseLU基准化)。</p>
+<p><img src="/images/multi/fig1.jpg" alt></p>
+<p><img src="/images/multi/li2.jpg" alt></p>
+<p>GPRM 中的<code>par_for</code>和<code>par_nested_for</code>循环使用C ++模板和成员函数指针实现。<code>Listing1</code>和<code>Listing2</code>给出了这些工作共享结构的实现。默认情况下，它们将是我们的工作共享结构。连续并行循环具有类似的实现。我们将连续的并行循环表示为连续的 GPRM 方法。另一个有用的工作共享构造是并行嵌套循环。由于GPRM <code>par_nested_for</code>以最小的开销实现，因此它是一个非常有用的工作共享构造，我们将在下一节中看到。</p>
+<h2 id="IV-实验环境设定-EXPERIMENTAL-SETUP"><a href="#IV-实验环境设定-EXPERIMENTAL-SETUP" class="headerlink" title="IV. 实验环境设定(EXPERIMENTAL SETUP)"></a>IV. 实验环境设定(EXPERIMENTAL SETUP)</h2><p><code>Tilera TILEPro64</code>多核处理器(Tilera TILEPro64 Tile Processor)是一个32位VLIW多核，具有64个核心，通过多个8×8网状网络互连。默认情况下，它提供分布式缓存一致的共享内存。它有16GB的DDR内存，但为了使用所有核心共享的全局地址空间，寻址限制为32位，即4GB。它具有8KB的每核L1高速缓存和64KB的L2高速缓存。芯片上所有L2高速缓存的并集构成了分布式L3高速缓存。内核的工作频率为866MHz。在64个核心中，一个用于PCI通信，另外63个核心用于我们的实验。对于我们在本研究中的实验，我们使用了Tilera公司的MDE 3.0提供的tile-g ++编译器，它基于GCC版本4.4.3。已指定编译器标志<code>-O2</code>和<code>-std=c++ 0x</code>。值得一提的是，TILEPro64运行Tile Linux，它基于标准的开源Linux版本2.6.36。</p>
+<h2 id="V-矩阵的乘法微基准测试-MATRIX-MULTIPLICATION-MICRO-BENCHMARK"><a href="#V-矩阵的乘法微基准测试-MATRIX-MULTIPLICATION-MICRO-BENCHMARK" class="headerlink" title="V. 矩阵的乘法微基准测试(MATRIX MULTIPLICATION MICRO-BENCHMARK)"></a>V. 矩阵的乘法微基准测试(MATRIX MULTIPLICATION MICRO-BENCHMARK)</h2><p>在本节中，我们使用带有三重嵌套循环的朴素矩阵乘法算法作为微观基准来评估OpenMP方法与我们用于解决矩阵问题的模型相比的开销。代码在<code>Listing3</code>中给出。<br><img src="/images/multi/l3.jpg" alt></p>
+<p>我们的目标是使用这个微观基准来确定最重要的屏障(barrier)，我们将问题的解释为执行多个工作。假设$m×n$矩阵 A 和$n×p$矩阵 B 的乘积是$m×p$矩阵C.我们想要并行化三重嵌套循环的第一个循环，其在m上循环，因此$m$即为作业的数量。每个作业的大小由三重嵌套循环中内部的两个循环的大小来标识，即$p*n$。我们选择$n = p$来使问题更加常规。最终得到具有以下矩阵：$A：m×n，B：n×n，C：m×n$。由于该算法的数据局部性较差，线性加速的表现无法达到。</p>
+<p>比较四种方法：I）OpenMP工作共享构造，II）动态调度和块大小为1下的OpenMP，III）OpenMP 任务，以及IV）<code>GPRM par_for</code>构造。</p>
+<p><img src="/images/multi/fig2.jpg" alt><br>图2显示了不同作业大小的性能测量。在所有情况下，GPRM都优于OpenMP，尤其是对于小型工作案例（即便如此，工作规模仍然不足以显示在OpenMP中具有细粒度任务的实际开销）。据我们所知，性能差异是由于线程调度的开销，这在执行时间短的小作业案例中更为明显。</p>
+<p>为了研究任务粒度对OpenMP性能行为的影响，我们进一步减小了任务的规模。我们还研究了截止值对性能的影响。由于OpenMP工作共享结构的行为非常相似，因此只有默认的<code>omp for</code>用于下一个实验。</p>
+<p>为了改善任务方法的行为，我们为任务添加了一个截止值，这样就只创建了$m/cutoff$个任务。这类似于对多个任务进行排序。图3比较了基于<code>OpenMP</code>任务的模型的调优版本与其他替代方案的加速情况。我们认为<code>GPRM</code>在将任务分配给其线程时的规律性以及其任务的较低开销使其成为赢家。</p>
+<p>图3表明，通过使用适当的截止值，可以在相当大程度上弥补细粒度任务的表现不佳。当作业的大小增加时，OpenMP方法逐渐变得更好。我们选择前两个案例来更详细地显示使用截止值的效果，如果根本不使用截止值，这些情况与顺序实现相比会显示性能下降。</p>
+<p><img src="/images/multi/fig3.jpg" alt></p>
+<p>图4显示，对于没有截止的情况，如果选取好的截止值，与没有截止的情况相比，提高了38.6倍的加速，比顺序版本也提高了7.8倍，对于具有63个线程的50×50的作业大小。与没有截止的情况相比，作业大小100×100的加速也提高了10.8倍，与顺序运行时相比提高了8.2倍。<br><img src="/images/multi/fig4.jpg" alt></p>
+<h2 id="VI-稀疏矩阵的LU分解-SPARSE-LU-FACTORISATION"><a href="#VI-稀疏矩阵的LU分解-SPARSE-LU-FACTORISATION" class="headerlink" title="VI. 稀疏矩阵的LU分解(SPARSE LU FACTORISATION)"></a>VI. 稀疏矩阵的LU分解(SPARSE LU FACTORISATION)</h2><p>来自BOTS套件的SparseLU基准测试计算稀疏矩阵上的LU因子分解，是负载不平衡的矩阵运算的一个恰当示例。在OpenMP方法中，为每个非空块创建任务。来自[5]SparseLU主要代码（省略了基于OpenMP任务的编程的细节，例如处理共享和私有变量）复制在图5。</p>
+<p><img src="/images/multi/fig5.jpg" alt></p>
+<p>任务的数量和它们的粒度取决于非空块的数量和每个块的大小，因此无法在用户编写的OpenMP代码中定义截止值。正如[5]中所讨论的，与使用动态调度的工作共享结构相比，使用OpenMP任务可以获得更好的性能。因此，我们使用任务方法进行比较。可以在<code>Listing5</code>中找到GPRM中SparseLU基准测试的代码。</p>
+<p><img src="/images/multi/l5.jpg" alt></p>
+<p><code>unroll pragma</code>导致对任何控制构造进行编译时评估，其中参数列表中的任何变量都会出现。在该示例中，这意味着将展开for循环。默认情况下，非内核GPRM代码中的表达式是并行计算的。<code>seq pragma</code>强制对其前面的块进行顺序评估。</p>
+<p>值得一提的是，我们还没有改变BOTS基准测试套件中生成稀疏矩阵的初始化阶段。随着块数的增加，矩阵变得更稀疏。例如，在<code>50×50</code>块的情况下，矩阵是85％稀疏的，而<code>100×100</code>块的情况，矩阵变为89％稀疏。</p>
+<p>为了在不同的线程中获得矩阵元素的公平分布(考虑到矩阵的稀疏性)，我们使用了<code>par_nested_for</code>，因为迭代次数在这个问题中不固定。随着kk的增长，循环变得越来越小，使用<code>par_for</code>会导致一些线程的饥饿这意味（在几次迭代之后，当$outer iters&gt; concurrency level$）。通过使用<code>par_nested_for</code>，只要$outer iters * inner ters &gt; concurrency level$线程就可以获得一些工作。因此，为了实现<code>fwd</code>，<code>bdiv</code>和<code>bmod</code>任务，可以将<code>GPRM API</code>用于并行循环，如<code>Listing6</code>所示。</p>
+<p><img src="/images/multi/l6.jpg" alt></p>
+<p>图6显示了<code>4000×4000</code>的稀疏矩阵，它被分成不同大小的块。每个维度中的块数越多，块大小越小，OpenMP的性能急剧下降。<code>GPRM</code>可以处理微小的<code>8×8</code>块，比<code>OpenMP</code>获得的最佳结果好<code>6.2</code>倍。</p>
+<p><img src="/images/multi/t1.jpg" alt></p>
+<p>表I显示，使用默认设置(即线程数与核心数一样多)无法获得OpenMP方法的最佳结果。除了块小于<code>20×20</code>时执行时间的巨大差异，如果线程数被设置为默认值<code>63</code>，则存在显着的性能下降。例如，执行时间比最后一种情况的最佳时间差了<code>12.2​​5</code>倍。但是，<code>GPRM</code>无需调整线程数j就达到了最佳执行时间，其中，线程数和并发级别对于<code>GPRM</code>-是相同的。这也是因为GPRM提供了一种在线程之间分配工作的有效方式，而不是创建非常小的任务。</p>
+<p><img src="/images/multi/fig7.jpg" alt></p>
+<p><code>SparseLU</code>基准测试的加速图如图7所示。我们将并发级别提高到<code>128</code>，以显示我们的方法的常规性，因为它可以通过核心数量获得最佳性能。这并不奇怪，因为任务已经在线程之间进行划分，因此它们可以更有效地利用底层架构。由于<code>OpenMP</code>任务模型与我们的不同，我们只是在这种情况下增加了线程数。</p>
+<h2 id="VII-讨论-DISCUSSIONS"><a href="#VII-讨论-DISCUSSIONS" class="headerlink" title="VII. 讨论(DISCUSSIONS)"></a>VII. 讨论(DISCUSSIONS)</h2><h3 id="A-OpenMP的效能瓶颈-OpenMP-Performance-Bottlenecks"><a href="#A-OpenMP的效能瓶颈-OpenMP-Performance-Bottlenecks" class="headerlink" title="A. OpenMP的效能瓶颈(OpenMP Performance Bottlenecks)"></a>A. OpenMP的效能瓶颈(OpenMP Performance Bottlenecks)</h3><p>在使用<code>OpenMP</code>进行编程时，我们发现了许多性能瓶颈。第一个是线程迁移开销。通过将<code>OpenMP</code>线程静态映射(mapping, or 固定pinning)到执行核心，通常可以消除此开销。在具有每个内核缓存的平台中使用静态线程映射可能非常有用，特别是对于负载平衡数据并行问题，其中每个线程要完成的工作部分相当，因此CPU时间和可以和本地缓存可以被有效地利用。我们的研究[12]表明，对于这样的平台，静态线程映射在单程序环境中通常是一种很好的做法，但对于不同程序竞争资源的多程序设计环境，它并不总是有效的。我们引用[12]-[14]有关文献，这些文献详细讨论OpenMP程序的线程映射。</p>
+<p>另一个障碍是找到一个合适的截止点，以避免产生过于细粒度的任务。程序员必须非常小心任务的粒度，否则结果可能完全出乎意料。而且也无法保证运行具有最大线程数（即等于核心数量）的<code>OpenMP</code>程序就会获得最佳性能。</p>
+<h3 id="B-OpenMP-和-GPRM方法的对比-Comparison-of-OpenMP-and-GPRM-Approaches"><a href="#B-OpenMP-和-GPRM方法的对比-Comparison-of-OpenMP-and-GPRM-Approaches" class="headerlink" title="B. OpenMP 和 GPRM方法的对比(Comparison of OpenMP and GPRM Approaches)"></a>B. OpenMP 和 GPRM方法的对比(Comparison of OpenMP and GPRM Approaches)</h3><p>对于<code>SparseLU(稀疏矩阵分解)</code>问题，尽管为非空块创建<code>OpenMP</code>任务是一种智能解决方案，但它并不适用于所有矩阵。第一个原因是单个线程探索整个矩阵并为非空块创建相对较小的任务，而在GPRM中实现的建议解决方案中，多个线程并行查看它们的工作部分。</p>
+<p>性能上的差异可能是显而易见的，特别是在具有嵌套循环的bmod阶段。正如[15]中所展示的，将OpenMP<code>for</code>的共享工作构造与任务，如在BOTS基准套件中的<code>sparselu_for</code>中实现的那样，对于<code>OpenMP 3.0</code>来说并不是一种可行的方法。</p>
+<p>其次，在<code>GPRM</code>中，每个线程都有基于程序任务描述文件的特定工作。如果需要，将应用运行时决策来提高性能，而<code>OpenMP</code>动态创建任务，并且所有决策都是在运行时动态获取的，这使得任务管理在任务和/或线程数量变大时效率降低。此外，当任务变得更细粒度时，任务管理的开销变得显着，正如矩阵乘法微基准所明确的那样。</p>
+<p>在<code>GPRM</code>中，使用<code>par_nested_for</code>构造以非连续方式对矩阵进行分区可以获得良好的负载平衡。此外，我们的混合工作共享任务技术非常简单。与许多其他并行编程模型（包括OpenMP）相比，程序员不必担心私有和共享变量。</p>
+<p>与OpenMP相比，编程工具包<code>GPRM</code>具有稳定，可扩展，低开销和灵活性。稳定，因为无需更改默认配置，例如线程数以获得最佳性能。它按预期进行扩展，随着并发级别增加到核心数量而显示持续加速。即使对于细粒度的任务，任务管理的开销也可以忽略不计。它很灵活，因为程序员可以轻松控制任务数量。指定最初在哪个线程上运行哪个任务也很简单。如果需要，运行时系统可以动态更改主线程。</p>
+<h2 id="VIII-结论-CONCLUSION"><a href="#VIII-结论-CONCLUSION" class="headerlink" title="VIII. 结论(CONCLUSION)"></a>VIII. 结论(CONCLUSION)</h2><p>已经出现了许多核心系统来更快地解决现有问题。为更多的执行资源提供相同数量的工作只意味着拥有更细粒度的任务。在本文中，我们提出了一种常规的任务组合方法，可以解决常规和不规则的并行问题。我们已经证明它适用于具有每核高速缓存的系统，因此也很有希望用于未来的多核。</p>
+<p>在本文中，我们的新模型用于解决基本线性代数问题，即稀疏矩阵LU分解。我们使用矩阵乘法微基准来突出提出的模型和<code>OpenMP</code>之间的差异。对于小型工作，GPRM的性能优于<code>OpenMP</code> 2.8倍至11倍。对于中型工作，加速改进范围从1.5倍到3.3倍。随着工作变得越来越大，差异变得越来越小。对于大型工作，加速范围从1.3倍到2.2倍。</p>
+<p>作为一个真实的例子，我们使用了<code>BOTS</code>基准测试套件中的<code>SparseLU</code>测试用例。我们使用<code>4000×4000</code>的稀疏矩阵划分为不同大小的块。我们证明了对于更大数量的块，即更小的块大小，差异是相当大的。 GPRM的主要优点是它不需要调整它的线程数。相比之下，调优对<code>OpenMP</code>至关重要，否则对于细粒度的任务而言，性能的大幅下降是不可避免的。</p>
+<p>我们还调查了并发级别对加速的影响。同样，对于<code>50×50</code>和<code>100×100</code>的情况，<code>GPRM</code>是使用<code>OpenMP</code>获得的最佳结果2倍。对于并发级别为63的默认设置，加速改进分别为2.1倍和4.9倍。</p>
+<p>由于<code>GPRM</code>可以提供混合任务数据并行性，因此在混合CPU-GPU系统上使用它仍然需要进一步研究。</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>[1] R. Hickey, “The clojure programming language,” in Proceedings of the 2008 symposium on Dynamic languages. ACM, 2008, p. 1.</p>
+<p>[2] J. E. Stone, D. Gohara, and G. Shi, “Opencl: A parallel programming standard for heterogeneous computing systems,” Computing in science &amp; engineering, vol. 12, no. 3, p. 66, 2010.</p>
+<p>[3] C. E. Leiserson, “The cilk++ concurrency platform,” The Journal of Supercomputing, vol. 51, no. 3, pp. 244–257, 2010.</p>
+<p>[4] J. Reinders, Intel threading building blocks: outfitting C++ for multi- core processor parallelism. O’Reilly Media, Inc., 2007.</p>
+<p>[5] E. Ayguade ́, N. Copty, A. Duran, J. Hoeflinger, Y. Lin, F. Massaioli, X. Teruel, P. Unnikrishnan, and G. Zhang, “The design of openmp tasks,” Parallel and Distributed Systems, IEEE Transactions on, vol. 20, no. 3, pp. 404–418, 2009.</p>
+<p>[6] A. Duran, J. Corbala ́n, and E. Ayguade ́, “An adaptive cut-off for task parallelism,” in High Performance Computing, Networking, Storage and Analysis, 2008. SC 2008. International Conference for. IEEE, 2008, pp. 1–11.</p>
+<p>[7] A. Podobas and M. Brorsson, “A comparison of some recent task-based parallel programming models,” in Proceedings of the 3rd Workshop on Programmability Issues for Multi-Core Comput- ers,(MULTIPROG’2010), Jan 2010, Pisa, 2010.</p>
+<p>[8] X. Teruel, C. Barton, A. Duran, X. Martorell, E. Ayguade ́, P. Un- nikrishnan, G. Zhang, and R. Silvera, “Openmp tasking analysis for programmers,” in Proceedings of the 2009 Conference of the Center for Advanced Studies on Collaborative Research. IBM Corp., 2009, pp. 32–42.</p>
+<p>[9] A.TousimojaradandW.Vanderbauwhede,“Theglasgowparallelreduc- tion machine: Programming shared-memory many-core systems using parallel task composition,” EPTCS, vol. 137, pp. 79–94.</p>
+<p>[10] A. Duran, J. Corbala ́n, and E. Ayguade ́, “Evaluation of openmp task schedulingstrategies,”inOpenMPinaneweraofparallelism. Springer, 2008, pp. 100–110.</p>
+<p>[11] A.Duran,X.Teruel,R.Ferrer,X.Martorell,andE.Ayguade,“Barcelona openmp tasks suite: A set of benchmarks targeting the exploitation of task parallelism in openmp,” in Parallel Processing, 2009. ICPP’09. International Conference on. IEEE, 2009, pp. 124–131.</p>
+<p>[12] A.TousimojaradandW.Vanderbauwhede,“Anefficientthreadmapping strategy for multiprogramming on manycore processors,” in Interna- tional Conference on Parallel Computing (ParCo 2013). IOS Press, 2013, pp. 63–71.</p>
+<p>[13] A. Mazouz, S. Touati, and D. Barthou, “Performance evaluation and analysis of thread pinning strategies on multi-core platforms: Case study of spec omp applications on intel architectures,” in High Performance Computing and Simulation (HPCS), 2011 International Conference on. IEEE, 2011, pp. 273–279.</p>
+<p>[14] A. Tousimojarad and W. Vanderbauwhede, “Cache-aware parallel pro- gramming for manycore processors,” ACM SIGARCH Computer Archi- tecture News, vol. 41, 2013.</p>
+<p>[15] S.L.Olivier,A.K.Porterfield,K.B.Wheeler,andJ.F.Prins,“Schedul- ing task parallelism on multi-socket multicore systems,” in Proceedings of the 1st International Workshop on Runtime and Operating Systems for Supercomputers. ACM, 2011, pp. 49–56.</p>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a>原文链接</h2><p><a href="https://ieeexplore.ieee.org/document/6900201/authors#authors" target="_blank" rel="noopener">A Parallel Task-based Approach to Linear Algebra, Ashkan Tousimojarad &amp; Wim Vanderbauwhede</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: 'Your support will encourage me!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/Wepay.jpeg',
+  alipayImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/AirPay.jpeg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Garrick
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/05/18/mulithreadpaper/" target="_blank" title="A Parallel Task-based Approach to Linear Algebra 论文学习">https://12vv.github.io/2019/05/18/mulithreadpaper/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper/">Paper</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/24/actfun/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          激活函数 --- Activation function
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/16/lcdb/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Leetcode-Database题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#I-引言"><span class="nav-text">I. 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#II-GPRM"><span class="nav-text">II. GPRM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#III-平行化循环-PARALLEL-LOOPS"><span class="nav-text">III. 平行化循环(PARALLEL LOOPS)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IV-实验环境设定-EXPERIMENTAL-SETUP"><span class="nav-text">IV. 实验环境设定(EXPERIMENTAL SETUP)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#V-矩阵的乘法微基准测试-MATRIX-MULTIPLICATION-MICRO-BENCHMARK"><span class="nav-text">V. 矩阵的乘法微基准测试(MATRIX MULTIPLICATION MICRO-BENCHMARK)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VI-稀疏矩阵的LU分解-SPARSE-LU-FACTORISATION"><span class="nav-text">VI. 稀疏矩阵的LU分解(SPARSE LU FACTORISATION)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VII-讨论-DISCUSSIONS"><span class="nav-text">VII. 讨论(DISCUSSIONS)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-OpenMP的效能瓶颈-OpenMP-Performance-Bottlenecks"><span class="nav-text">A. OpenMP的效能瓶颈(OpenMP Performance Bottlenecks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-OpenMP-和-GPRM方法的对比-Comparison-of-OpenMP-and-GPRM-Approaches"><span class="nav-text">B. OpenMP 和 GPRM方法的对比(Comparison of OpenMP and GPRM Approaches)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VIII-结论-CONCLUSION"><span class="nav-text">VIII. 结论(CONCLUSION)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-text">引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文链接"><span class="nav-text">原文链接</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Garrick‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 Garrick All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>
