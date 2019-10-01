@@ -1134,7 +1134,6 @@ a.article-title:hover {
 }
 .article-tag-list-item {
   float: left;
-  margin-top: 8px;
   margin-right: 10px;
 }
 .article-tag-list-link:before {
