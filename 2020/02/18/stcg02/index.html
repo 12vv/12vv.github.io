@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>stanford cs148 assignment01 | INTERSTELLAR</title>
+  <title>stanford cs148 course02 light and color | INTERSTELLAR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="Computer Graphics">
@@ -11,24 +11,28 @@
   
   
   
-  <meta name="description" content="本文的配置基于MacOS。 环境 C++编译器，支持C++11 : 可使用XCode OpenGL 4.1 : Apple对OpenGL的支持可见这里 CMake 2.8+ : 最新版本的CMake在这里 Git  资源现将这个工程克隆到本地目录。 123git remote add source https://github.com/b3h47pte/cs148opengl-public.git">
+  <meta name="description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
 <meta name="keywords" content="Computer Graphics">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stanford CS148 Assignment01">
-<meta property="og:url" content="https://12vv.github.io/2020/02/17/stanfordcg/index.html">
+<meta property="og:title" content="Stanford CS148 Course02 Light and Color">
+<meta property="og:url" content="https://12vv.github.io/2020/02/18/stcg02/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="本文的配置基于MacOS。 环境 C++编译器，支持C++11 : 可使用XCode OpenGL 4.1 : Apple对OpenGL的支持可见这里 CMake 2.8+ : 最新版本的CMake在这里 Git  资源现将这个工程克隆到本地目录。 123git remote add source https://github.com/b3h47pte/cs148opengl-public.git">
+<meta property="og:description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/1.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/2.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/5.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/4.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/3.jpg">
-<meta property="og:updated_time" content="2020-02-18T05:26:04.760Z">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/electro.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/dayavgspectrum.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/retina.jpeg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/rc.jpeg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/conesrespond.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/matchexp.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/Colorspace.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/rgbcs.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/trans.jpg">
+<meta property="og:updated_time" content="2020-02-18T12:30:53.425Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Stanford CS148 Assignment01">
-<meta name="twitter:description" content="本文的配置基于MacOS。 环境 C++编译器，支持C++11 : 可使用XCode OpenGL 4.1 : Apple对OpenGL的支持可见这里 CMake 2.8+ : 最新版本的CMake在这里 Git  资源现将这个工程克隆到本地目录。 123git remote add source https://github.com/b3h47pte/cs148opengl-public.git">
-<meta name="twitter:image" content="https://12vv.github.io/images/stcg/1.jpg">
+<meta name="twitter:title" content="Stanford CS148 Course02 Light and Color">
+<meta name="twitter:description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
+<meta name="twitter:image" content="https://12vv.github.io/images/stcg/electro.png">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -169,7 +173,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-stanfordcg" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-stcg02" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -177,7 +181,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      Stanford CS148 Assignment01
+      Stanford CS148 Course02 Light and Color
     </h1>
   
 
@@ -185,8 +189,8 @@
     
     <div class="article-meta">
       
-	<a href="/2020/02/17/stanfordcg/" class="article-date">
-	  <time datetime="2020-02-16T16:00:00.000Z" itemprop="datePublished">2020-02-17</time>
+	<a href="/2020/02/18/stcg02/" class="article-date">
+	  <time datetime="2020-02-17T16:00:00.000Z" itemprop="datePublished">2020-02-18</time>
 	</a>
 
       
@@ -204,38 +208,42 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文的配置基于MacOS。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
-<li>C++编译器，支持C++11 : 可使用XCode</li>
-<li>OpenGL 4.1 : Apple对OpenGL的支持可见<a href="https://developer.apple.com/opengl/capabilities/" target="_blank" rel="noopener">这里</a></li>
-<li>CMake 2.8+ : 最新版本的CMake在<a href="http://www.cmake.org/download/" target="_blank" rel="noopener">这里</a></li>
-<li>Git</li>
+        <h3 id="电磁波谱-Electromagnetic-Spectrum"><a href="#电磁波谱-Electromagnetic-Spectrum" class="headerlink" title="电磁波谱 (Electromagnetic Spectrum)"></a>电磁波谱 (Electromagnetic Spectrum)</h3><p>依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。<br><img src="/images/stcg/electro.png" alt></p>
+<p>波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$</p>
+<h3 id="光谱-Spectrum"><a href="#光谱-Spectrum" class="headerlink" title="光谱 (Spectrum)"></a>光谱 (Spectrum)</h3><p>光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大，所以也可以看成是波长和能量的关系。<br><img src="/images/stcg/dayavgspectrum.jpg" alt></p>
+<p>然而基于上述关系构建的光谱渲染器(spectral renderer)代价太过高昂，因此考虑到使用红绿蓝的组合来模拟光(暂不考虑光的偏振，衍射和干涉等)。</p>
+<h3 id="人眼-Human-eye"><a href="#人眼-Human-eye" class="headerlink" title="人眼 (Human eye)"></a>人眼 (Human eye)</h3><p>人的视网膜(retina)上的光度感应器(photodetector)是<code>视杆细胞(rods)</code>和<code>视锥细胞(cones)</code>。</p>
+<p><img src="/images/stcg/retina.jpeg" alt></p>
+<p><code>视锥细胞(cones)</code>在视网膜中央凹处(<code>fovea</code>)密度最大，而此处几乎没有<code>视杆细胞(rods)</code>。<code>视杆细胞(rods)</code>和<code>视锥细胞(cones)</code>的分布如下图所示。<br><img src="/images/stcg/rc.jpeg" alt></p>
+<p>视杆细胞是感受弱光刺激的细胞，对光线的强弱反应非常敏感，主要在弱光下发挥作用，不能辨别颜色。比如，猫头鹰视网膜中视杆细胞较多，故夜间活动视觉灵敏。视锥细胞则可以在正常明度下，为我们提供视觉信息。</p>
+<p>实际上在视网膜上存在着三种用来感知颜色的视锥细胞，他们分别叫做<code>S(Short)-视锥细胞</code>，<code>M(Middle)-视锥细胞</code>，<code>L(Long)-视锥细胞</code>，对应着波长的短，中，长。</p>
+<p>每种视锥细胞都对某一个特定波长的颜色异常敏感。一般来说，<code>S-视锥细胞</code>对波长<code>420nm</code>的光线最为敏感，<code>M-视锥细胞</code>对<code>530nm</code>的波长最为敏感，而<code>L-视锥细胞</code>对于<code>560nm</code>的波长最为敏感。</p>
+<p><img src="/images/stcg/conesrespond.jpg" alt></p>
+<h3 id="颜色-Color"><a href="#颜色-Color" class="headerlink" title="颜色 (Color)"></a>颜色 (Color)</h3><h4 id="色度学-Colorimetry"><a href="#色度学-Colorimetry" class="headerlink" title="色度学 (Colorimetry)"></a>色度学 (Colorimetry)</h4><h4 id="格拉斯曼颜色定律-Grassmann’s-laws"><a href="#格拉斯曼颜色定律-Grassmann’s-laws" class="headerlink" title="格拉斯曼颜色定律 (Grassmann’s laws)"></a>格拉斯曼颜色定律 (Grassmann’s laws)</h4><ul>
+<li>Symmetry law</li>
+<li>Transitive law</li>
+<li>Proportionality law</li>
+<li>Additivity law</li>
 </ul>
-<h3 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h3><p>现将<a href="https://github.com/b3h47pte/cs148opengl-public" target="_blank" rel="noopener">这个</a>工程克隆到本地目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote add source https://github.com/b3h47pte/cs148opengl-public.git</span><br><span class="line">git fetch source</span><br><span class="line">git merge source/master</span><br></pre></td></tr></table></figure>
-<h3 id="Mac-OSX-Setup"><a href="#Mac-OSX-Setup" class="headerlink" title="Mac OSX Setup"></a>Mac OSX Setup</h3><p>保证了上述的环境，进入上面fetch下来的目录，在<code>external/SDL2/osx</code>子目录下，双击<code>SDL2.dmg</code>文件，安装后将<code>SDL2.framework</code>文件拷贝回<code>external/SDL2/osx</code>目录。</p>
-<p>打开<code>CMake</code>，将<code>Where is the source code</code>设置为<code>external/assimp</code>，创建子目录<code>external/assimp/build</code>并将<code>Where to build the binaries</code>设置为<code>external/assimp/build</code>，如下图所示。</p>
-<p><img src="/images/stcg/1.jpg" alt></p>
-<p><img src="/images/stcg/2.jpg" alt></p>
-<p>点击<code>Configure</code>后选择<code>Xcode</code>-&gt;<code>Done</code>，点击<code>Generate</code>。</p>
-<p>报错<code>xcode-select: error: tool &#39;xcodebuild&#39; requires Xcode, but active developer directory &#39;/Library/Developer/CommandLineTools&#39; is a command line tools instance</code>。</p>
-<p>解决：<code>sudo xcode-select -s /Applications//Xcode.app/Contents/Developer/</code>。</p>
-<p>不报错成功后就会在<code>external/assimp/build</code>目录下找到<code>“Assimp.xcodeproj</code>可用XCode打开项目并运行。在XCode的<code>“Edit Scheme</code>可选择<code>Release</code>或<code>Debug</code>。在<code>external/assimp/build/code/Release</code>中拷贝<code>libassimp.dylib</code>到<code>external/assimp/distrib/osx</code>目录下。</p>
-<h3 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h3><p>依上所述，可以建立自己的工程。</p>
-<ol>
-<li><p>在项目的根目录下新建<code>cs148opengl4</code>文件夹，并使用命令行进入(<code>cd /Users/jaythan/workspace/stanfordCS148/cs148opengl4</code>)。</p>
+<h4 id="配色实验-Color-Matching-Experiments"><a href="#配色实验-Color-Matching-Experiments" class="headerlink" title="配色实验 (Color Matching Experiments)"></a>配色实验 (Color Matching Experiments)</h4><blockquote>
+<p>使用该实验确定的假想观察者，可将任意的可见光谱功率分布转换为一组三刺激值，从而量化地描述人类色觉。</p>
+</blockquote>
+<p>简单来说，就是认为调整三种不同波长的单色光(波长为分别为435.8, 546.1, 700 nm)的组合，使其和另一种颜色匹配，然后记录下这个波段的光对应的三原色的系数。得到下面的曲线。</p>
+<p><img src="/images/stcg/matchexp.jpg" alt></p>
+<h4 id="色彩空间-Color-Space"><a href="#色彩空间-Color-Space" class="headerlink" title="色彩空间 (Color Space)"></a>色彩空间 (Color Space)</h4><p><img src="/images/stcg/Colorspace.png" alt></p>
+<p><img src="/images/stcg/rgbcs.png" alt="RGB色彩空间"></p>
+<p>由于每个显示设备有自己的原色(primaries)，所以即使有一张图片在RGB空间中定义，在不同设备上显示也可能不同。为此需要RGB空间的转换。</p>
+<p><img src="/images/stcg/trans.jpg" alt="TransformationsforstandardRGBcolorspaces"></p>
+<h3 id="Light"><a href="#Light" class="headerlink" title="Light"></a>Light</h3><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><p><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></p>
 </li>
-<li><p><code>cmake ../ -G &quot;Xcode&quot;</code>。</p>
+<li><p>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. (Ch21, Ch22, Ch23)</p>
+</li>
+<li><p>OpenGL Programming Guide: The Official Guide to Learning OpenGL, Version 4.3 (8th Edition) Dave Shreiner, Addison-Wesley Professional, 2013. (Ch7)</p>
+</li>
+<li><p><a href="https://www.scratchapixel.com/lessons/digital-imaging/colors/introduction" target="_blank" rel="noopener">Introduction to Light, Color and Color Space</a></p>
 </li>
 </ol>
-<p>完成后可使用<code>ls</code>查看该目录，生成了一些cmake文件还有工程<code>cs148-opengl4.xcodeproj</code>。</p>
-<p><img src="/images/stcg/5.jpg" alt></p>
-<p>用Xcode打开并运行，左上角选择自己的工程。</p>
-<p><img src="/images/stcg/4.jpg" alt></p>
-<p>生成下面图片，作业完成。</p>
-<p><img src="/images/stcg/3.jpg" alt></p>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这个作业是完全根据instruction来做的，有些步骤不是很明白原因，比如cmake的作用机理，有空再补充。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></p>
 
       
     </div>
@@ -262,7 +270,7 @@ var a = new Donate({
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/02/17/stanfordcg/" target="_blank" title="Stanford CS148 Assignment01">https://12vv.github.io/2020/02/17/stanfordcg/</a>
+          <a href="/2020/02/18/stcg02/" target="_blank" title="Stanford CS148 Course02 Light and Color">https://12vv.github.io/2020/02/18/stcg02/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -287,19 +295,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2020/02/18/stcg02/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Stanford CS148 Course02 Light and Color
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/12/08/raytracer/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/02/17/stanfordcg/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Ray Tracing in One Weekend 总结</div>
+      <div class="article-nav-title">Stanford CS148 Assignment01</div>
     </a>
   
 </nav>
@@ -313,7 +312,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源"><span class="nav-text">资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac-OSX-Setup"><span class="nav-text">Mac OSX Setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义"><span class="nav-text">自定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-text">后记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电磁波谱-Electromagnetic-Spectrum"><span class="nav-text">电磁波谱 (Electromagnetic Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光谱-Spectrum"><span class="nav-text">光谱 (Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人眼-Human-eye"><span class="nav-text">人眼 (Human eye)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#颜色-Color"><span class="nav-text">颜色 (Color)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#色度学-Colorimetry"><span class="nav-text">色度学 (Colorimetry)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格拉斯曼颜色定律-Grassmann’s-laws"><span class="nav-text">格拉斯曼颜色定律 (Grassmann’s laws)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色实验-Color-Matching-Experiments"><span class="nav-text">配色实验 (Color Matching Experiments)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#色彩空间-Color-Space"><span class="nav-text">色彩空间 (Color Space)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Light"><span class="nav-text">Light</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
