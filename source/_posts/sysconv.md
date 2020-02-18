@@ -158,7 +158,7 @@ $$ h[t]*h^{inv}[n] = \delta[n] $$
 
 ## 课后练习
 
-#### 2.33 
+### 2.33 
 > Evaluate the discrete-time convolution sums given below.
 
 a) $ y[n] = u[n + 3] * u[n − 3]$
@@ -178,7 +178,7 @@ n+1, \quad n\geq 0\\
 \end{matrix}\right.$$
 
 
-#### 2.35
+### 2.35
 > At the start of the first year 10,000 is deposited in a bank account earning 5% per year. At the
 start of each succeeding year 1000 is deposited. Use convolution to determine the balance at the start of each year (after the deposit). Initially 10000 is invested.
 
@@ -187,7 +187,7 @@ start of each succeeding year 1000 is deposited. Use convolution to determine th
 ![Yearly balance of the account](/images/sysconv/235_2.jpg)
 
 
-#### 2.39
+### 2.39
 > Evaluate the continuous-time convolution integrals given below.
 
 ![](/images/sysconv/239_1.jpg)
@@ -197,7 +197,7 @@ start of each succeeding year 1000 is deposited. Use convolution to determine th
 ![](/images/sysconv/239_3.jpg)
 
 
-## 参考资料
 
+## 参考资料
 1. Signals and Systems 2nd(Simon Haykin)
 2. [Lecture 4, Convolution | MIT RES.6.007 Signals and Systems, Spring 2011](https://www.youtube.com/watch?v=_vyke3vF4Nk)
