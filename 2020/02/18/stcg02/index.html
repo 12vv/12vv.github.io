@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/workflow.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/imggamma.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/disgamma.jpg">
-<meta property="og:updated_time" content="2020-02-19T12:37:01.518Z">
+<meta property="og:updated_time" content="2020-02-19T12:47:19.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Course02 Light and Color">
 <meta name="twitter:description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
@@ -242,6 +242,7 @@
 <h4 id="色彩空间-Color-Space"><a href="#色彩空间-Color-Space" class="headerlink" title="色彩空间 (Color Space)"></a>色彩空间 (Color Space)</h4><p><img src="/images/stcg/Colorspace.png" alt></p>
 <p><img src="/images/stcg/rgbcs.jpg" alt="RGB色彩空间"></p>
 <p>由于每个显示设备有自己<code>原色(primaries)的光谱分布(spectral distributions)</code>，所以即使有一张图片在RGB空间中定义，在不同设备上显示也可能不同。而且，使用RGB来表示颜色也有点不符合直觉，因为当我们看到“黄色”的时候，并不觉得是等同的“红”光和“绿”光混合成的，我们只觉得是一种“黄”色的光。所以，可以利用矩阵将RGB空间的转换为<code>CIE color spaces</code>或者它的变体(一个维度表示brightness，另外两个维度表示chromaticity)。</p>
+<p><a href="/images/stcg/rgb4.jpg">RGB色彩空间</a></p>
 <p><img src="/images/stcg/trans.jpg" alt="TransformationsforstandardRGBcolorspaces"></p>
 <p>还有一种方法是使用更加直观的表示方法，即<code>Hue-Saturation-Value (HSV) color space</code>。</p>
 <p><img src="/images/stcg/hsv.jpg" alt="Hue-Saturation-Value (HSV) color space"></p>
@@ -270,20 +271,21 @@ D(x, y) = log(L_v(x, y)) = log(r(x, y)E_v(x, y)) = log(r(x, y)) + log(E_v(x, y))
 <p>对于典型的漫射场景，由于带纹理的表面以及表面边缘的存在，反射率分量倾向于表现出高<code>空间频率(spatial frequencies)</code>。而照度往往是空间上缓慢变化的函数。所以可以依据频率(使用傅立叶变换等方法)分离两个分量。压缩<code>照度(illuminance)</code>分量而保持<code>反射率(reflectance)</code>分量不变。</p>
 <p>下面是一个应用例子，<code>Bilateral filtering</code>就是基于这个方法。</p>
 <p><img src="/images/stcg/bf.jpg" alt="Bilateral filtering removes small details but preserves sharp gradients (left). The associated detail layer is shown on the right."></p>
-<h3 id="Gamma校正-Gamma-Correction"><a href="#Gamma校正-Gamma-Correction" class="headerlink" title="Gamma校正 (Gamma Correction)"></a>Gamma校正 (Gamma Correction)</h3><h4 id="需要Gamma矫正的原因"><a href="#需要Gamma矫正的原因" class="headerlink" title="需要Gamma矫正的原因"></a>需要Gamma矫正的原因</h4><blockquote>
-<p>我们的眼睛不像照相机那样感知光线。</p>
+<h3 id="Gamma校正-Gamma-Correction"><a href="#Gamma校正-Gamma-Correction" class="headerlink" title="Gamma校正 (Gamma Correction)"></a>Gamma校正 (Gamma Correction)</h3><h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><blockquote>
+<p>首先，我们的眼睛不像照相机那样感知光线。</p>
 </blockquote>
 <p>当两倍的光子击中传感器时，传感器就接收到两倍的信号(“线性”)。而当我们感知到两倍的光的时候只是觉得亮了一点(非线性)。</p>
 <p><img src="/images/stcg/camvseyes.jpg" alt></p>
 <p>与相机相比，人眼对暗色调的变化比对亮色调的变化更敏感。这种特性有一个生物学上的原因: 它使我们的视觉能够在更广泛的亮度范围内工作。</p>
 <p>伽马矫正是我们眼睛的光敏感度和相机的光敏感度之间的转换。 当一个数字图像被保存下来时，它被“<code>伽玛编码(gamma encoded)</code>”—-使一个数字图像中两倍的数值我们所感知的两倍亮度的数值更为接近。</p>
-<h4 id="Gamma定义"><a href="#Gamma定义" class="headerlink" title="Gamma定义"></a>Gamma定义</h4><script type="math/tex; mode=display">Vout = Vin^gamma</script><ul>
+<h4 id="Gamma定义"><a href="#Gamma定义" class="headerlink" title="Gamma定义"></a>Gamma定义</h4><script type="math/tex; mode=display">
+Vout = Vin^gamma</script><ul>
 <li><code>Vout</code>: 是输出亮度值。</li>
 <li><code>Vin</code>: 输入/实际亮度值。</li>
 </ul>
 <p>当<code>gamma&lt;1</code>时，直线向上拱起，当<code>gamma&lt;1</code>时则向下凹。</p>
 <blockquote>
-<p>伽玛编码图像能更有效地存储色调(tone)。 </p>
+<p>另外，伽玛编码图像能更有效地存储色调(tone)。 </p>
 </blockquote>
 <p>由于伽马编码将色调层次重新分配到更接近我们眼睛感知的层次，因此描述给定色调范围所需的比特更少。 也就是说，因为人眼对于暗色调更加敏感，伽马矫正就在暗色调区间划分了更多层，提高了存储空间的利用率。否则，过多的比特将用于描述较明亮的色调(相机相对更敏感，人眼较不敏感) ，而缺少比特将用于描述较暗的色调。<br><img src="/images/stcg/gamma2.jpg" alt></p>
 <p>另外，如上图所示，伽玛编码将色调几乎均匀地在整个范围内划分(perceptually uniform)。</p>
@@ -291,9 +293,10 @@ D(x, y) = log(L_v(x, y)) = log(r(x, y)E_v(x, y)) = log(r(x, y)) + log(E_v(x, y))
 <h5 id="Image-Gamma"><a href="#Image-Gamma" class="headerlink" title="Image Gamma"></a>Image Gamma</h5><p>通常<code>image gamma</code>的设置嵌入在图像文件中，大多数图像设置gamma值为1/2.2，(如上图左一)。当相机将捕获的图像转换为标准<code>JPEG</code>或<code>TIFF</code>文件格式时应用gamma将本地相机的色调层次重新分配到感知更加均匀的层次中。<br><img src="/images/stcg/imggamma.jpg" alt></p>
 <h5 id="Display-Gamma"><a href="#Display-Gamma" class="headerlink" title="Display Gamma"></a>Display Gamma</h5><p>主要目的是补偿<code>image gamma</code>，使得图像显示在屏幕上有合适的亮度。更高的<code>Display Gamma</code>导致更暗且对比度更高的图像。</p>
 <p><img src="/images/stcg/disgamma.jpg" alt></p>
-<ol>
-<li>System Gamma。同<code>viewing gamma</code>。为了更真实的再现一个场景，理想的情况是<code>gamma = 1.0</code>，那么<code>Vout = Vin</code>，即原场景的光与屏幕上显示的光相同。然而为了提高对比度，会设置gamma略大于1。这样可以弥补显示设备的<code>动态范围(dynamic range)</code>的限制。</li>
-</ol>
+<h5 id="System-Gamma"><a href="#System-Gamma" class="headerlink" title="System Gamma"></a>System Gamma</h5><p>同<code>viewing gamma</code>。为了更真实的再现一个场景，理想的情况是<code>gamma = 1.0</code>，那么<code>Vout = Vin</code>，即原场景的光与屏幕上显示的光相同。然而为了提高对比度，会设置gamma略大于1。这样可以弥补显示设备的<code>动态范围(dynamic range)</code>的限制。</p>
+<blockquote>
+<p>Gamma correction is applied to the gamma encoded (compressed)<br>images to convert them back to the original scene luminance.</p>
+</blockquote>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
 <li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. (Ch21, Ch22, Ch23)</li>
@@ -369,7 +372,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电磁波谱-Electromagnetic-Spectrum"><span class="nav-text">电磁波谱 (Electromagnetic Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光谱-Spectrum"><span class="nav-text">光谱 (Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人眼-Human-eye"><span class="nav-text">人眼 (Human eye)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三色理论-Trichromatic-Theory"><span class="nav-text">三色理论 (Trichromatic Theory)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#格拉斯曼颜色定律-Grassmann’s-laws"><span class="nav-text">格拉斯曼颜色定律 (Grassmann’s laws)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色实验-Color-Matching-Experiments"><span class="nav-text">配色实验 (Color Matching Experiments)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加色与减色-Additive-vs-Subtractive-Colors"><span class="nav-text">加色与减色 (Additive vs Subtractive Colors)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#色彩空间-Color-Space"><span class="nav-text">色彩空间 (Color Space)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#色调映射-Tone-Mapping"><span class="nav-text">色调映射 (Tone Mapping)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态范围-Dynamic-Range"><span class="nav-text">动态范围 (Dynamic Range)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-text">应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于频率的方法-Frequency-Based-Operators"><span class="nav-text">基于频率的方法 (Frequency-Based Operators)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gamma校正-Gamma-Correction"><span class="nav-text">Gamma校正 (Gamma Correction)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需要Gamma矫正的原因"><span class="nav-text">需要Gamma矫正的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gamma定义"><span class="nav-text">Gamma定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GAMMA-WORKFLOW"><span class="nav-text">GAMMA WORKFLOW</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-Gamma"><span class="nav-text">Image Gamma</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Display-Gamma"><span class="nav-text">Display Gamma</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电磁波谱-Electromagnetic-Spectrum"><span class="nav-text">电磁波谱 (Electromagnetic Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光谱-Spectrum"><span class="nav-text">光谱 (Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人眼-Human-eye"><span class="nav-text">人眼 (Human eye)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三色理论-Trichromatic-Theory"><span class="nav-text">三色理论 (Trichromatic Theory)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#格拉斯曼颜色定律-Grassmann’s-laws"><span class="nav-text">格拉斯曼颜色定律 (Grassmann’s laws)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色实验-Color-Matching-Experiments"><span class="nav-text">配色实验 (Color Matching Experiments)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加色与减色-Additive-vs-Subtractive-Colors"><span class="nav-text">加色与减色 (Additive vs Subtractive Colors)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#色彩空间-Color-Space"><span class="nav-text">色彩空间 (Color Space)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#色调映射-Tone-Mapping"><span class="nav-text">色调映射 (Tone Mapping)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态范围-Dynamic-Range"><span class="nav-text">动态范围 (Dynamic Range)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-text">应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于频率的方法-Frequency-Based-Operators"><span class="nav-text">基于频率的方法 (Frequency-Based Operators)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gamma校正-Gamma-Correction"><span class="nav-text">Gamma校正 (Gamma Correction)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原因"><span class="nav-text">原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gamma定义"><span class="nav-text">Gamma定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GAMMA-WORKFLOW"><span class="nav-text">GAMMA WORKFLOW</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-Gamma"><span class="nav-text">Image Gamma</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Display-Gamma"><span class="nav-text">Display Gamma</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#System-Gamma"><span class="nav-text">System Gamma</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
