@@ -11,20 +11,20 @@
   
   
   
-  <meta name="description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。然而可以提炼一个方法。  确定前向轴(forward axis)。">
+  <meta name="description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
 <meta name="keywords" content="Computer Graphics">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta property="og:url" content="https://12vv.github.io/2020/02/20/stcg03/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。然而可以提炼一个方法。  确定前向轴(forward axis)。">
+<meta property="og:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:updated_time" content="2020-02-22T14:33:48.868Z">
+<meta property="og:updated_time" content="2020-02-22T14:34:55.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
-<meta name="twitter:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。然而可以提炼一个方法。  确定前向轴(forward axis)。">
+<meta name="twitter:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
 <meta name="twitter:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
@@ -201,7 +201,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="相机-Camera"><a href="#相机-Camera" class="headerlink" title="相机 (Camera)"></a>相机 (Camera)</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。然而可以提炼一个方法。<br><img src="/images/stcg/camaxis.jpg" alt></p>
+        <h3 id="相机-Camera"><a href="#相机-Camera" class="headerlink" title="相机 (Camera)"></a>相机 (Camera)</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
 <blockquote>
 <p>确定<code>前向轴(forward axis)</code>。<br><img src="/images/stcg/forward.jpg" alt></p>
 </blockquote>
