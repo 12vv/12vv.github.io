@@ -11,21 +11,29 @@
   
   
   
-  <meta name="description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
+  <meta name="description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
 <meta name="keywords" content="Computer Graphics">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta property="og:url" content="https://12vv.github.io/2020/02/20/stcg03/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
+<meta property="og:description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/scaling.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/scaling2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/shearing1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/shearing2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/rotate1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/rotate2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/reflect1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/reflect2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:updated_time" content="2020-02-22T14:34:55.988Z">
+<meta property="og:updated_time" content="2020-02-23T09:26:05.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
-<meta name="twitter:description" content="相机 (Camera)有时候需要为某一个向量a创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示forward, right, up建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。  确定前向轴(forward">
-<meta name="twitter:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
+<meta name="twitter:description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
+<meta name="twitter:image" content="https://12vv.github.io/images/stcg/scaling.jpg">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -201,21 +209,104 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="相机-Camera"><a href="#相机-Camera" class="headerlink" title="相机 (Camera)"></a>相机 (Camera)</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
+        <h3 id="2D线性变换-2D-Linear-Transformations"><a href="#2D线性变换-2D-Linear-Transformations" class="headerlink" title="2D线性变换 (2D Linear Transformations)"></a>2D线性变换 (2D Linear Transformations)</h3><p>用一个<code>2*2</code>矩阵进行线性变化。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+a_{11} & a_{12} \\ 
+a_{21} & a_{22}
+\end{bmatrix} 
+\begin{bmatrix}
+x \\ y 
+\end{bmatrix}
+ = \begin{bmatrix}
+a_{11}x + a_{12}y\\ 
+a_{21}x + a_{22}y
+\end{bmatrix}</script><p>其实用于变换的这个矩阵的列就是新空间的基。比如，上面的式子中，可以看作是新空间的基向量变为$[a_{11} \ a_{21}]$和$[a_{12} \ a_{22}]$，可以分别看作是新的x轴和y轴。下面是一些先行变换的例子。</p>
+<h4 id="Scaling"><a href="#Scaling" class="headerlink" title="Scaling"></a>Scaling</h4><script type="math/tex; mode=display">
+\begin{bmatrix}
+s_{x} & 0 \\ 
+0 & s_{y}
+\end{bmatrix} 
+\begin{bmatrix}
+x \\ y 
+\end{bmatrix}
+ = \begin{bmatrix}
+s_{x}x\\ 
+s_{y}y
+\end{bmatrix}</script><p><img src="/images/stcg/scaling.jpg" alt></p>
+<p><img src="/images/stcg/scaling2.jpg" alt></p>
+<p>将$[s_{x} \ 0]$和$[0 \ s_{y}]$ 作为x和y，所以x方向被缩放了$s_x$倍，y方向被缩放了$s_y$倍。</p>
+<h4 id="Shearing"><a href="#Shearing" class="headerlink" title="Shearing"></a>Shearing</h4><script type="math/tex; mode=display">
+shear-x(s) = \begin{bmatrix}
+1 & s \\ 
+0 & 1
+\end{bmatrix} 
+\qquad
+shear-y(s) = \begin{bmatrix}
+1 & 0 \\ 
+s & 1
+\end{bmatrix}</script><p><img src="/images/stcg/shearing1.jpg" alt></p>
+<p><img src="/images/stcg/shearing2.jpg" alt></p>
+<p>仍然可以使用之前的方法来理解，比如使用$shear-x(s)$将$[1 \ 0]$和$[s \ 1]$ 作为x和y，那么x方向不发生改变，而y方向原本垂直于x的轴变为一条倾斜的轴，如果<code>s=1</code>，那么这条新的轴和x呈<code>45</code>度角。$shear-x(s)$同理。</p>
+<p>另一个角度来理解，即将某一个轴转转某个角度。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & tan\phi  \\ 
+0 & 1
+\end{bmatrix} 
+\qquad
+// 将垂直方向的轴顺时针旋转了\phi 度</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 0  \\ 
+tan\phi & 1
+\end{bmatrix} 
+\qquad
+// 将垂直方向的轴逆时针旋转了\phi 度</script><h4 id="Rotation"><a href="#Rotation" class="headerlink" title="Rotation"></a>Rotation</h4><p>推导：假设将向量阿逆时针旋转$\phi$度。</p>
+<script type="math/tex; mode=display">
+x_b = rcos(\alpha + \phi) = rcos\alpha cos\phi - rsin\alpha sin\phi
+\\\\
+y_b = rsin(\alpha + \phi) = rsin\alpha cos\phi - rcos\alpha sin\phi</script><p>使用$x_a = rcos\alpha$，$y_a = rsin\alpha$，得到</p>
+<script type="math/tex; mode=display">
+x_b = x_acos\phi - y_asin\phi
+\\\\
+y_b = y_acos\phi - x_asin\phi</script><p>最后得到旋转矩阵</p>
+<script type="math/tex; mode=display">
+rotate(\phi) = \begin{bmatrix}
+cos\phi & -sin\phi  \\ 
+sin\phi & cos\phi
+\end{bmatrix}</script><p><img src="/images/stcg/rotate1.jpg" alt></p>
+<p><img src="/images/stcg/rotate2.jpg" alt></p>
+<h4 id="Reflection"><a href="#Reflection" class="headerlink" title="Reflection"></a>Reflection</h4><script type="math/tex; mode=display">
+reflect-y = \begin{bmatrix}
+-1 & 0 \\ 
+0 & 1
+\end{bmatrix} 
+\qquad
+reflect-x = \begin{bmatrix}
+1 & 0 \\ 
+0 & -1
+\end{bmatrix}</script><p><img src="/images/stcg/reflect1.jpg" alt></p>
+<p><img src="/images/stcg/reflect2.jpg" alt></p>
+<p>使用$reflect-y$将$[-1 \ 0]$和$[0 \ 1]$ 作为x和y，则x方向反向，y方向不变。</p>
+<h3 id="相机-Camera"><a href="#相机-Camera" class="headerlink" title="相机 (Camera)"></a>相机 (Camera)</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
 <blockquote>
-<p>确定<code>前向轴(forward axis)</code>。<br><img src="/images/stcg/forward.jpg" alt></p>
+<p>确定<code>前向轴(forward axis)</code>。</p>
 </blockquote>
-<p>其实这就是相机看向的方向。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f forward = Normalize(from - to);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f forward = Normalize(from - to);</span><br></pre></td></tr></table></figure>
+<p>其实这就是相机看向的方向。</p>
+<p><img src="/images/stcg/forward.jpg" alt></p>
 <blockquote>
 <p>确定<code>右边的轴(right vector)</code>。</p>
 </blockquote>
-<p>但现在只确定了一个向量，需要想办法求出与前向轴垂直的向量，解决办法是选一个<code>任意向量(arbitrary vector)</code>。这个向量和<code>前向轴(forward axis)</code>共面但不共线，求叉积后就可以得到与<code>前向轴(forward axis)</code>垂直的向量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec3f <span class="title">tmp</span><span class="params">(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)</span></span>; </span><br><span class="line">Vec3f right = crossProduct(Normalize(tmp), forward);</span><br></pre></td></tr></table></figure>
+<p>现在只确定了一个向量，需要想办法求出与前向轴垂直的向量，解决办法是选一个<code>任意向量(arbitrary vector)</code>。这个向量和<code>前向轴(forward axis)</code>共面但不共线，求叉积后就可以得到与<code>前向轴(forward axis)</code>垂直的向量。</p>
 <p>这个向量也不能任意选择，稍加思考发现选择<code>(0, 1, 0)</code>向量会比较好，这样无论前向轴朝向哪里，和这个任意向量组成的平面都和世界坐标的y轴垂直，根据这个向量计算出的右向量就朝向相机的右边。</p>
 <p><em>注意：如果任意向量和前向轴共线了，那么右向量将无法求得。如果任意向量和前向轴很接近，那么求出的右向量就很不准确。</em></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec3f <span class="title">tmp</span><span class="params">(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)</span></span>; </span><br><span class="line">Vec3f right = crossProduct(Normalize(tmp), forward);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>计算<code>向上向量(up vector)</code>。<br>既然已经确定了两个相互垂直的向量，因为根据叉积，得到了两个相互垂直的向量即可得到一个和这两个向量都垂直的向量，所以只需要求叉积即可。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f up = crossProduct(forward, right);</span><br></pre></td></tr></table></figure></p>
+<p>计算<code>向上向量(up vector)</code>。</p>
 </blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f up = crossProduct(forward, right);</span><br></pre></td></tr></table></figure>
+<p>既然已经确定了两个相互垂直的向量，因为根据叉积，得到了两个相互垂直的向量即可得到一个和这两个向量都垂直的向量，所以只需要求叉积即可。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
 <li><a href="https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function" target="_blank" rel="noopener">Placing a Camera: the LookAt Function</a></li>
@@ -298,7 +389,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#相机-Camera"><span class="nav-text">相机 (Camera)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换-2D-Linear-Transformations"><span class="nav-text">2D线性变换 (2D Linear Transformations)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机-Camera"><span class="nav-text">相机 (Camera)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
