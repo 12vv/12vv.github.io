@@ -11,13 +11,13 @@
   
   
   
-  <meta name="description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
+  <meta name="description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
 <meta name="keywords" content="Computer Graphics">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta property="og:url" content="https://12vv.github.io/2020/02/20/stcg03/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
+<meta property="og:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/scaling.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/scaling2.jpg">
@@ -27,12 +27,17 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/rotate2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/reflect1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/reflect2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/comtrans.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/svd.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/t1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/t2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/normal.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:updated_time" content="2020-02-23T09:26:05.550Z">
+<meta property="og:updated_time" content="2020-02-23T15:21:40.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
-<meta name="twitter:description" content="2D线性变换 (2D Linear Transformations)用一个2*2矩阵进行线性变化。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{2">
+<meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
 <meta name="twitter:image" content="https://12vv.github.io/images/stcg/scaling.jpg">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
@@ -209,7 +214,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="2D线性变换-2D-Linear-Transformations"><a href="#2D线性变换-2D-Linear-Transformations" class="headerlink" title="2D线性变换 (2D Linear Transformations)"></a>2D线性变换 (2D Linear Transformations)</h3><p>用一个<code>2*2</code>矩阵进行线性变化。</p>
+        <h3 id="2D线性变换"><a href="#2D线性变换" class="headerlink" title="2D线性变换"></a>2D线性变换</h3><p>用一个<code>2*2</code>矩阵进行<code>线性变化(Linear Transformations)</code>。</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix}
 a_{11} & a_{12} \\ 
@@ -255,7 +260,7 @@ s & 1
 0 & 1
 \end{bmatrix} 
 \qquad
-// 将垂直方向的轴顺时针旋转了\phi 度</script><script type="math/tex; mode=display">
+// 将水平方向的轴顺时针旋转了\phi 度</script><script type="math/tex; mode=display">
 \begin{bmatrix}
 1 & 0  \\ 
 tan\phi & 1
@@ -288,7 +293,73 @@ reflect-x = \begin{bmatrix}
 \end{bmatrix}</script><p><img src="/images/stcg/reflect1.jpg" alt></p>
 <p><img src="/images/stcg/reflect2.jpg" alt></p>
 <p>使用$reflect-y$将$[-1 \ 0]$和$[0 \ 1]$ 作为x和y，则x方向反向，y方向不变。</p>
-<h3 id="相机-Camera"><a href="#相机-Camera" class="headerlink" title="相机 (Camera)"></a>相机 (Camera)</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
+<h4 id="Composition-Transformations"><a href="#Composition-Transformations" class="headerlink" title="Composition Transformations"></a>Composition Transformations</h4><p>因为矩阵的乘法有<code>结合性(associative)</code>，所以可以变换步骤结合起来，但是因为矩阵乘法没有<code>交换性(commutative)</code>，所以变换结合的顺序将会影响最后结果。</p>
+<p><img src="/images/stcg/comtrans.jpg" alt></p>
+<h4 id="Decomposition-of-Transformations"><a href="#Decomposition-of-Transformations" class="headerlink" title="Decomposition of Transformations"></a>Decomposition of Transformations</h4><p>如下图所示，剪切矩阵通过<code>奇异值分解(SVD)</code>分解为旋转矩阵和缩放矩阵。</p>
+<p><img src="/images/stcg/svd.jpg" alt></p>
+<p>根据特征值分解的式子，如果矩阵<code>A</code>是对称矩阵，那么，</p>
+<script type="math/tex; mode=display">
+A = RSR^T</script><p>其中，<code>R</code>是正交矩阵，它的列是特征向量<code>v1, v2</code>，S是对角矩阵，它的对角线上的元素是特征值$\lambda_1, \lambda_2$。根据上面的认识，知道R可以被看作是旋转矩阵而S可以被看作是缩放矩阵，所以这个分解过程可以被这样解释：</p>
+<ol>
+<li>旋转<code>v1，v2</code>到<code>x轴</code>和<code>y轴</code>，即使用$R^T$矩阵变换。</li>
+<li>分别缩放<code>x</code>和<code>y</code>，$\lambda_1, \lambda_2$倍数，即使用$S$矩阵变换。</li>
+<li>旋转<code>x轴</code>和<code>y轴</code>回到<code>v1，v2</code>方向，即使用$R$矩阵变换。</li>
+</ol>
+<p><img src="/images/stcg/t1.jpg" alt></p>
+<p>这其实告诉我们对称矩阵的几何意义就是<code>沿着任意轴的非等距缩放(nonuniform and non–axis-aligned transformation)</code>。</p>
+<p>对于非对称矩阵，可以作<code>奇异值分解(Singular Value Decomposition, SVD)</code>。</p>
+<script type="math/tex; mode=display">
+A = USV^T</script><p>其中，矩阵<code>S</code>中对角元素是奇异值$\sigma_1, \sigma_2$。这种情况下，<code>U</code>和<code>V</code>不一定互逆，也可以包含反射矩阵。这个分解过程可以这样解释：</p>
+<ol>
+<li>旋转<code>v1，v2</code>到<code>x轴</code>和<code>y轴</code>，即使用$V^T$矩阵变换。</li>
+<li>分别缩放<code>x</code>和<code>y</code>，$ \sigma_1, \sigma_2$倍数，即使用$S$矩阵变换。</li>
+<li>旋转<code>x轴</code>和<code>y轴</code>到<code>u1，u2</code>方向，即使用$U$矩阵变换。</li>
+</ol>
+<p><img src="/images/stcg/t2.jpg" alt></p>
+<h3 id="3D线性变换"><a href="#3D线性变换" class="headerlink" title="3D线性变换"></a>3D线性变换</h3><p>对于旋转变换，与2D的旋转变换类似，多了一个轴，如果要绕着某个轴旋转，则固定那个轴，剩下两个轴套用2D的旋转矩阵即可。比如如果绕<code>z轴</code>旋转：</p>
+<script type="math/tex; mode=display">
+rotate-z(\phi) = \begin{bmatrix}
+cos\phi & -sin\phi & 0\\ 
+sin\phi & cos\phi & 0\\ 
+0 & 0 & 1
+\end{bmatrix}</script><h4 id="绕任意轴的旋转"><a href="#绕任意轴的旋转" class="headerlink" title="绕任意轴的旋转"></a>绕任意轴的旋转</h4><p>如果要绕一个任意轴<code>w</code>旋转，那么可以先将以<code>w</code>为基的空间(其余的两个轴<code>u</code>和<code>v</code>使用正交基的构造方法构造)转换为<code>xyz</code>空间，然后在绕<code>z</code>轴旋转，最后再转回原来的空间。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+x_u & x_w & x_w\\ 
+y_u & y_v & y_w\\ 
+z_u & z_v & z_w
+\end{bmatrix}
+\begin{bmatrix}
+cos\phi & -sin\phi & 0\\ 
+sin\phi & cos\phi & 0\\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+x_u & y_u & z_u\\ 
+x_v & y_w & z_v\\ 
+x_w & y_z & z_w
+\end{bmatrix}</script><h4 id="法向量的旋转"><a href="#法向量的旋转" class="headerlink" title="法向量的旋转"></a>法向量的旋转</h4><p>如果对于法向量使用同样的旋转矩阵，得到的向量不再是旋转后平面的法向量。</p>
+<p><img src="/images/stcg/normal.jpg" alt></p>
+<p>那么该用什么样的矩阵<code>N</code>使得法向量通过变换仍然垂直于变换后的平面呢？</p>
+<p>对于原来的平面，法向量和平面切线垂直，则有，</p>
+<script type="math/tex; mode=display">
+n^T t = 0</script><p>假设平面使用了矩阵<code>M</code>进行变换，而法向量通过<code>N</code>矩阵变换，那么变换后，</p>
+<script type="math/tex; mode=display">
+t_M = Mt ,\ \ n_N = Nn</script><p>需要保证，变换后法向量仍垂直于平面，即，</p>
+<script type="math/tex; mode=display">
+n_N^{T} t_M = 0</script><p>根据性质，$M^{-1}M = I$，</p>
+<script type="math/tex; mode=display">
+n^{T} t = n^{T} M^{-1}M t = 0，
+\qquad
+(n^{T} M^{-1}) (Mt) = (n^{T} M^{-1}) t_M = 0</script><p>所以，</p>
+<script type="math/tex; mode=display">
+n_N^{T} = (n^{T} M^{-1}), 
+\qquad
+n_N = n^T M^{-1},
+\qquad
+n_N = (n^T M^{-1})^T = (M^{-1})^Tn</script><p>最后求得法向量的变换矩阵</p>
+<script type="math/tex; mode=display">
+N = (M^{-1})^T</script><h3 id="构造虚拟相机"><a href="#构造虚拟相机" class="headerlink" title="构造虚拟相机"></a>构造虚拟相机</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
 <blockquote>
 <p>确定<code>前向轴(forward axis)</code>。</p>
 </blockquote>
@@ -310,7 +381,7 @@ reflect-x = \begin{bmatrix}
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
 <li><a href="https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function" target="_blank" rel="noopener">Placing a Camera: the LookAt Function</a></li>
-<li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. (Ch21, Ch22, Ch23)</li>
+<li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. </li>
 </ol>
 
       
@@ -389,7 +460,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换-2D-Linear-Transformations"><span class="nav-text">2D线性变换 (2D Linear Transformations)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机-Camera"><span class="nav-text">相机 (Camera)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Composition-Transformations"><span class="nav-text">Composition Transformations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Decomposition-of-Transformations"><span class="nav-text">Decomposition of Transformations</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造虚拟相机"><span class="nav-text">构造虚拟相机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
