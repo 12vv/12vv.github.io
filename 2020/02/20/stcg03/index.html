@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/normal.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:updated_time" content="2020-02-23T15:21:40.496Z">
+<meta property="og:updated_time" content="2020-02-24T01:24:36.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
@@ -350,16 +350,46 @@ t_M = Mt ,\ \ n_N = Nn</script><p>需要保证，变换后法向量仍垂直于�
 n_N^{T} t_M = 0</script><p>根据性质，$M^{-1}M = I$，</p>
 <script type="math/tex; mode=display">
 n^{T} t = n^{T} M^{-1}M t = 0，
-\qquad
+\\\\
 (n^{T} M^{-1}) (Mt) = (n^{T} M^{-1}) t_M = 0</script><p>所以，</p>
 <script type="math/tex; mode=display">
 n_N^{T} = (n^{T} M^{-1}), 
-\qquad
+\\\\
 n_N = n^T M^{-1},
-\qquad
+\\\\
 n_N = (n^T M^{-1})^T = (M^{-1})^Tn</script><p>最后求得法向量的变换矩阵</p>
 <script type="math/tex; mode=display">
-N = (M^{-1})^T</script><h3 id="构造虚拟相机"><a href="#构造虚拟相机" class="headerlink" title="构造虚拟相机"></a>构造虚拟相机</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
+N = (M^{-1})^T</script><h3 id="仿射变换（Affine-Transformations）"><a href="#仿射变换（Affine-Transformations）" class="headerlink" title="仿射变换（Affine Transformations）"></a>仿射变换（Affine Transformations）</h3><p>通过上面的总结，发现无论如何都做不了平移的变换，必须为矩阵多加一个维度，即<code>同质坐标(homogeneous coordinates)</code>。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 0 & 0 & x_t\\ 
+0 & 1 & 0& y_t\\ 
+0 & 0 & 1 & z_t\\ 
+0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+x\\ 
+y\\ 
+z\\ 
+1
+\end{bmatrix}
+\begin{bmatrix}
+x+x_t\\ 
+y+y_t\\ 
+z+z_t\\ 
+1
+\end{bmatrix}</script><p>对于向量来说，位置无关紧要，因此将可以将坐标设置为$[x \ y \ z \ 1 ]$，这样使用这个矩阵变换后就不会有影响了。仿射变换还能后和线性变换结合起来在同一变换矩阵内。比如，2D空间中进行旋转和平移变换的矩阵可以表示如下：</p>
+<script type="math/tex; mode=display">
+M = \begin{bmatrix}
+cos\phi & -sin\phi & 0\\ 
+sin\phi & cos\phi & 0\\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & x_t\\ 
+0 & 1 & y_t\\ 
+0 & 0 & 1
+\end{bmatrix}</script><h3 id="构造虚拟相机"><a href="#构造虚拟相机" class="headerlink" title="构造虚拟相机"></a>构造虚拟相机</h3><p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
 <blockquote>
 <p>确定<code>前向轴(forward axis)</code>。</p>
 </blockquote>
@@ -460,7 +490,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Composition-Transformations"><span class="nav-text">Composition Transformations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Decomposition-of-Transformations"><span class="nav-text">Decomposition of Transformations</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造虚拟相机"><span class="nav-text">构造虚拟相机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Composition-Transformations"><span class="nav-text">Composition Transformations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Decomposition-of-Transformations"><span class="nav-text">Decomposition of Transformations</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换（Affine-Transformations）"><span class="nav-text">仿射变换（Affine Transformations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造虚拟相机"><span class="nav-text">构造虚拟相机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
