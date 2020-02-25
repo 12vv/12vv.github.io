@@ -37,7 +37,8 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/view1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:updated_time" content="2020-02-25T02:42:21.817Z">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/viewpic.jpg">
+<meta property="og:updated_time" content="2020-02-25T08:27:45.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
@@ -409,23 +410,68 @@ sin\phi & cos\phi & 0\\
 0 & 0 & 1
 \end{bmatrix}</script><h3 id="相机模型"><a href="#相机模型" class="headerlink" title="相机模型"></a>相机模型</h3><p><img src="/images/stcg/view1.jpg" alt></p>
 <p>有时候需要为某一个向量<code>a</code>创建一个正交基，比如对于相机，如果知道了它看向的方向，需要旋转这个方向来让相机看向别处，并不可以任意改变它的方向，这时根据相机看向的方向需要确定一个正交基(如下图所示<code>forward, right, up</code>建立的正交基)，让相机可以依据这个正交基的各个轴旋转，虽然根据一个向量不止一个结果。但是可以按照以下步骤构造出一个正交基。<br><img src="/images/stcg/camaxis.jpg" alt></p>
-<blockquote>
-<p>确定<code>前向轴(forward axis)</code>。</p>
-</blockquote>
+<p><strong> 1. 确定<code>前向轴(forward axis)</code> </strong>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f forward = Normalize(from - to);</span><br></pre></td></tr></table></figure>
 <p>其实这就是相机看向的方向。</p>
 <p><img src="/images/stcg/forward.jpg" alt></p>
-<p><strong> 确定<code>右边的轴(right vector)</code> </strong>。</p>
+<p><strong> 2. 确定<code>右边的轴(right vector)</code> </strong>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec3f <span class="title">tmp</span><span class="params">(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>)</span></span>; </span><br><span class="line">Vec3f right = crossProduct(Normalize(tmp), forward);</span><br></pre></td></tr></table></figure>
 <p>现在只确定了一个向量，需要想办法求出与前向轴垂直的向量，解决办法是选一个<code>任意向量(arbitrary vector)</code>。这个向量和<code>前向轴(forward axis)</code>共面但不共线，求叉积后就可以得到与<code>前向轴(forward axis)</code>垂直的向量。</p>
 <p>这个向量也不能任意选择，稍加思考发现选择<code>(0, 1, 0)</code>向量(可看作是朝向天空的方向)会比较好，这样无论前向轴朝向哪里，和这个任意向量组成的平面都和世界坐标的y轴垂直，根据这个向量计算出的右向量就朝向相机的右边。</p>
 <p><em>注意：如果任意向量和前向轴共线了，那么右向量将无法求得。如果任意向量和前向轴很接近，那么求出的右向量就很不准确。</em></p>
-<blockquote>
-<p>计算<code>向上向量(up vector)</code>。</p>
-</blockquote>
+<p><strong> 3. 计算<code>向上向量(up vector)</code> </strong>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f up = crossProduct(forward, right);</span><br></pre></td></tr></table></figure>
 <p>既然已经确定了两个相互垂直的向量，因为根据叉积，得到了两个相互垂直的向量即可得到一个和这两个向量都垂直的向量，所以只需要求叉积即可。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<h4 id="透视投影矩阵推导"><a href="#透视投影矩阵推导" class="headerlink" title="透视投影矩阵推导"></a>透视投影矩阵推导</h4><p>假设要求的透视投影矩阵为，</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+c & 0 & 0 & 0\\ 
+0 & d & 0 & 0\\ 
+0 & 0 & a & b \\ 
+0 & 0 & -1 & 0
+\end{bmatrix}</script><p>空间中向量应用这个矩阵变换后结果如下：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+c & 0 & 0 & 0\\ 
+0 & d & 0 & 0\\ 
+0 & 0 & a & b \\ 
+0 & 0 & -1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+x\\ 
+y\\ 
+z\\ 
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+cx\\ 
+cy\\ 
+az+b\\ 
+-z
+\end{bmatrix}</script><p><img src="/images/stcg/viewpic.jpg" alt></p>
+<p>最后一维设置第三个分量为-1的原因是，我们希望齐次坐标第四个分量为<code>-z</code>，这样转换为三维笛卡尔坐标后，所有分量都会除以<code>-z</code>，会变回正数之外，也符合平面离原点越近则分量越大，显示出来越大。</p>
+<p>由上图所示，要把被切割的视锥体压缩到<code>1*1*1</code>的立方体中(即<code>P</code>映射到<code>P&#39;</code>，<code>N</code>映射到<code>N&#39;</code>，<code>F</code>映射到<code>F&#39;</code>，etc)，如上图右边所示，上图的x的轴都垂直于直面指向纸外。</p>
+<p>先看点<code>N</code>和点<code>F</code>的映射，</p>
+<script type="math/tex; mode=display">
+N(0, 0, -n, 1) \overset{matrix}{\rightarrow} \ (0, 0, -an+b, n) \overset{to \ 3D}{\rightarrow}  (0, 0, \frac{-an+b}{n}) 
+\\\\
+F(0, 0, -f, 1) \overset{matrix}{\rightarrow} \ (0, 0, -af+b, f) \overset{to \ 3D}{\rightarrow}  (0, 0, \frac{-af+b}{f})</script><p>转换后分别对应<code>N&#39;(0, 0, 1)</code>和<code>F&#39;(0, 0, -1)</code>，所以，</p>
+<script type="math/tex; mode=display">
+-an + b = n; \qquad -af + b = -f</script><p>求解得，</p>
+<script type="math/tex; mode=display">
+a = \frac{f+n}{f-n}; \qquad b = \frac{2nf}{f-n}</script><p>接下来看<code>P</code>点如何映射到<code>P&#39;</code>，首先看图可知$\frac{d}{n} = tan\frac{\alpha}{2}$，所以<code>P</code>点坐标为$(0, tan\frac{\alpha}{2}, -n)$</p>
+<script type="math/tex; mode=display">
+P(0, tan\frac{\alpha}{2}, -n) \overset{matrix}{\rightarrow} \ (0, ntan\frac{\alpha}{2}, -an+b, n) \overset{to \ 3D}{\rightarrow}  (0, c\cdot tan\frac{\alpha}{2}}, \frac{-an+b}{n})</script><p>对于第二个分量来说，要映射到<code>P‘(0, 1, 1)</code>，$c\cdot tan\frac{\alpha}{2}} = 1$，得到，</p>
+<script type="math/tex; mode=display">
+c = cotan\frac{\alpha}{2}</script><p>同理得<code>d=c</code>，换个点映射即可，然后把求得的<code>a, b, c, d</code>带回原矩阵，即可得到透视投影矩阵：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+cotan\frac{\alpha}{2} & 0 & 0 & 0\\ 
+0 & cotan\frac{\alpha}{2} & 0 & 0\\ 
+0 & 0 & \frac{f+n}{f-n} & \frac{2nf}{f-n} \\ 
+0 & 0 & -1 & 0
+\end{bmatrix}</script><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
 <li><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
 <li><a href="https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function" target="_blank" rel="noopener">Placing a Camera: the LookAt Function</a></li>
 <li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. </li>
@@ -507,7 +553,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合变换"><span class="nav-text">组合变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分解变换"><span class="nav-text">分解变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换（Affine-Transformations）"><span class="nav-text">仿射变换（Affine Transformations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机模型"><span class="nav-text">相机模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合变换"><span class="nav-text">组合变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分解变换"><span class="nav-text">分解变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换（Affine-Transformations）"><span class="nav-text">仿射变换（Affine Transformations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机模型"><span class="nav-text">相机模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#透视投影矩阵推导"><span class="nav-text">透视投影矩阵推导</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
