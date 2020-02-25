@@ -37,8 +37,8 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/view1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/viewpic.jpg">
-<meta property="og:updated_time" content="2020-02-25T08:27:45.280Z">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/viewpic.jpeg">
+<meta property="og:updated_time" content="2020-02-25T08:51:35.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
@@ -422,7 +422,7 @@ sin\phi & cos\phi & 0\\
 <p><strong> 3. 计算<code>向上向量(up vector)</code> </strong>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f up = crossProduct(forward, right);</span><br></pre></td></tr></table></figure>
 <p>既然已经确定了两个相互垂直的向量，因为根据叉积，得到了两个相互垂直的向量即可得到一个和这两个向量都垂直的向量，所以只需要求叉积即可。</p>
-<h4 id="透视投影矩阵推导"><a href="#透视投影矩阵推导" class="headerlink" title="透视投影矩阵推导"></a>透视投影矩阵推导</h4><p>假设要求的透视投影矩阵为，</p>
+<h4 id="透视投影矩阵推导"><a href="#透视投影矩阵推导" class="headerlink" title="透视投影矩阵推导"></a>透视投影矩阵推导</h4><p>假设视椎体是对称的，要求的透视投影矩阵为，</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix}
 c & 0 & 0 & 0\\ 
@@ -449,7 +449,7 @@ cx\\
 cy\\ 
 az+b\\ 
 -z
-\end{bmatrix}</script><p><img src="/images/stcg/viewpic.jpg" alt></p>
+\end{bmatrix}</script><p><img src="/images/stcg/viewpic.jpeg" alt></p>
 <p>最后一维设置第三个分量为-1的原因是，我们希望齐次坐标第四个分量为<code>-z</code>，这样转换为三维笛卡尔坐标后，所有分量都会除以<code>-z</code>，会变回正数之外，也符合平面离原点越近则分量越大，显示出来越大。</p>
 <p>由上图所示，要把被切割的视锥体压缩到<code>1*1*1</code>的立方体中(即<code>P</code>映射到<code>P&#39;</code>，<code>N</code>映射到<code>N&#39;</code>，<code>F</code>映射到<code>F&#39;</code>，etc)，如上图右边所示，上图的x的轴都垂直于直面指向纸外。</p>
 <p>先看点<code>N</code>和点<code>F</code>的映射，</p>
@@ -460,9 +460,9 @@ F(0, 0, -f, 1) \overset{matrix}{\rightarrow} \ (0, 0, -af+b, f) \overset{to \ 3D
 <script type="math/tex; mode=display">
 -an + b = n; \qquad -af + b = -f</script><p>求解得，</p>
 <script type="math/tex; mode=display">
-a = \frac{f+n}{f-n}; \qquad b = \frac{2nf}{f-n}</script><p>接下来看<code>P</code>点如何映射到<code>P&#39;</code>，首先看图可知$\frac{d}{n} = tan\frac{\alpha}{2}$，所以<code>P</code>点坐标为$(0, tan\frac{\alpha}{2}, -n)$</p>
+a = \frac{f+n}{f-n}; \qquad b = \frac{2nf}{f-n}</script><p>接下来看<code>P</code>点如何映射到<code>P&#39;</code>，首先看图可知$\frac{d}{n} = tan\frac{\alpha}{2}$，所以<code>P</code>点坐标为$(0, tan\frac{\alpha}{2}, -n)$，</p>
 <script type="math/tex; mode=display">
-P(0, tan\frac{\alpha}{2}, -n) \overset{matrix}{\rightarrow} \ (0, ntan\frac{\alpha}{2}, -an+b, n) \overset{to \ 3D}{\rightarrow}  (0, c\cdot tan\frac{\alpha}{2}}, \frac{-an+b}{n})</script><p>对于第二个分量来说，要映射到<code>P‘(0, 1, 1)</code>，$c\cdot tan\frac{\alpha}{2}} = 1$，得到，</p>
+P(0, tan\frac{\alpha}{2}, -n) \overset{matrix}{\rightarrow} \ (0, ntan\frac{\alpha}{2}, -an+b, n) \overset{to \ 3D}{\rightarrow}  (0, c\cdot tan\frac{\alpha}{2}}, \frac{-an+b}{n})</script><p>对于第二个分量来说，要映射到<code>P‘(0, 1, 1)</code>，$ c \cdot tan\frac{\alpha}{2}} = 1 $，得到，</p>
 <script type="math/tex; mode=display">
 c = cotan\frac{\alpha}{2}</script><p>同理得<code>d=c</code>，换个点映射即可，然后把求得的<code>a, b, c, d</code>带回原矩阵，即可得到透视投影矩阵：</p>
 <script type="math/tex; mode=display">
