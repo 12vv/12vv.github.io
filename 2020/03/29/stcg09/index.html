@@ -3,22 +3,31 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>tag: opengl | INTERSTELLAR</title>
+  <title>stanford cs148 class09 sampling | INTERSTELLAR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Computer Graphics">
   
   
   
-  <meta name="description" content="Do not go into that gentle night.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="INTERSTELLAR">
-<meta property="og:url" content="https://12vv.github.io/tags/OpenGL/index.html">
+  
+  <meta name="description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
+<meta name="keywords" content="Computer Graphics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stanford CS148 Class09 Sampling">
+<meta property="og:url" content="https://12vv.github.io/2020/03/29/stcg09/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="Do not go into that gentle night.">
+<meta property="og:description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/09jaggies.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample2.jpg">
+<meta property="og:updated_time" content="2020-03-02T02:59:01.423Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INTERSTELLAR">
-<meta name="twitter:description" content="Do not go into that gentle night.">
+<meta name="twitter:title" content="Stanford CS148 Class09 Sampling">
+<meta name="twitter:description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
+<meta name="twitter:image" content="https://12vv.github.io/images/stcg/09sample.jpg">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -59,8 +68,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css">
-  
   
   
     <link rel="stylesheet" href="/css/vdonate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
@@ -70,7 +77,7 @@
 </html>
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -92,7 +99,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 0px;">
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
               </a>
             
@@ -161,95 +168,128 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-  
-  
+          <section id="main" style="float:none;"><article id="post-stcg09" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2020" class="archive-year">2020</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2020/02/24/stcgA3/" class="archive-article-date">
-	  <time datetime="2020-02-23T16:00:00.000Z" itemprop="datePublished">2020-02-24</time>
-	</a>
-
-      
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/02/24/stcgA3/">Stanford CS148 Assignment03</a>
+      Stanford CS148 Class09 Sampling
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+    <div class="article-meta">
       
-	<a href="/2020/02/21/stcgA2/" class="archive-article-date">
-	  <time datetime="2020-02-20T16:00:00.000Z" itemprop="datePublished">2020-02-21</time>
+	<a href="/2020/03/29/stcg09/" class="article-date">
+	  <time datetime="2020-03-28T16:00:00.000Z" itemprop="datePublished">2020-03-29</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/02/21/stcgA2/">Stanford CS148 Assignment02</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/Stanford-CS148/">Stanford CS148</a>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2019" class="archive-year">2019</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/09/29/opglconfig/" class="archive-article-date">
-	  <time datetime="2019-09-28T16:00:00.000Z" itemprop="datePublished">2019-09-29</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/09/29/opglconfig/">OPENGL-Xcode配置</a>
-    </h1>
-  
 
-    </header>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="采样-Sampling"><a href="#采样-Sampling" class="headerlink" title="采样 (Sampling)"></a>采样 (Sampling)</h2><p>通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行<code>采样(sampling)</code>，生成离散信号。下图是数模转换器<code>采样(sampling)</code>和<code>重构(reconstruction)</code>的例子。<br><img src="/images/stcg/09sample.jpg" alt="Sampling and reconstruction in digital audio"></p>
+<h3 id="混叠-Aliasing"><a href="#混叠-Aliasing" class="headerlink" title="混叠 (Aliasing)"></a>混叠 (Aliasing)</h3><blockquote>
+<p>指取样信号被还原成连续信号时产生彼此交叠而失真的现象。</p>
+</blockquote>
+<p>下面是一些发生混叠的例子。</p>
+<ol>
+<li><p>在渲染过程中因为物体的边缘和像素边缘不一致而出现<code>锯齿(jaggies)</code>，如下图所示。<br><img src="/images/stcg/09jaggies.jpg" alt="jaggies"></p>
+</li>
+<li><p>纹理坐标非均匀地映射到表面，导致采样率在整个纹理上变化。<br><img src="/images/stcg/09sample1.jpg" alt="Texturing Artifacts"></p>
+</li>
+<li><p>发生在法向量上的混叠导致镜面高光中出现噪点。<br><img src="/images/stcg/09sample2.jpg" alt="Sparkling Highlights"></p>
+</li>
+<li></li>
+</ol>
+<h3 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h3><p>这里仅讨论信号处理在图像中的应用。</p>
+<h4 id="卷积滤波器"><a href="#卷积滤波器" class="headerlink" title="卷积滤波器"></a>卷积滤波器</h4><h4 id="图像模糊-Blurring"><a href="#图像模糊-Blurring" class="headerlink" title="图像模糊 (Blurring)"></a>图像模糊 (Blurring)</h4><h4 id="图像钝化-Sharpening"><a href="#图像钝化-Sharpening" class="headerlink" title="图像钝化 (Sharpening)"></a>图像钝化 (Sharpening)</h4>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: 'Your support will encourage me!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/Wepay.jpeg',
+  alipayImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/AirPay.jpeg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/03/29/stcg09/" target="_blank" title="Stanford CS148 Class09 Sampling">https://12vv.github.io/2020/03/29/stcg09/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Graphics/">Computer Graphics</a></li></ul>
+
+      
+
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/03/15/stcgA8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Stanford CS148 Assignment08</div>
+    </a>
   
+</nav>
 
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样-Sampling"><span class="nav-text">采样 (Sampling)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#混叠-Aliasing"><span class="nav-text">混叠 (Aliasing)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号处理"><span class="nav-text">信号处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积滤波器"><span class="nav-text">卷积滤波器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像模糊-Blurring"><span class="nav-text">图像模糊 (Blurring)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像钝化-Sharpening"><span class="nav-text">图像钝化 (Sharpening)</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
 
 </section>
         
@@ -342,6 +382,8 @@
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -419,7 +461,9 @@
 </div>
   
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>

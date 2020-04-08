@@ -3,7 +3,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>stanford cs148 class09 sampling | INTERSTELLAR</title>
+  <title>stanford cs148 class05 optics | INTERSTELLAR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   <meta name="keywords" content="Computer Graphics">
@@ -11,23 +11,28 @@
   
   
   
-  <meta name="description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
+  <meta name="description" content="经典光照模型该模型单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质有关，依赖于表面">
 <meta name="keywords" content="Computer Graphics">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Stanford CS148 Class09 Sampling">
-<meta property="og:url" content="https://12vv.github.io/2020/02/29/stcg09/index.html">
+<meta property="og:title" content="Stanford CS148 Class05 Optics">
+<meta property="og:url" content="https://12vv.github.io/2020/02/29/stcg05/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
+<meta property="og:description" content="经典光照模型该模型单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质有关，依赖于表面">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/09jaggies.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample1.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/09sample2.jpg">
-<meta property="og:updated_time" content="2020-02-21T06:12:53.039Z">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/05lightmod.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/terminology.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/daylight.jpeg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/solid_angle.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/solid2.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/intensity.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/irradiance.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/radiance.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/change_angle.jpg">
+<meta property="og:updated_time" content="2020-03-05T01:30:28.320Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Stanford CS148 Class09 Sampling">
-<meta name="twitter:description" content="采样 (Sampling)通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。 混叠 (Aliasing) 指取样信号被还原成连续信号时产生彼此交叠而失真的现象。  下面是一些发生混叠的例子。  在渲染过程中因为物体的边缘和像素边缘不一">
-<meta name="twitter:image" content="https://12vv.github.io/images/stcg/09sample.jpg">
+<meta name="twitter:title" content="Stanford CS148 Class05 Optics">
+<meta name="twitter:description" content="经典光照模型该模型单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质有关，依赖于表面">
+<meta name="twitter:image" content="https://12vv.github.io/images/stcg/05lightmod.jpg">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -168,7 +173,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-stcg09" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-stcg05" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -176,7 +181,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      Stanford CS148 Class09 Sampling
+      Stanford CS148 Class05 Optics
     </h1>
   
 
@@ -184,7 +189,7 @@
     
     <div class="article-meta">
       
-	<a href="/2020/02/29/stcg09/" class="article-date">
+	<a href="/2020/02/29/stcg05/" class="article-date">
 	  <time datetime="2020-02-28T16:00:00.000Z" itemprop="datePublished">2020-02-29</time>
 	</a>
 
@@ -203,22 +208,47 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="采样-Sampling"><a href="#采样-Sampling" class="headerlink" title="采样 (Sampling)"></a>采样 (Sampling)</h2><p>通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行<code>采样(sampling)</code>，生成离散信号。下图是数模转换器<code>采样(sampling)</code>和<code>重构(reconstruction)</code>的例子。<br><img src="/images/stcg/09sample.jpg" alt="Sampling and reconstruction in digital audio"></p>
-<h3 id="混叠-Aliasing"><a href="#混叠-Aliasing" class="headerlink" title="混叠 (Aliasing)"></a>混叠 (Aliasing)</h3><blockquote>
-<p>指取样信号被还原成连续信号时产生彼此交叠而失真的现象。</p>
-</blockquote>
-<p>下面是一些发生混叠的例子。</p>
-<ol>
-<li><p>在渲染过程中因为物体的边缘和像素边缘不一致而出现<code>锯齿(jaggies)</code>，如下图所示。<br><img src="/images/stcg/09jaggies.jpg" alt="jaggies"></p>
-</li>
-<li><p>纹理坐标非均匀地映射到表面，导致采样率在整个纹理上变化。<br><img src="/images/stcg/09sample1.jpg" alt="Texturing Artifacts"></p>
-</li>
-<li><p>发生在法向量上的混叠导致镜面高光中出现噪点。<br><img src="/images/stcg/09sample2.jpg" alt="Sparkling Highlights"></p>
-</li>
-<li></li>
+        <h3 id="经典光照模型"><a href="#经典光照模型" class="headerlink" title="经典光照模型"></a>经典光照模型</h3><p>该模型单独计算<code>环境光(ambient)</code>，<code>漫反射光(diffuse)</code>和<code>镜面光(specular)</code>，再进行叠加。</p>
+<p><img src="/images/stcg/05lightmod.jpg" alt></p>
+<ul>
+<li><code>环境光(ambient)</code>：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。</li>
+<li><code>漫反射光(diffuse)</code>：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。</li>
+<li><code>镜面光(specular)</code>：表面反射的高光，与表面材质有关，依赖于表面法向量和光源方向和观察方向，颜色可或不可结合表面颜色。<code>光泽度(shininess)</code>越高，高光越趋近于一个亮点。</li>
+</ul>
+<h3 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h3><p>以下是一些专有名词的解释。</p>
+<p><img src="/images/stcg/terminology.jpg" alt="Terminology"></p>
+<h4 id="Radiant-Flux"><a href="#Radiant-Flux" class="headerlink" title="Radiant Flux"></a>Radiant Flux</h4><p>辐射通量是光源发出的总能量的量度，用瓦特表示。下图是日光的光谱分布，<code>辐射通量(radiant Flux)</code>是函数的面积(确切地说，该面积是<code>光通量(luminous flux)</code>，因为图表将波长限制在人类可见光范围内)。</p>
+<p><img src="/images/stcg/daylight.jpeg" alt="Daylight spectral distribution"></p>
+<h4 id="Solid-angle"><a href="#Solid-angle" class="headerlink" title="Solid angle"></a>Solid angle</h4><p><code>立体角(solid angle)</code>是一种测量物体在观察者看来有多大的方法。 下图展示将物体的轮廓投射到一个以我们观察点为中心的单位球体的表面上。 我们得到的形状的<code>面积</code>是立体角。下图中单位球面上的区域<code>w</code>即为浅蓝色多边形的投影的立体角。</p>
+<p><img src="/images/stcg/solid_angle.png" alt="Solid angle"></p>
+<p>下图是角和立体角的类比。</p>
+<p><img src="/images/stcg/solid2.png" alt="Angle and solid angle"></p>
+<h4 id="Radiant-Intensity"><a href="#Radiant-Intensity" class="headerlink" title="Radiant Intensity"></a>Radiant Intensity</h4><p><code>辐射强度(radiant Intensity)</code>是每个立体角的<code>通量(flow of energy)</code>。 如果你有一个向各个方向发射的光源，那么有多少光(通量)实际上是朝着一个特定的方向发射的？ 强度是一种衡量的方法，描述沿着一个方向通过一个立体角的通量。 描述它的公式是$I =\frac{d\Phi}{ d\omega}$，其中$\Phi$是辐射通量，$\omega$是立体角。</p>
+<p><img src="/images/stcg/intensity.png" alt="Light intensity"></p>
+<h4 id="Irradiance"><a href="#Irradiance" class="headerlink" title="Irradiance"></a>Irradiance</h4><p><code>辐照度(irradiance)</code>用来衡量单位面积上的光，即多少光照(所有方向的光)射到特定表面。</p>
+<p><img src="/images/stcg/irradiance.jpg" alt="Irradiance on a Surface"></p>
+<h4 id="Radiance"><a href="#Radiance" class="headerlink" title="Radiance"></a>Radiance</h4><p><code>radiance</code>即单位面积辐射强度，辐射方程如下。与<code>irradiance</code>不同的是它考虑特定方向的光。</p>
+<script type="math/tex; mode=display">
+L = \frac{dI}{dA cos\theta} = \frac{d\phi^2}{ dA d\omega cos\theta} = \frac{dE}{dwcons\theta}</script><p><img src="/images/stcg/radiance.png" alt="Radiance components"></p>
+<p>其中，$\Phi$是辐射通量，<code>A</code>是收到光照影响的区域，$\omega$是立体角，$cos\theta$ 是一个缩放因子，随着角度的变化，光线逐渐消失。</p>
+<h3 id="BRDF"><a href="#BRDF" class="headerlink" title="BRDF"></a>BRDF</h3><p><code>双向反射分布函数(Bidirectional reflectance distribution function)</code>定义给定入射方向$w_i$上的<code>辐射照度(irradiance)</code>如何影响给定出射方向$w_o$上的<code>辐射率(radiance)</code>，定义如下。</p>
+<script type="math/tex; mode=display">
+BRDF(w_i, w_o) = \frac{dL_o(w_o)}{dE_i(w_i)}</script><h3 id="渲染方程"><a href="#渲染方程" class="headerlink" title="渲染方程"></a>渲染方程</h3><p>这是一个简化版本的渲染方程式。用BRDF乘以入射的辐照度即得到外向的辐射。</p>
+<script type="math/tex; mode=display">
+L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) dE_i</script><p>根据上面<code>Radiance</code>那一节推导的$dE = L d\omega cos\theta$，代入上式得</p>
+<script type="math/tex; mode=display">
+L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p>最后，考虑各个方向的光，因此对上式求积分，得到</p>
+<script type="math/tex; mode=display">
+L_o = \underset{i\in in}{\int } BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p>根据$d\omega_i = \sin(\theta) d\theta d\phi$，代入上面的式子得到下式，这里可以这样理解：因为立体角在空间中是均匀分布的，使用<code>d\omega</code>即可，但是转换成球面坐标的表示方法，$\theta$在接近<code>0</code>的时候采样会更多，在接近$\frac{\pi}{2}$时更少，所以乘以$sin(\theta)$作为补偿项。</p>
+<p><img src="/images/stcg/change_angle.jpg" alt="the differential solid angle can be defined in terms of the differential polar (θ) and azimuthal (ϕ) angles"></p>
+<script type="math/tex; mode=display">
+L_o = {\int_{\phi=0}^{2\pi}}{ \int_{\theta=0}^{\pi/2}} BRDF(w_i, w_o) L_i sin(\theta) d \theta d \phi</script><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="http://web.stanford.edu/class/cs148/lectures.html" target="_blank" rel="noopener">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
+<li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. (Ch10)</li>
+<li>OpenGL Programming Guide: The Official Guide to Learning OpenGL, Version 4.3 (8th Edition) Dave Shreiner, Addison-Wesley Professional, 2013. (Ch7)</li>
+<li><a href="http://www.codinglabs.net/article_physically_based_rendering.aspx" target="_blank" rel="noopener">Article - Physically Based Rendering</a></li>
 </ol>
-<h3 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h3><p>这里仅讨论信号处理在图像中的应用。</p>
-<h4 id="图像模糊-Blurring"><a href="#图像模糊-Blurring" class="headerlink" title="图像模糊 (Blurring)"></a>图像模糊 (Blurring)</h4><h4 id="图像钝化-Sharpening"><a href="#图像钝化-Sharpening" class="headerlink" title="图像钝化 (Sharpening)"></a>图像钝化 (Sharpening)</h4>
+
       
     </div>
     <footer class="article-footer">
@@ -244,7 +274,7 @@ var a = new Donate({
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/02/29/stcg09/" target="_blank" title="Stanford CS148 Class09 Sampling">https://12vv.github.io/2020/02/29/stcg09/</a>
+          <a href="/2020/02/29/stcg05/" target="_blank" title="Stanford CS148 Class05 Optics">https://12vv.github.io/2020/02/29/stcg05/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -269,10 +299,19 @@ var a = new Donate({
     
 <nav id="article-nav">
   
+    <a href="/2020/03/15/stcgA8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Stanford CS148 Assignment08
+        
+      </div>
+    </a>
   
-    <a href="/2020/02/21/stcgA2/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2020/02/25/stcg04/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Stanford CS148 Assignment02</div>
+      <div class="article-nav-title">Stanford CS148 Class03 Geometric Modeling</div>
     </a>
   
 </nav>
@@ -286,7 +325,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样-Sampling"><span class="nav-text">采样 (Sampling)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#混叠-Aliasing"><span class="nav-text">混叠 (Aliasing)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号处理"><span class="nav-text">信号处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像模糊-Blurring"><span class="nav-text">图像模糊 (Blurring)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像钝化-Sharpening"><span class="nav-text">图像钝化 (Sharpening)</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#经典光照模型"><span class="nav-text">经典光照模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#专有名词"><span class="nav-text">专有名词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Flux"><span class="nav-text">Radiant Flux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Solid-angle"><span class="nav-text">Solid angle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Intensity"><span class="nav-text">Radiant Intensity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Irradiance"><span class="nav-text">Irradiance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiance"><span class="nav-text">Radiance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BRDF"><span class="nav-text">BRDF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渲染方程"><span class="nav-text">渲染方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
