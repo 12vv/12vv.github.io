@@ -21,14 +21,14 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/05lightmod.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/terminology.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/daylight.jpeg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/dayavgspectrum.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/solid_angle.png">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/solid2.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/solid2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/intensity.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/irradiance.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/radiance.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/change_angle.jpg">
-<meta property="og:updated_time" content="2020-03-05T01:30:28.320Z">
+<meta property="og:updated_time" content="2020-04-08T12:38:37.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class05 Optics">
 <meta name="twitter:description" content="经典光照模型该模型单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质有关，依赖于表面">
@@ -218,11 +218,11 @@
 <h3 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h3><p>以下是一些专有名词的解释。</p>
 <p><img src="/images/stcg/terminology.jpg" alt="Terminology"></p>
 <h4 id="Radiant-Flux"><a href="#Radiant-Flux" class="headerlink" title="Radiant Flux"></a>Radiant Flux</h4><p>辐射通量是光源发出的总能量的量度，用瓦特表示。下图是日光的光谱分布，<code>辐射通量(radiant Flux)</code>是函数的面积(确切地说，该面积是<code>光通量(luminous flux)</code>，因为图表将波长限制在人类可见光范围内)。</p>
-<p><img src="/images/stcg/daylight.jpeg" alt="Daylight spectral distribution"></p>
+<p><img src="/images/stcg/dayavgspectrum.jpg" alt="Daylight spectral distribution"></p>
 <h4 id="Solid-angle"><a href="#Solid-angle" class="headerlink" title="Solid angle"></a>Solid angle</h4><p><code>立体角(solid angle)</code>是一种测量物体在观察者看来有多大的方法。 下图展示将物体的轮廓投射到一个以我们观察点为中心的单位球体的表面上。 我们得到的形状的<code>面积</code>是立体角。下图中单位球面上的区域<code>w</code>即为浅蓝色多边形的投影的立体角。</p>
 <p><img src="/images/stcg/solid_angle.png" alt="Solid angle"></p>
 <p>下图是角和立体角的类比。</p>
-<p><img src="/images/stcg/solid2.png" alt="Angle and solid angle"></p>
+<p><img src="/images/stcg/solid2.jpg" alt="Angle and solid angle"></p>
 <h4 id="Radiant-Intensity"><a href="#Radiant-Intensity" class="headerlink" title="Radiant Intensity"></a>Radiant Intensity</h4><p><code>辐射强度(radiant Intensity)</code>是每个立体角的<code>通量(flow of energy)</code>。 如果你有一个向各个方向发射的光源，那么有多少光(通量)实际上是朝着一个特定的方向发射的？ 强度是一种衡量的方法，描述沿着一个方向通过一个立体角的通量。 描述它的公式是$I =\frac{d\Phi}{ d\omega}$，其中$\Phi$是辐射通量，$\omega$是立体角。</p>
 <p><img src="/images/stcg/intensity.png" alt="Light intensity"></p>
 <h4 id="Irradiance"><a href="#Irradiance" class="headerlink" title="Irradiance"></a>Irradiance</h4><p><code>辐照度(irradiance)</code>用来衡量单位面积上的光，即多少光照(所有方向的光)射到特定表面。</p>
