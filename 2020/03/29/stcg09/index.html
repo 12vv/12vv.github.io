@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09jaggies.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/moire_pattern.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09wheel.gif">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/09wheel2.gif">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/09wheel2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09sample1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09sample2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09f1.jpg">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09pix2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09pix3.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/09pix4.jpg">
-<meta property="og:updated_time" content="2020-04-25T02:33:19.399Z">
+<meta property="og:updated_time" content="2020-04-25T02:42:41.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class09 Sampling">
 <meta name="twitter:description" content="采样 (Sampling) 采样可以看作是将连续函数离散化的过程。  通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行采样(sampling)，生成离散信号。下图是数模转换器采样(sampling)和重构(reconstruction)的例子。  在计算机图形学中，利用像素中心对屏幕空间进行采样。 Sampling Artifacts高频信号需要高频采样才">
@@ -219,7 +219,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="采样-Sampling"><a href="#采样-Sampling" class="headerlink" title="采样 (Sampling)"></a>采样 (Sampling)</h2><blockquote>
+        <h3 id="采样-Sampling"><a href="#采样-Sampling" class="headerlink" title="采样 (Sampling)"></a>采样 (Sampling)</h3><blockquote>
 <p>采样可以看作是将连续函数离散化的过程。</p>
 </blockquote>
 <p>通过计算机处理的信号都是数字信号，因为计算机是无法存储连续信号的，以一定频率对连续信号进行<code>采样(sampling)</code>，生成离散信号。下图是数模转换器<code>采样(sampling)</code>和<code>重构(reconstruction)</code>的例子。</p>
@@ -230,7 +230,7 @@
 <h4 id="锯齿现象-Jaggies"><a href="#锯齿现象-Jaggies" class="headerlink" title="锯齿现象(Jaggies)"></a>锯齿现象(Jaggies)</h4><p>在渲染过程中因为物体的边缘和像素边缘不一致而出现<code>锯齿(jaggies)</code>，也称为走样，如下图所示。<br><img src="/images/stcg/09jaggies.jpg" alt="jaggies"></p>
 <h4 id="摩尔纹-Moire-Pattern"><a href="#摩尔纹-Moire-Pattern" class="headerlink" title="摩尔纹(Moire Pattern)"></a>摩尔纹(Moire Pattern)</h4><p><img src="/images/stcg/moire_pattern.jpg" alt="Moire Pattern"></p>
 <h4 id="车轮效应-Wagon-wheel-effect"><a href="#车轮效应-Wagon-wheel-effect" class="headerlink" title="车轮效应(Wagon wheel effect)"></a>车轮效应(Wagon wheel effect)</h4><p><img src="/images/stcg/09wheel.gif" alt="Wagon wheel effect GIF"><br>在影片中经常看到，明明车轮是逆时针旋转但是看起来有时候是逆时针有时又是顺时针，这是一种错觉。</p>
-<p><img src="/images/stcg/09wheel2.gif" alt="Wagon wheel effect"></p>
+<p><img src="/images/stcg/09wheel2.jpg" alt="Wagon wheel effect"></p>
 <blockquote>
 <p>假设这个车轮在顺时针旋转，摄像机第一次捕捉到它的画面在图1位置，第二次在图2位置，那么这个车轮旋转过的角度应该是n圈+θ（n为自然数），但在我们的眼睛看来，它就只是顺时针旋转了θ。同理，若旋转角等于nα，如图3位置（θ=α）时，车轮看上去会是静止不动的。而在图4中，θ角接近360°，可我们的大脑并不想费劲地绕个大弯，于是便就近地认为辐条是逆时针转了360°-θ的小角度。</p>
 </blockquote>
@@ -340,7 +340,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采样-Sampling"><span class="nav-text">采样 (Sampling)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sampling-Artifacts"><span class="nav-text">Sampling Artifacts</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#锯齿现象-Jaggies"><span class="nav-text">锯齿现象(Jaggies)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#摩尔纹-Moire-Pattern"><span class="nav-text">摩尔纹(Moire Pattern)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#车轮效应-Wagon-wheel-effect"><span class="nav-text">车轮效应(Wagon wheel effect)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Texturing-Artifacts"><span class="nav-text">Texturing Artifacts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sparkling-Highlights"><span class="nav-text">Sparkling Highlights</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号处理"><span class="nav-text">信号处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#滤波器"><span class="nav-text">滤波器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反走样-Anti-aliasing"><span class="nav-text">反走样 (Anti-aliasing)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#其他方法"><span class="nav-text">其他方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#采样-Sampling"><span class="nav-text">采样 (Sampling)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sampling-Artifacts"><span class="nav-text">Sampling Artifacts</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#锯齿现象-Jaggies"><span class="nav-text">锯齿现象(Jaggies)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#摩尔纹-Moire-Pattern"><span class="nav-text">摩尔纹(Moire Pattern)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#车轮效应-Wagon-wheel-effect"><span class="nav-text">车轮效应(Wagon wheel effect)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Texturing-Artifacts"><span class="nav-text">Texturing Artifacts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sparkling-Highlights"><span class="nav-text">Sparkling Highlights</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号处理"><span class="nav-text">信号处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#滤波器"><span class="nav-text">滤波器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反走样-Anti-aliasing"><span class="nav-text">反走样 (Anti-aliasing)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#其他方法"><span class="nav-text">其他方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
