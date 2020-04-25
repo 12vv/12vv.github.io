@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/radiance.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/hemisphere.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/change_angle.jpg">
-<meta property="og:updated_time" content="2020-04-25T10:48:45.521Z">
+<meta property="og:updated_time" content="2020-04-25T11:10:48.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class05 Optics">
 <meta name="twitter:description" content="经验模型经典光照模型属于经验模型，单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质">
@@ -219,7 +219,7 @@
 </ul>
 <p>例如<code>1975</code>年<code>Phong</code>提出的<code>Phong反射模型(Phong Reflection Model)</code>:</p>
 <script type="math/tex; mode=display">
-I_Phong = k_aI_a + k_d(n \dot l)I_d + k_s(r \dot v)^aI_s</script><h3 id="基于物理的分析模型"><a href="#基于物理的分析模型" class="headerlink" title="基于物理的分析模型"></a>基于物理的分析模型</h3><p>经典光照模型没有遵循<code>能量守恒定律(Energy Conservation)</code>: 出射光线的能量永远不能超过入射光线的能量（发光面除外）。而基于微平面理论的物理分析模型是能量守恒的。这项理论认为，达到微观尺度之后任何平面都可以用被称为<code>微平面(Microfacets)</code>的细小镜面来进行描绘。根据平面粗糙程度的不同，这些细小镜面的取向排列可以相当不一致。</p>
+I_Phong = k_aI_a + k_d(n \cdot l)I_d + k_s(r \cdot v)^aI_s</script><h3 id="基于物理的分析模型"><a href="#基于物理的分析模型" class="headerlink" title="基于物理的分析模型"></a>基于物理的分析模型</h3><p>经典光照模型没有遵循<code>能量守恒定律(Energy Conservation)</code>: 出射光线的能量永远不能超过入射光线的能量（发光面除外）。而基于微平面理论的物理分析模型是能量守恒的。这项理论认为，达到微观尺度之后任何平面都可以用被称为<code>微平面(Microfacets)</code>的细小镜面来进行描绘。根据平面粗糙程度的不同，这些细小镜面的取向排列可以相当不一致。</p>
 <p>产生的效果就是：一个平面越是粗糙，这个平面上的微平面的排列就越混乱。这些微小镜面这样无序取向排列的影响就是，当我们特指镜面光/镜面反射时，入射光线更趋向于向完全不同的方向<code>发散(Scatter)</code>开来，进而产生出分布范围更广泛的镜面反射。而与之相反的是，对于一个光滑的平面，光线大体上会更趋向于向同一个方向反射，造成更小更锐利的反射。</p>
 <p><img src="/images/stcg/surface.png" alt="粗糙和光滑平面的反射"></p>
 <p>为了遵守能量守恒定律，当一束光线接触到一个表面，分成一个折射部分和一个反射部分。反射部分就是会直接反射开来而不会进入平面的那部分光线，这就是我们所说的镜面光照。而折射部分就是余下的会进入表面并被吸收的那部分光线，这也就是我们所说的漫反射光照。</p>
