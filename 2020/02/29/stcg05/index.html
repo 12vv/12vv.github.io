@@ -20,6 +20,7 @@
 <meta property="og:description" content="经验模型经典光照模型属于经验模型，单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/05lightmod.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/05micro.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/surface.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/terminology.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/dayavgspectrum.jpg">
@@ -28,9 +29,11 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/intensity.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/irradiance.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/radiance.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/05explain.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/hemisphere.png">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/05d_solid_angles.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/change_angle.jpg">
-<meta property="og:updated_time" content="2020-04-25T11:49:59.488Z">
+<meta property="og:updated_time" content="2020-04-27T12:39:04.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class05 Optics">
 <meta name="twitter:description" content="经验模型经典光照模型属于经验模型，单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质">
@@ -219,13 +222,15 @@
 </ul>
 <p>例如<code>1975</code>年<code>Phong</code>提出的<code>Phong反射模型(Phong Reflection Model)</code>:</p>
 <script type="math/tex; mode=display">
-I_{Phong} = k_aI_a + k_d(n \cdot l)I_d + k_s(r \cdot v)^aI_s</script><h3 id="基于物理的分析模型"><a href="#基于物理的分析模型" class="headerlink" title="基于物理的分析模型"></a>基于物理的分析模型</h3><p>经典光照模型没有遵循<code>能量守恒定律(Energy Conservation)</code>: 出射光线的能量永远不能超过入射光线的能量（发光面除外）。而基于微平面理论的物理分析模型是能量守恒的。这项理论认为，达到微观尺度之后任何平面都可以用被称为<code>微平面(Microfacets)</code>的细小镜面来进行描绘。根据平面粗糙程度的不同，这些细小镜面的取向排列可以相当不一致。</p>
+I_{Phong} = k_aI_a + k_d(n \cdot l)I_d + k_s(r \cdot v)^aI_s</script><h3 id="基于物理的分析模型"><a href="#基于物理的分析模型" class="headerlink" title="基于物理的分析模型"></a>基于物理的分析模型</h3><p>经典光照模型没有遵循<code>能量守恒定律(Energy Conservation)</code>: 出射光线的能量永远不能超过入射光线的能量（发光面除外）。而基于微平面理论的物理分析模型是能量守恒的。这项理论认为，达到微观尺度之后任何平面都可以用被称为<code>微平面(Microfacets)</code>的细小镜面来进行描绘。根据平面粗糙程度的不同，这些细小镜面的取向排列可以相当不一致。如下图所示，不同的微表面分布造成不同的微表面上发现的分布，以此可以模拟不同的材质。</p>
+<p><img src="/images/stcg/05micro.jpg" alt="不同的微表面分布"></p>
 <p>产生的效果就是：一个平面越是粗糙，这个平面上的微平面的排列就越混乱。这些微小镜面这样无序取向排列的影响就是，当我们特指镜面光/镜面反射时，入射光线更趋向于向完全不同的方向<code>发散(Scatter)</code>开来，进而产生出分布范围更广泛的镜面反射。而与之相反的是，对于一个光滑的平面，光线大体上会更趋向于向同一个方向反射，造成更小更锐利的反射。</p>
 <p><img src="/images/stcg/surface.png" alt="粗糙和光滑平面的反射"></p>
 <p>为了遵守能量守恒定律，当一束光线接触到一个表面，分成一个折射部分和一个反射部分。反射部分就是会直接反射开来而不会进入平面的那部分光线，这就是我们所说的镜面光照。而折射部分就是余下的会进入表面并被吸收的那部分光线，这也就是我们所说的漫反射光照。</p>
 <h3 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h3><p>以下是一些专有名词的解释。</p>
 <p><img src="/images/stcg/terminology.jpg" alt="Terminology"></p>
-<h4 id="Radiant-Flux"><a href="#Radiant-Flux" class="headerlink" title="Radiant Flux"></a>Radiant Flux</h4><p>辐射通量是光源发出的总能量的量度，用瓦特表示。下图是日光的光谱分布，<code>辐射通量(radiant Flux)</code>是函数的面积(确切地说，该面积是<code>光通量(luminous flux)</code>，因为图表将波长限制在人类可见光范围内)。</p>
+<h4 id="Radiant-Flux"><a href="#Radiant-Flux" class="headerlink" title="Radiant Flux"></a>Radiant Flux</h4><p>辐射通量是光源发出的单位时间总能量的量度，$\Phi = \frac{dQ}{dt} $ 单位是瓦特。</p>
+<p>下图是日光的光谱分布，<code>辐射通量(radiant Flux)</code>是函数的面积(确切地说，该面积是<code>光通量(luminous flux)</code>，因为图表将波长限制在人类可见光范围内)。</p>
 <p><img src="/images/stcg/dayavgspectrum.jpg" alt="Daylight spectral distribution"></p>
 <p>注意：一般在计算机图形中不实用波长强度而是使用三原色编码，即<code>RGB</code>，作为辐射通量表示的简化。虽然有一些信息上的损失，但是对于视觉效果的影响几乎可以忽略。</p>
 <h4 id="Solid-angle"><a href="#Solid-angle" class="headerlink" title="Solid angle"></a>Solid angle</h4><p><code>立体角(solid angle)</code>是一种测量物体在观察者看来有多大的方法。 下图展示将物体的轮廓投射到一个以我们观察点为中心的单位球体的表面上。 我们得到的形状的<code>面积</code>是立体角。下图中单位球面上的区域<code>w</code>即为浅蓝色多边形的投影的立体角。</p>
@@ -238,9 +243,10 @@ I_{Phong} = k_aI_a + k_d(n \cdot l)I_d + k_s(r \cdot v)^aI_s</script><h3 id="基
 <p><img src="/images/stcg/irradiance.jpg" alt="Irradiance on a Surface"></p>
 <h4 id="Radiance"><a href="#Radiance" class="headerlink" title="Radiance"></a>Radiance</h4><p><code>radiance</code>辐射率表示一个拥有辐射强度<code>Φ</code>的光源在单位面积<code>A</code>，单位立体角<code>ω</code>上的辐射出的总能量，辐射率方程如下。(与<code>irradiance</code>不同的是它考虑特定方向的光。)</p>
 <script type="math/tex; mode=display">
-L = \frac{dI}{dA cos\theta} = \frac{d\phi^2}{ dA d\omega cos\theta} = \frac{dE}{dwcons\theta}</script><p><img src="/images/stcg/radiance.png" alt="Radiance components"></p>
+L = \frac{dI}{dA cos\theta} = \frac{d\phi^2}{ dA d\omega cos\theta} = \frac{dE}{dwcos\theta}</script><p><img src="/images/stcg/radiance.png" alt="Radiance components"></p>
 <p>其中，$\Phi$是辐射通量，<code>A</code>是收到光照影响的区域，$\omega$是立体角，$cos\theta$ 是一个缩放因子，随着角度的变化，光线逐渐消失。</p>
-<h3 id="反射率方程"><a href="#反射率方程" class="headerlink" title="反射率方程"></a>反射率方程</h3><script type="math/tex; mode=display">
+<p><img src="/images/stcg/05explain.jpg" alt="Radiant Intensity, Irradiance and radiance"></p>
+<h3 id="反射方程"><a href="#反射方程" class="headerlink" title="反射方程"></a>反射方程</h3><script type="math/tex; mode=display">
 L_o(p,\omega_o) = \int\limits_{\Omega} f_r(p,\omega_i,\omega_o) L_i(p,\omega_i) n \cdot \omega_i  d\omega_i</script><p>$L_0$ 表示了从$\omega_0$方向上观察，光线投射到点<code>p</code>上反射出来的辐照度。基于反射率公式是围绕所有入射辐射率的总和，也就是辐照度来计算的，所以我们需要计算的就不只是是单一的一个方向上的入射光，而是一个以点<code>p</code>为球心的半球领域Ω内所有方向上的入射光。一个<code>半球领域(Hemisphere)</code>可以描述为以平面法线<code>n</code>为轴所环绕的半个球体。</p>
 <p><img src="/images/stcg/hemisphere.png" alt="hemisphere"></p>
 <p>反射率方程也即渲染方程，简单推导如下：</p>
@@ -250,7 +256,8 @@ L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) dE_i</script><p>根据上面<code>Radia
 <script type="math/tex; mode=display">
 L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p>最后，考虑各个方向的光，因此对上式求积分，得到</p>
 <script type="math/tex; mode=display">
-L_o = \underset{i\in in}{\int } BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p>根据$d\omega_i = \sin(\theta) d\theta d\phi$，代入上面的式子得到下式，这里可以这样理解：因为立体角在空间中是均匀分布的，使用<code>d\omega</code>即可，但是转换成球面坐标的表示方法，$\theta$在接近<code>0</code>的时候采样会更多，在接近$\frac{\pi}{2}$时更少，所以乘以$sin(\theta)$作为补偿项。</p>
+L_o = \underset{i\in in}{\int } BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p><img src="/images/stcg/05d_solid_angles.jpg" alt="Differential Solid Angle"></p>
+<p>根据上图，$d\omega_i = \sin(\theta) d\theta d\phi$，代入上面的式子得到下式，这里可以这样理解：因为立体角在空间中是均匀分布的，使用$d\omega$即可，但是转换成球面坐标的表示方法，$\theta$在接近<code>0</code>的时候采样会更多，在接近$\frac{\pi}{2}$时更少，所以乘以$sin(\theta)$作为补偿项。</p>
 <p><img src="/images/stcg/change_angle.jpg" alt="the differential solid angle can be defined in terms of the differential polar (θ) and azimuthal (ϕ) angles"></p>
 <script type="math/tex; mode=display">
 L_o = {\int_{\phi=0}^{2\pi}}{ \int_{\theta=0}^{\pi/2}} BRDF(w_i, w_o) L_i sin(\theta) d \theta d \phi</script><h3 id="BRDF"><a href="#BRDF" class="headerlink" title="BRDF"></a>BRDF</h3><p>反射率方程中的$f_r$被称为<code>双向反射分布函数(Bidirectional reflectance distribution function)</code>，定义了给定入射方向$w_i$上的<code>辐射照度(irradiance)</code>如何影响给定出射方向$w_o$上的<code>辐射率(radiance)</code>，定义如下。</p>
@@ -345,7 +352,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#经验模型"><span class="nav-text">经验模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于物理的分析模型"><span class="nav-text">基于物理的分析模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#专有名词"><span class="nav-text">专有名词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Flux"><span class="nav-text">Radiant Flux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Solid-angle"><span class="nav-text">Solid angle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Intensity"><span class="nav-text">Radiant Intensity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Irradiance"><span class="nav-text">Irradiance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiance"><span class="nav-text">Radiance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反射率方程"><span class="nav-text">反射率方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BRDF"><span class="nav-text">BRDF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cook-Torrance-BRDF"><span class="nav-text">Cook-Torrance BRDF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#经验模型"><span class="nav-text">经验模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于物理的分析模型"><span class="nav-text">基于物理的分析模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#专有名词"><span class="nav-text">专有名词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Flux"><span class="nav-text">Radiant Flux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Solid-angle"><span class="nav-text">Solid angle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiant-Intensity"><span class="nav-text">Radiant Intensity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Irradiance"><span class="nav-text">Irradiance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Radiance"><span class="nav-text">Radiance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反射方程"><span class="nav-text">反射方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BRDF"><span class="nav-text">BRDF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cook-Torrance-BRDF"><span class="nav-text">Cook-Torrance BRDF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
