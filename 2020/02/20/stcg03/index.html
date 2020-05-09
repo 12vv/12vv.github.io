@@ -37,8 +37,11 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/view1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/camaxis.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/03orth.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/03orth1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/03orth2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/viewpic.jpeg">
-<meta property="og:updated_time" content="2020-02-25T12:52:45.283Z">
+<meta property="og:updated_time" content="2020-05-09T05:29:11.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
@@ -422,7 +425,18 @@ sin\phi & cos\phi & 0\\
 <p><strong> 3. 计算<code>向上向量(up vector)</code> </strong>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vec3f up = crossProduct(forward, right);</span><br></pre></td></tr></table></figure>
 <p>既然已经确定了两个相互垂直的向量，因为根据叉积，得到了两个相互垂直的向量即可得到一个和这两个向量都垂直的向量，所以只需要求叉积即可。</p>
-<h4 id="透视投影矩阵推导"><a href="#透视投影矩阵推导" class="headerlink" title="透视投影矩阵推导"></a>透视投影矩阵推导</h4><p>假设视椎体是对称的，要求的透视投影矩阵为，</p>
+<h3 id="投影矩阵"><a href="#投影矩阵" class="headerlink" title="投影矩阵"></a>投影矩阵</h3><p>一般投影分为正交投影和透视投影，正交投影一般用于工业设计，远处的平行线一直保持平行，而透视投影比较符合人眼的感觉，符合近大远小规则。</p>
+<h4 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h4><p>即把一个$[l, r] \times [b, t] \times [f, n]$的长方体映射到标准的$[-1, 1]^3$的正方体，进行如下图所示的步骤，即先平移使得长方体中心和原点重合，再进行缩放。</p>
+<p><img src="/images/stcg/03orth.jpg" alt="转换过程"></p>
+<p><img src="/images/stcg/03orth1.jpg" alt="正交投影矩阵"></p>
+<h4 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h4><p>对于透视投影，可以理解为两步:</p>
+<ol>
+<li>先将透视的视锥体挤压称长方体<code>(如下图所示)</code>。</li>
+<li>再进行正交投影的变换，就是把可视区域压缩(squeeze)到边长为1的立方体中。</li>
+</ol>
+<p><img src="/images/stcg/03orth2.jpg" alt="Frustum to Cuboid"></p>
+<p>下面进行透视投影矩阵的推导：</p>
+<p>假设视椎体是对称的，要求的透视投影矩阵为，</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix}
 c & 0 & 0 & 0\\ 
@@ -553,7 +567,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合变换"><span class="nav-text">组合变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分解变换"><span class="nav-text">分解变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换（Affine-Transformations）"><span class="nav-text">仿射变换（Affine Transformations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机模型"><span class="nav-text">相机模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#透视投影矩阵推导"><span class="nav-text">透视投影矩阵推导</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2D线性变换"><span class="nav-text">2D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Scaling"><span class="nav-text">Scaling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shearing"><span class="nav-text">Shearing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rotation"><span class="nav-text">Rotation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reflection"><span class="nav-text">Reflection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合变换"><span class="nav-text">组合变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分解变换"><span class="nav-text">分解变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3D线性变换"><span class="nav-text">3D线性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绕任意轴的旋转"><span class="nav-text">绕任意轴的旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#法向量的旋转"><span class="nav-text">法向量的旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换（Affine-Transformations）"><span class="nav-text">仿射变换（Affine Transformations）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机模型"><span class="nav-text">相机模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投影矩阵"><span class="nav-text">投影矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#正交投影"><span class="nav-text">正交投影</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#透视投影"><span class="nav-text">透视投影</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
     
     </div>
   </aside>
