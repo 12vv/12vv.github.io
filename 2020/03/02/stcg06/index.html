@@ -3,22 +3,26 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>archives: 2019/5 | INTERSTELLAR</title>
+  <title>stanford cs148 class05 shaders | INTERSTELLAR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Computer Graphicslight">
   
   
   
-  <meta name="description" content="Do not go into that gentle night.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="INTERSTELLAR">
-<meta property="og:url" content="https://12vv.github.io/archives/2019/05/index.html">
+  
+  <meta name="description" content="常见光类型环境光 (Ambient Light)一种强度固定的光，均匀的照射在物体表面，用于调整场景整体的亮度，在间接光照的场景中有了环境光阴影不会是完全黑色的。 平行光 (Direction Light)来自一个特定的方向，可以想象为一个巨大的无限远的光源，经常用于模拟太阳光。 点光源 (Point Light)来自一个特定的点，均匀的从该点向所有方向发射光。 聚光灯 (Spot Light)环">
+<meta name="keywords" content="Computer Graphics,light">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stanford CS148 Class05 Shaders">
+<meta property="og:url" content="https://12vv.github.io/2020/03/02/stcg06/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="Do not go into that gentle night.">
+<meta property="og:description" content="常见光类型环境光 (Ambient Light)一种强度固定的光，均匀的照射在物体表面，用于调整场景整体的亮度，在间接光照的场景中有了环境光阴影不会是完全黑色的。 平行光 (Direction Light)来自一个特定的方向，可以想象为一个巨大的无限远的光源，经常用于模拟太阳光。 点光源 (Point Light)来自一个特定的点，均匀的从该点向所有方向发射光。 聚光灯 (Spot Light)环">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-05-26T01:21:34.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INTERSTELLAR">
-<meta name="twitter:description" content="Do not go into that gentle night.">
+<meta name="twitter:title" content="Stanford CS148 Class05 Shaders">
+<meta name="twitter:description" content="常见光类型环境光 (Ambient Light)一种强度固定的光，均匀的照射在物体表面，用于调整场景整体的亮度，在间接光照的场景中有了环境光阴影不会是完全黑色的。 平行光 (Direction Light)来自一个特定的方向，可以想象为一个巨大的无限远的光源，经常用于模拟太阳光。 点光源 (Point Light)来自一个特定的点，均匀的从该点向所有方向发射光。 聚光灯 (Spot Light)环">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -59,8 +63,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css">
-  
   
   
     <link rel="stylesheet" href="/css/vdonate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
@@ -70,7 +72,7 @@
 </html>
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -92,7 +94,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 0px;">
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
               </a>
             
@@ -161,190 +163,130 @@
             
       <div id="content" class="outer">
         
-          <section id="main">
-  <div class="archives-tags-wrap"><blockquote><span>There are 27 posts in total till now.</span></blockquote>
-
-
-<!-- 分页显示 -->
-
-	
-	
-		
-		
-		  
-		  
-		  <section class="archives-wrap">
-		    <div class="archive-year-wrap">
-		      <h1><a href="/archives/2019" class="archive-year">2019</a></h1>
-		    </div>
-		    <div class="archives">
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/05/25/sysconv/" class="archive-article-date">
-	  <time datetime="2019-05-24T16:00:00.000Z" itemprop="datePublished">2019-05-25</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/05/25/sysconv/">信号与系统中的卷积</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/05/24/actfun/" class="archive-article-date">
-	  <time datetime="2019-05-23T16:00:00.000Z" itemprop="datePublished">2019-05-24</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/05/24/actfun/">激活函数 --- Activation function</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/05/18/mulithreadpaper/" class="archive-article-date">
-	  <time datetime="2019-05-17T16:00:00.000Z" itemprop="datePublished">2019-05-18</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/05/18/mulithreadpaper/">A Parallel Task-based Approach to Linear Algebra 论文学习</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/05/16/lcdb/" class="archive-article-date">
-	  <time datetime="2019-05-15T16:00:00.000Z" itemprop="datePublished">2019-05-16</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/05/16/lcdb/">Leetcode-Database题解</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2019/05/10/auto/" class="archive-article-date">
-	  <time datetime="2019-05-09T16:00:00.000Z" itemprop="datePublished">2019-05-10</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2019/05/10/auto/">自动调参---Automated Hyperparameter Tuning</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-	
-		</div></section>
-	
-
-	<!-- 页数指示器 -->
-	
-
-
-
-
-</div></section>
-          <aside id="sidebar">
-  
+          <section id="main" style="float:none;"><article id="post-stcg06" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Connect</h3>
-    <div class="widget widget_athemes_social_icons">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Stanford CS148 Class05 Shaders
+    </h1>
+  
 
-    	<ul class="clearfix widget-social-icons">   
-    	
-          
-     			  <li><a href="https://github.com/12vv" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
-          
-   		
-   		</ul>
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2020/03/02/stcg06/" class="article-date">
+	  <time datetime="2020-03-01T16:00:00.000Z" itemprop="datePublished">2020-03-02</time>
+	</a>
 
+      
+    <a class="article-category-link" href="/categories/Stanford-CS148/">Stanford CS148</a>
 
-   		<!--
-   		<ul class="clearfix widget-social-icons">   		
-   		<li class="widget-si-twitter"><a href="http://twitter.com" title="Twitter"><i class="ico-twitter"></i></a></li> 
-		<li class="widget-si-facebook"><a href="http://facebook.com" title="Facebook"><i class="ico-facebook"></i></a></li>
-			<li class="widget-si-gplus"><a href="http://plus.google.com" title="Google+"><i class="ico-gplus"></i></a></li>
-			<li class="widget-si-pinterest"><a href="http://pinterest.com" title="Pinterest"><i class="ico-pinterest"></i></a></li>
-			<li class="widget-si-flickr"><a href="http://flickr.com" title="Flickr"><i class="ico-flickr"></i></a></li>
-			<li class="widget-si-instagram"><a href="http://instagram.com" title="Instagram"><i class="ico-instagram"></i></a></li>
-		</ul> -->
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
 
     </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="常见光类型"><a href="#常见光类型" class="headerlink" title="常见光类型"></a>常见光类型</h3><h4 id="环境光-Ambient-Light"><a href="#环境光-Ambient-Light" class="headerlink" title="环境光 (Ambient Light)"></a>环境光 (Ambient Light)</h4><p>一种强度固定的光，均匀的照射在物体表面，用于调整场景整体的亮度，在间接光照的场景中有了环境光阴影不会是完全黑色的。</p>
+<h4 id="平行光-Direction-Light"><a href="#平行光-Direction-Light" class="headerlink" title="平行光 (Direction Light)"></a>平行光 (Direction Light)</h4><p>来自一个特定的方向，可以想象为一个巨大的无限远的光源，经常用于模拟太阳光。</p>
+<h4 id="点光源-Point-Light"><a href="#点光源-Point-Light" class="headerlink" title="点光源 (Point Light)"></a>点光源 (Point Light)</h4><p>来自一个特定的点，均匀的从该点向所有方向发射光。</p>
+<h4 id="聚光灯-Spot-Light"><a href="#聚光灯-Spot-Light" class="headerlink" title="聚光灯 (Spot Light)"></a>聚光灯 (Spot Light)</h4><h4 id="环境光-Area-Light"><a href="#环境光-Area-Light" class="headerlink" title="环境光 (Area Light)"></a>环境光 (Area Light)</h4><h3 id="表面着色-Surface-Shading"><a href="#表面着色-Surface-Shading" class="headerlink" title="表面着色 (Surface Shading)"></a>表面着色 (Surface Shading)</h3><h4 id="Diffuse-Shading"><a href="#Diffuse-Shading" class="headerlink" title="Diffuse Shading"></a>Diffuse Shading</h4><p>漫反射着色加上环境光的贡献的一般公式：</p>
+<script type="math/tex; mode=display">
+c = c_r \cdot c_a + c_r \cdot c_l max(0, n \cdot l)</script><p>其中，$c_r$ 为表面<code>RGB</code>颜色，$c_a$为环境光贡献，通常可以认为是整个场景的平均光照，$c_l$为<code>RGB</code>光强，范围在0到1之间。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: 'Your support will encourage me!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/Wepay.jpeg',
+  alipayImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/AirPay.jpeg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/03/02/stcg06/" target="_blank" title="Stanford CS148 Class05 Shaders">https://12vv.github.io/2020/03/02/stcg06/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Graphics/">Computer Graphics</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/light/">light</a></li></ul>
+
+      
+
+    </footer>
   </div>
-
-
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Computer-Graphics/">Computer Graphics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Paper/">Paper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Stanford-CS148/">Stanford CS148</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/信号与系统/">信号与系统</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置/">配置</a><span class="category-list-count">1</span></li></ul>
-    </div>
-  </div>
-
+<nav id="article-nav">
+  
+    <a href="/2020/03/15/stcgA8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Stanford CS148 Assignment08
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/29/stcg05/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Stanford CS148 Class05 Optics</div>
+    </a>
+  
+</nav>
 
   
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BRDF/">BRDF</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Graphics/">Computer Graphics</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Analysis/">Data Analysis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leetcode/">Leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Paper/">Paper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translation/">Translation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/camera/">camera</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cg/">cg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gamma-correction/">gamma correction</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/light/">light</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/photoshop/">photoshop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/projection/">projection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/radiometry/">radiometry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sampling/">sampling</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transformation/">transformation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号与系统/">信号与系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂/">杂</a><span class="tag-list-count">1</span></li></ul>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见光类型"><span class="nav-text">常见光类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境光-Ambient-Light"><span class="nav-text">环境光 (Ambient Light)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平行光-Direction-Light"><span class="nav-text">平行光 (Direction Light)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点光源-Point-Light"><span class="nav-text">点光源 (Point Light)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚光灯-Spot-Light"><span class="nav-text">聚光灯 (Spot Light)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境光-Area-Light"><span class="nav-text">环境光 (Area Light)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表面着色-Surface-Shading"><span class="nav-text">表面着色 (Surface Shading)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Diffuse-Shading"><span class="nav-text">Diffuse Shading</span></a></li></ol></li></ol>
+    
     </div>
-  </div>
+  </aside>
 
-
-  
-</aside>
+</section>
         
       </div>
       
@@ -435,6 +377,8 @@
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -512,7 +456,9 @@
 </div>
   
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>

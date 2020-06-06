@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/03sub1.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/03sub2.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/03sub3.jpg">
-<meta property="og:updated_time" content="2020-04-28T03:06:41.708Z">
+<meta property="og:updated_time" content="2020-06-06T00:37:35.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Geometric Modeling">
 <meta name="twitter:description" content="细分(Subdivision)细分的目的是通过增加三角形使得表示的曲面更加光滑。当然，细分不仅仅是拆分成多个三角形，还需要通过移动三角形才使得原来的模型变得更加光滑。  Loop Subdivision第一步，区各边定点的中点连线，将一个三角形分为四个。  第二步，调整新顶点和老顶点。 对于新的顶点，以下图的白点举例。令共享该顶点的边的端点为A和B，不共享的顶点为C和D，那么该点的更新规则为$3/">
@@ -208,13 +208,24 @@
 <h4 id="Loop-Subdivision"><a href="#Loop-Subdivision" class="headerlink" title="Loop Subdivision"></a>Loop Subdivision</h4><p>第一步，区各边定点的中点连线，将一个三角形分为四个。</p>
 <p><img src="/images/stcg/03sub1.jpg" alt="Step 1"></p>
 <p>第二步，调整新顶点和老顶点。</p>
-<p>对于新的顶点，以下图的白点举例。令共享该顶点的边的端点为<code>A</code>和<code>B</code>，不共享的顶点为<code>C</code>和<code>D</code>，那么该点的更新规则为$3/8 <em> (A+B) + 1/8 </em> (C+D)$。</p>
+<p>对于新的顶点，以下图的白点举例。令共享该顶点的边的端点为<code>A</code>和<code>B</code>，不共享的顶点为<code>C</code>和<code>D</code>，那么该点的更新规则为$3/8 \cdot (A+B) + 1/8 \cdot (C+D)$。</p>
 <p><img src="/images/stcg/03sub2.jpg" alt="New vertice update"></p>
 <p>对于旧的顶点，以下图的白点举例。将<code>n</code>定义为顶点的度，即该顶点连接的边的数量，如下图白色顶点的度为<code>6</code>。再定义一个相关量<code>u</code>。则更新规则为$(1-n\cdot u) \cdot original_position + u * neighbor_position_sum$。</p>
 <p><img src="/images/stcg/03sub3.jpg" alt="Old vertice update"></p>
 <h4 id="Catmull-Clark-Subdivision"><a href="#Catmull-Clark-Subdivision" class="headerlink" title="Catmull-Clark Subdivision"></a>Catmull-Clark Subdivision</h4><p>该方法可以用于一般化的网格细分，并不仅限于三角形网格。</p>
 <p>对于每一条边取中点，每一个面上也取一点，相连接。以此增加更多顶点。</p>
-<h3 id="简化"><a href="#简化" class="headerlink" title="简化"></a>简化</h3><h3 id="正规化-Regularization"><a href="#正规化-Regularization" class="headerlink" title="正规化(Regularization)"></a>正规化(Regularization)</h3>
+<h3 id="简化"><a href="#简化" class="headerlink" title="简化"></a>简化</h3><h3 id="正规化-Regularization"><a href="#正规化-Regularization" class="headerlink" title="正规化(Regularization)"></a>正规化(Regularization)</h3><h3 id="几何的表示方法"><a href="#几何的表示方法" class="headerlink" title="几何的表示方法"></a>几何的表示方法</h3><p>隐式的表示方法即给出点满足的关系式，比如球体的隐式表示即为：$x^2+y^2+z^2 = 1$。</p>
+<p>缺点：</p>
+<ul>
+<li>难以根据关系式确定表示的东西。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>容易判断点在内部还是外部。</li>
+<li>容易对物体做拓扑结构的更改。</li>
+<li>容易执行布尔运算，如交集并集等。</li>
+</ul>
+<h4 id="隐式表面-Implicit-Surface"><a href="#隐式表面-Implicit-Surface" class="headerlink" title="隐式表面(Implicit Surface)"></a>隐式表面(Implicit Surface)</h4><h3 id="构造实体几何-CSG"><a href="#构造实体几何-CSG" class="headerlink" title="构造实体几何 (CSG)"></a>构造实体几何 (CSG)</h3>
       
     </div>
     <footer class="article-footer">
@@ -291,7 +302,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">Contents</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#细分-Subdivision"><span class="nav-text">细分(Subdivision)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Loop-Subdivision"><span class="nav-text">Loop Subdivision</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Catmull-Clark-Subdivision"><span class="nav-text">Catmull-Clark Subdivision</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化"><span class="nav-text">简化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正规化-Regularization"><span class="nav-text">正规化(Regularization)</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#细分-Subdivision"><span class="nav-text">细分(Subdivision)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Loop-Subdivision"><span class="nav-text">Loop Subdivision</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Catmull-Clark-Subdivision"><span class="nav-text">Catmull-Clark Subdivision</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简化"><span class="nav-text">简化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正规化-Regularization"><span class="nav-text">正规化(Regularization)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几何的表示方法"><span class="nav-text">几何的表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐式表面-Implicit-Surface"><span class="nav-text">隐式表面(Implicit Surface)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造实体几何-CSG"><span class="nav-text">构造实体几何 (CSG)</span></a></li></ol>
     
     </div>
   </aside>

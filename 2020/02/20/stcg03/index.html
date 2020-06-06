@@ -39,9 +39,9 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/forward.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/03orth.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/03orth1.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/03orth2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/view2.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/viewpic.jpeg">
-<meta property="og:updated_time" content="2020-05-09T06:12:14.271Z">
+<meta property="og:updated_time" content="2020-05-25T07:45:24.998Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class03 Scanline Renderer">
 <meta name="twitter:description" content="2D线性变换用一个2*2矩阵进行线性变化(Linear Transformations)。  \begin{bmatrix} a_{11} &amp; a_{12} \\  a_{21} &amp; a_{22} \end{bmatrix}  \begin{bmatrix} x \\ y  \end{bmatrix}  = \begin{bmatrix} a_{11}x + a_{12}y\\  a_{21}x">
@@ -434,7 +434,8 @@ sin\phi & cos\phi & 0\\
 <li>先将透视的视锥体挤压称长方体<code>(如下图所示)</code>。</li>
 <li>再进行正交投影的变换，就是把可视区域压缩(squeeze)到边长为1的立方体中。</li>
 </ol>
-<p><img src="/images/stcg/03orth2.jpg" alt="Frustum to Cuboid"></p>
+<!-- ![Frustum to Cuboid](/images/stcg/03orth2.jpg) -->
+<p><img src="/images/stcg/view2.png" alt="Frustum to Cuboid"></p>
 <p>下面进行透视投影矩阵的推导，一下推导是直接将视锥体映射到了标准的$[-1, 1]^3$的正方体：</p>
 <p>假设视椎体是对称的，要求的透视投影矩阵为，</p>
 <script type="math/tex; mode=display">
