@@ -3,22 +3,26 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>archives: 2020/3 | INTERSTELLAR</title>
+  <title>一些问题 | INTERSTELLAR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="杂Computer Science">
   
   
   
-  <meta name="description" content="Do not go into that gentle night.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="INTERSTELLAR">
-<meta property="og:url" content="https://12vv.github.io/archives/2020/03/index.html">
+  
+  <meta name="description" content="计算机系统为什么目标文件中程序的指令和数据要分开存放在不同的段中？  程序被加载后，数据和指令分别映射到两个虚存区域，数据区域对进程来说是可读写，而指令区域是仅可读，将两区域分开便于设置权限。 有利于提高程序的局部性。 当系统中运行多个该程序副本时，其指令和只读区域相同，但是数据区域是每个进程私有的，因此内存中只需要保存一份指令段，节省空间。">
+<meta name="keywords" content="杂,Computer Science">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些问题">
+<meta property="og:url" content="https://12vv.github.io/2020/07/01/q/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="Do not go into that gentle night.">
+<meta property="og:description" content="计算机系统为什么目标文件中程序的指令和数据要分开存放在不同的段中？  程序被加载后，数据和指令分别映射到两个虚存区域，数据区域对进程来说是可读写，而指令区域是仅可读，将两区域分开便于设置权限。 有利于提高程序的局部性。 当系统中运行多个该程序副本时，其指令和只读区域相同，但是数据区域是每个进程私有的，因此内存中只需要保存一份指令段，节省空间。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-07-01T01:54:38.044Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="INTERSTELLAR">
-<meta name="twitter:description" content="Do not go into that gentle night.">
+<meta name="twitter:title" content="一些问题">
+<meta name="twitter:description" content="计算机系统为什么目标文件中程序的指令和数据要分开存放在不同的段中？  程序被加载后，数据和指令分别映射到两个虚存区域，数据区域对进程来说是可读写，而指令区域是仅可读，将两区域分开便于设置权限。 有利于提高程序的局部性。 当系统中运行多个该程序副本时，其指令和只读区域相同，但是数据区域是每个进程私有的，因此内存中只需要保存一份指令段，节省空间。">
   
     <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
   
@@ -59,8 +63,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css">
-  
   
   
     <link rel="stylesheet" href="/css/vdonate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
@@ -70,7 +72,7 @@
 </html>
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -92,7 +94,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 0px;">
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
               </a>
             
@@ -161,148 +163,121 @@
             
       <div id="content" class="outer">
         
-          <section id="main">
-  <div class="archives-tags-wrap"><blockquote><span>There are 29 posts in total till now.</span></blockquote>
-
-
-<!-- 分页显示 -->
-
-	
-	
-		
-		
-		  
-		  
-		  <section class="archives-wrap">
-		    <div class="archive-year-wrap">
-		      <h1><a href="/archives/2020" class="archive-year">2020</a></h1>
-		    </div>
-		    <div class="archives">
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2020/03/29/stcg09/" class="archive-article-date">
-	  <time datetime="2020-03-28T16:00:00.000Z" itemprop="datePublished">2020-03-29</time>
-	</a>
-
-      
+          <section id="main" style="float:none;"><article id="post-q" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/03/29/stcg09/">Stanford CS148 Class09 Sampling</a>
+      一些问题
     </h1>
   
 
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+      </header>
+    
+    <div class="article-meta">
       
-	<a href="/2020/03/15/stcgA8/" class="archive-article-date">
-	  <time datetime="2020-03-14T16:00:00.000Z" itemprop="datePublished">2020-03-15</time>
+	<a href="/2020/07/01/q/" class="article-date">
+	  <time datetime="2020-06-30T16:00:00.000Z" itemprop="datePublished">2020-07-01</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/03/15/stcgA8/">Stanford CS148 Assignment08</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/Computer-Science/">Computer Science</a>
 
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
       
-	<a href="/2020/03/02/stcg06/" class="archive-article-date">
-	  <time datetime="2020-03-01T16:00:00.000Z" itemprop="datePublished">2020-03-02</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2020/03/02/stcg06/">Stanford CS148 Class06 Shaders</a>
-    </h1>
-  
 
-    </header>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="计算机系统"><a href="#计算机系统" class="headerlink" title="计算机系统"></a>计算机系统</h3><p><strong>为什么目标文件中程序的指令和数据要分开存放在不同的段中？</strong></p>
+<ol>
+<li>程序被加载后，数据和指令分别映射到两个虚存区域，数据区域对进程来说是可读写，而指令区域是仅可读，将两区域分开便于设置权限。</li>
+<li>有利于提高程序的局部性。</li>
+<li>当系统中运行多个该程序副本时，其指令和只读区域相同，但是数据区域是每个进程私有的，因此内存中只需要保存一份指令段，节省空间。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: 'Your support will encourage me!', // 可选参数，打赏标题
+  btnText: 'Donate', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/Wepay.jpeg',
+  alipayImage: 'https://raw.githubusercontent.com/12vv/12vv.github.io/master/css/images/AirPay.jpeg'
+});
+</script>
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2020/07/01/q/" target="_blank" title="一些问题">https://12vv.github.io/2020/07/01/q/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Computer-Science/">Computer Science</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/杂/">杂</a></li></ul>
+
+      
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/01/stcg11/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Stanford CS148 Class09 Acceleration Structures</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-	
-	
-		</div></section>
-	
 
-	<!-- 页数指示器 -->
-	
+<!-- Table of Contents -->
 
-
-
-
-</div></section>
-          <aside id="sidebar">
-  
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Connect</h3>
-    <div class="widget widget_athemes_social_icons">
-
-    	<ul class="clearfix widget-social-icons">   
-    	
-          
-     			  <li><a href="https://github.com/12vv" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
-          
-   		
-   		</ul>
-
-
-   		<!--
-   		<ul class="clearfix widget-social-icons">   		
-   		<li class="widget-si-twitter"><a href="http://twitter.com" title="Twitter"><i class="ico-twitter"></i></a></li> 
-		<li class="widget-si-facebook"><a href="http://facebook.com" title="Facebook"><i class="ico-facebook"></i></a></li>
-			<li class="widget-si-gplus"><a href="http://plus.google.com" title="Google+"><i class="ico-gplus"></i></a></li>
-			<li class="widget-si-pinterest"><a href="http://pinterest.com" title="Pinterest"><i class="ico-pinterest"></i></a></li>
-			<li class="widget-si-flickr"><a href="http://flickr.com" title="Flickr"><i class="ico-flickr"></i></a></li>
-			<li class="widget-si-instagram"><a href="http://instagram.com" title="Instagram"><i class="ico-instagram"></i></a></li>
-		</ul> -->
-
-    </div>
-  </div>
-
-
-  
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机系统"><span class="nav-text">计算机系统</span></a></li></ol>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Computer-Graphics/">Computer Graphics</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Paper/">Paper</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Stanford-CS148/">Stanford CS148</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">photoshop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/信号与系统/">信号与系统</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学/">数学</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置/">配置</a><span class="category-list-count">1</span></li></ul>
     </div>
-  </div>
+  </aside>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BRDF/">BRDF</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Graphics/">Computer Graphics</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Science/">Computer Science</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Analysis/">Data Analysis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leetcode/">Leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Math/">Math</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenGL/">OpenGL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Paper/">Paper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translation/">Translation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/acceleration-structures/">acceleration structures</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/camera/">camera</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cg/">cg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gamma-correction/">gamma correction</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/light/">light</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/photoshop/">photoshop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/projection/">projection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/radiometry/">radiometry</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sampling/">sampling</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/transformation/">transformation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信号与系统/">信号与系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂/">杂</a><span class="tag-list-count">2</span></li></ul>
-    </div>
-  </div>
-
-
-  
-</aside>
+</section>
         
       </div>
       
@@ -393,6 +368,8 @@
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -470,7 +447,9 @@
 </div>
   
   <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
