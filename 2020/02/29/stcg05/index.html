@@ -15,7 +15,7 @@
 <meta name="keywords" content="Computer Graphics,BRDF,radiometry">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Stanford CS148 Class05 Optics">
-<meta property="og:url" content="https://12vv.github.io/2020/02/28/stcg05/index.html">
+<meta property="og:url" content="https://12vv.github.io/2020/02/29/stcg05/index.html">
 <meta property="og:site_name" content="INTERSTELLAR">
 <meta property="og:description" content="经验模型经典光照模型属于经验模型，单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质">
 <meta property="og:locale" content="default">
@@ -34,8 +34,8 @@
 <meta property="og:image" content="https://12vv.github.io/images/stcg/hemisphere.png">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/05d_solid_angles.jpg">
 <meta property="og:image" content="https://12vv.github.io/images/stcg/change_angle.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/05diffuse.png">
-<meta property="og:updated_time" content="2020-05-24T00:14:03.927Z">
+<meta property="og:image" content="https://12vv.github.io/images/stcg/05diffuse.jpg">
+<meta property="og:updated_time" content="2021-03-14T15:01:47.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stanford CS148 Class05 Optics">
 <meta name="twitter:description" content="经验模型经典光照模型属于经验模型，单独计算环境光(ambient)，漫反射光(diffuse)和镜面光(specular)，再进行叠加。   环境光(ambient)：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。 漫反射光(diffuse)：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。 镜面光(specular)：表面反射的高光，与表面材质">
@@ -194,8 +194,8 @@
     
     <div class="article-meta">
       
-	<a href="/2020/02/28/stcg05/" class="article-date">
-	  <time datetime="2020-02-28T16:00:00.000Z" itemprop="datePublished">2020-02-28</time>
+	<a href="/2020/02/29/stcg05/" class="article-date">
+	  <time datetime="2020-02-29T07:00:00.000Z" itemprop="datePublished">2020-02-29</time>
 	</a>
 
       
@@ -279,7 +279,7 @@ L_o = {\int_{\phi=0}^{2\pi}}{ \int_{\theta=0}^{\pi/2}} BRDF(w_i, w_o) L_i sin(\t
 <p>目前最常用的基于物理的渲染模型是<code>Cook-Torrance BRDF模型</code>，有漫反射和镜面反射两个部分，公式如下，其中$k_d$是早先提到过的入射光线中被折射部分的能量所占的比率，而$k_s$是被反射部分的比率。</p>
 <script type="math/tex; mode=display">
 f_r = k_d f_{lambert} +  k_s f_{cook-torrance}</script><p>第一部分漫反射部分$f_{lambert}$被称为<code>Lambertian漫反射</code>，通常用$f_{lambert} = \frac{\rho}{\pi}$计算。$\rho$是<code>反照率(Albedo)</code>，除以$\pi$的原因是如下，为了对漫反射光进行标准化，因为前面含有<code>BRDF</code>的积分方程是受$\pi$影响的。简单推导如下(利用了漫反射<code>BRDF</code>不再和入射出射光有关，因而是一个常数)：</p>
-<p><img src="/images/stcg/05diffuse.png" alt="light is equally reflected in each output direction"></p>
+<p><img src="/images/stcg/05diffuse.jpg" alt="light is equally reflected in each output direction"></p>
 <p>公式第二部分镜面反射部分形式如下：</p>
 <script type="math/tex; mode=display">
 f_{cook-torrance} = \frac{DFG}{4(\omega_o \cdot n)(\omega_i \cdot n)}</script><p>下面分别分析函数<code>D, F ,G</code>。</p>
@@ -312,7 +312,7 @@ L_o(p,\omega_o) = \int\limits_{\Omega} (k_d\frac{c}{\pi} + k_s\frac{DFG}{4(\omeg
           </li>
           <li class="post-copyright-link">
           <strong>Post link:  </strong>
-          <a href="/2020/02/28/stcg05/" target="_blank" title="Stanford CS148 Class05 Optics">https://12vv.github.io/2020/02/28/stcg05/</a>
+          <a href="/2020/02/29/stcg05/" target="_blank" title="Stanford CS148 Class05 Optics">https://12vv.github.io/2020/02/29/stcg05/</a>
           </li>
           <li class="post-copyright-license">
             <strong>Copyright Notice:   </strong>
@@ -337,19 +337,10 @@ L_o(p,\omega_o) = \int\limits_{\Omega} (k_d\frac{c}{\pi} + k_s\frac{DFG}{4(\omeg
     
 <nav id="article-nav">
   
-    <a href="/2020/03/01/stcg06/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Stanford CS148 Class06 Shaders
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/02/24/stcg04/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/02/17/stcg02/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Stanford CS148 Class04 Geometric Modeling</div>
+      <div class="article-nav-title">Stanford CS148 Class02 Light and Color</div>
     </a>
   
 </nav>
