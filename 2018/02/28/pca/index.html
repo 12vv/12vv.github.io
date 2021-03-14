@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>pca--主成分分析 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Machine LearningData Analysis">
+  
+  
+  
+  
+  <meta name="description" content="PCA在很多方面均有应用，但是之前没有仔细探究过，最近看了一些博客和论文，做一下总结。  主成分分析（Principal Component Analysis，PCA）， 是一种统计方法。通过正交变换将一组可能存在相关性的变量转换为一组线性不相关的变量，转换后的这组变量叫主成分。">
+<meta name="keywords" content="Machine Learning,Data Analysis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCA--主成分分析">
+<meta property="og:url" content="https://12vv.github.io/2018/02/28/pca/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="PCA在很多方面均有应用，但是之前没有仔细探究过，最近看了一些博客和论文，做一下总结。  主成分分析（Principal Component Analysis，PCA）， 是一种统计方法。通过正交变换将一组可能存在相关性的变量转换为一组线性不相关的变量，转换后的这组变量叫主成分。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-1.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-2.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-3.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-4.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-5.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-6.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-7.png">
+<meta property="og:image" content="https://12vv.github.io/images/pca/1-8.png">
+<meta property="og:updated_time" content="2019-05-08T03:37:14.490Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PCA--主成分分析">
+<meta name="twitter:description" content="PCA在很多方面均有应用，但是之前没有仔细探究过，最近看了一些博客和论文，做一下总结。  主成分分析（Principal Component Analysis，PCA）， 是一种统计方法。通过正交变换将一组可能存在相关性的变量转换为一组线性不相关的变量，转换后的这组变量叫主成分。">
+<meta name="twitter:image" content="https://12vv.github.io/images/pca/1-1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-pca" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      PCA--主成分分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/02/28/pca/" class="article-date">
+	  <time datetime="2018-02-28T16:00:00.000Z" itemprop="datePublished">2018-02-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/pca.md">
+	<span id="edit">Edit</span>
+	
+	</a>
+
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>PCA</code>在很多方面均有应用，但是之前没有仔细探究过，最近看了一些博客和论文，做一下总结。</p>
+<blockquote>
+<p><code>主成分分析（Principal Component Analysis，PCA）</code>， 是一种统计方法。通过正交变换将一组可能存在相关性的变量转换为一组线性不相关的变量，转换后的这组变量叫主成分。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="为什么需要PCA"><a href="#为什么需要PCA" class="headerlink" title="为什么需要PCA?"></a>为什么需要PCA?</h2><p>通俗一点说，<code>PCA</code>是一种降维的方法。我们知道，维数越大通常越难处理，在机器学习中，得到的数据维数通常都很高，处理起来很麻烦，资源消耗很大，因此对数据进行降维处理是很必要的。</p>
+<p>但是降维就意味着信息的丢失吗？多少是有一点的。但是总有一些情况，让我们能能够在信息损失相对比较少的同时完成降维。比如：</p>
+<ul>
+<li>如果某两个特征之间存在关联。举个比较极端的的例子，一个正方形的边长和它的面积，各属于两个特征，但是知道了边长面积肯定是确定的，那么就可以直接丢掉一列(边长或面积)。</li>
+<li>如果某个维度存在并没有什么价值。这里举个比较经典的例子，就是电视转播球赛，把现场的三维转成平面的二维呈现在你眼前，减少了一维但是对于观众来说，并无太大影响。</li>
+<li>……</li>
+</ul>
+<p>通过减少冗余信息，降低了维度，让之后处理数据更加容易，而有大部分有价值的信息都保留下来。而到底哪些信息是重要的？哪些可以删去？在这里还要注意：降维并不简单的值删去某个维度，大部分情况下，降维的同时<code>基</code>也改变了。那么如何选取新的<code>基</code>？这就是<code>PCA</code>解决的问题。</p>
+<blockquote>
+<p>补充看到过的一个比较好的例子：<br>假设我们整理了30个人的体重，身高和IQ，放在一个矩阵中，每一列是一个样本(一个人的这三个变量)。为了便于观察可以在三维坐标中描点，每一维代表一个变量。提出问题：</p>
+<ul>
+<li>有没有更简单的使数据可视化的方法？对于这个三维图像，能否在二维空间中描述它？</li>
+<li>那些变量间是<code>相互关联</code>的？在这个例子中，根据常识，应该认为<code>身高和IQ</code>没有必然联系，而<code>身高和体重</code>有一定的联系。</li>
+<li>有没有一个变量能够描述整个数据集？</li>
+</ul>
+</blockquote>
+<h2 id="PCA原理分析"><a href="#PCA原理分析" class="headerlink" title="PCA原理分析"></a>PCA原理分析</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>先简单描述一下<code>PCA</code>要做的事。<br>假设有一组数$\begin{pmatrix}1 &amp; 1 &amp; 2 &amp; 4 &amp; 2 \\ 1 &amp; 3 &amp; 3 &amp;4&amp; 4\end{pmatrix}$, 先做简单处理，每个数减去均值，这样算方差的时候方便(因为要减均值)，得到$\begin{pmatrix}-1 &amp; -1 &amp; 0 &amp; 2 &amp; 0\\ -2 &amp; 0 &amp; 0 &amp; 1 &amp; 1\end{pmatrix}$<br>在二维坐标系中描出：</p>
+<p><img src="/images/pca/1-1.png" alt></p>
+<p>因为这里只是二维的，那么要降成一维就是在这个二维平面重新找一个方向，并把这些点映射到这个方向上。试想，怎么才能找到这个方向，且不损失大部分信息呢？<br>容易想到，最后找到的这个方向，这些点的投影都不重叠，分隔的较远。<br>提出假设和目标：</p>
+<ul>
+<li><code>充分统计量(sufficient statistic)</code>，即当知道这些量的时候，这个分布就可以确定了，<code>均值</code>和<code>方差</code>可以看成是其充分统计量。</li>
+<li>大的方差(variances)代表这个量的强动态性，就是说如果映射到新坐标上拥有大的方差，那么这个维度可以较好的反应数据的特征。</li>
+<li>主成分需要<code>正交</code>，这个可以看下面关于方差和协方差的讨论，正交代表两成分相关性为0，这样坐标的选取才有意义。</li>
+</ul>
+<p>如何达到这些目的呢？先看一些概念和例子。</p>
+<h3 id="基变换"><a href="#基变换" class="headerlink" title="基变换"></a>基变换</h3><p>若使用我们惯用的二维直角坐标系来表示这个下图这个向量。</p>
+<p><img src="/images/pca/1-2.png" alt></p>
+<p>很显然是 <code>(3, 2)</code>, 这时二维空间的一组<code>基</code>是<code>(1, 0)</code>和<code>(0, 1)</code>, 容易证明二维空间中所有向量<code>(x, y)</code>都能用这组<code>基</code>来表示, 实际上 </p>
+<script type="math/tex; mode=display">\begin{bmatrix}x\\ y\\\end{bmatrix} = x*(1,0)^{T}+y*(0,1)^{T}</script><p>任何两个线性无关的二维向量都可以成为二维空间的一组基。</p>
+<p>如果以 $(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})$ 和$(-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})$为<code>基</code>(一般选取的基模为1)，如下图所示。</p>
+<p><img src="/images/pca/1-3.png" alt></p>
+<p>那么这个向量就表示为 $(\frac{5}{\sqrt{2}},-\frac{1}{\sqrt{2}})$, 这是如何计算出来的呢？</p>
+<p>想想也很简单，就是把这个向量投影到基的方向上，投影到长度就是那一维的坐标值，比如<code>(3, 2)</code>投影到$(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})$方向上。</p>
+<p><img src="/images/pca/1-4.png" alt></p>
+<p>根据投影公式，A投影到B的矢量长度为 $|A|*cos(a)$， 其中$|A|=\sqrt{x_1^2+y_1^2}$是向量A的模，即矢量长度。<br>而，$A\cdot B=|A||B|cos(a)$, 而基的模通常都处理为1的，意味着 $|B| = 1$, 观察等号右边，那投影的长度不就是向量的基吗？</p>
+<p>那么跟容易就可以得到，<code>(3, 2)</code>在基$(\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}})$的投影可以用 $3_\frac{1}{\sqrt{2}} + 2_\frac{1}{\sqrt{2}}$ 算出。</p>
+<p>通过上面的推导，要直接算出向量在新基上的投影，可以用此向量乘以基矩阵，即</p>
+<script type="math/tex; mode=display">\begin{pmatrix}1/\sqrt{2}& 1/\sqrt{2} \\-1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}\begin{pmatrix}3 \\2\end{pmatrix}=\begin{pmatrix}5/\sqrt{2} \\-1/\sqrt{2}\end{pmatrix}</script><p>有m个二维向量，也可以直接算出他们在新基上的坐标，例如将 (1,1)，(2,2), (3,3) 映射到新基。</p>
+<script type="math/tex; mode=display">\begin{pmatrix}1/\sqrt{2}  & 1/\sqrt{2} \\-1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}\begin{pmatrix}1 & 2 & 3 \\1 & 2 & 3\end{pmatrix}=\begin{pmatrix}2/\sqrt{2} & 4/\sqrt{2} & 6/\sqrt{2} \\0& 0 & 0\end{pmatrix}</script><p>由此推广到高维的基变换。</p>
+<p>设<code>X</code>是原始的数据向量的集合<code>(m*n)</code>，每一列是一个样本。设<code>Y</code>是一个m*n的矩阵，由<code>P</code>矩阵施予其变换而得，<code>P</code>中是新的坐标向量。</p>
+<script type="math/tex; mode=display">PX = Y</script><script type="math/tex; mode=display">PX = \begin{bmatrix}p_{1}\\ ...\\p_{m}\end{bmatrix}\begin{bmatrix}x_{1} & ... & x_{n}\end{bmatrix}</script><script type="math/tex; mode=display">Y =\begin{bmatrix}p_{1}x{1} &...  & p_{1}x_{n}\\ ...& ...&... \\ p_{m}x_{1} & ... & p_{m}x_{n}\end{bmatrix}</script><p>那么，Y中的每一列，设为$y_{i}$：</p>
+<script type="math/tex; mode=display">y_{i} = \begin{bmatrix}p_{1}x_{i} \\ ...\\ p_{m}x_{i} \end{bmatrix}</script><p>观察式子，点乘，正是前面推导过的，Y的每一列就是X的每一列映射到新基上的新坐标。</p>
+<h3 id="方差和协方差"><a href="#方差和协方差" class="headerlink" title="方差和协方差"></a>方差和协方差</h3><p><img src="/images/pca/1-5.png" alt></p>
+<p>观察一下，对于二维的，我们看图就可以得出图(c)两个变量有高的相关性，也就是表示其中一维可以直接去掉。但是多维的无法看图判断。这时候就需要<code>协方差</code>，考察变量间的相关性。</p>
+<p>注意：在处理之前，先将数据减去均值。这样之后计算方差时要减均值，就相当于减0，处理起来比较方便。</p>
+<p>将向量A和B转换为： A = [a1, a2, . . . , an], B = [b1, b2, . . . , bn].<br>那么，协方差就可以表示为点乘形成的矩阵：</p>
+<script type="math/tex; mode=display">\sigma ^{2}_{AB} =\frac{1}{n-1}ab^T</script><p>拓展到多维的情况，定义</p>
+<script type="math/tex; mode=display">X = \begin{bmatrix}x_{1}\\ x_{2}\\ ...\\ x_{3}\end{bmatrix}</script><p>这里令 x1 = a， x2 = b，….那么，得到<code>协方差矩阵</code>：</p>
+<script type="math/tex; mode=display">C_{X} = \frac{1}{n-1}XX^{T}</script><blockquote>
+<p>The most straight-forward normalization is 1/n. However, this provides a biased estimation of variance particularly for small n. It is beyond the scope of this paper to show that the proper normalization for an unbiased estimator is 1/n−1.   ——A Tutorial on Principal Component Analysis</p>
+</blockquote>
+<p>注意1/n-1是避免偏差估计的方法，这个我没有了解过就不展开了，为了讨论方便，之后就用<code>1/m</code>代替<code>1/n-1</code>。</p>
+<ul>
+<li>矩阵 <code>CX</code> 是一个<code>m*m</code>的对称方阵</li>
+<li>矩阵 <code>CX</code> 上对角线上的元素是各元素的<code>方差</code></li>
+<li>矩阵 <code>CX</code> 上非对角线上的元素是<code>协方差</code><br>举个例子，假设就两个变量，那么对应上面$X = \begin{bmatrix}x_{1}\\ x_{2}\\\end{bmatrix}$。假设把数据集中的点描到图像上是这样的：</li>
+</ul>
+<p><img src="/images/pca/1-6.png" alt></p>
+<p>观察图像，水平方向具有比较大的方差(数据偏离平均较大)，可以想象$C_{11}$(代表x1方差)应该比较大，垂直方向上，方差较小，$C_{22}$应该较小，再看他们的相关性，应该是比较小的，那么$C_{12}$和$C_{21}$也应该比较小，可能我们算出的协方差矩阵类似于这样：</p>
+<script type="math/tex; mode=display">S=\begin{bmatrix}95 & 1\\ 1& 5\end{bmatrix}</script><p>假设画出来的图是这样的：</p>
+<p><img src="/images/pca/1-7.png" alt></p>
+<p>类似的分析，在水平方向和初值方向的方差都挺大的，并且容易看出正相关性，那么得到的协方差矩阵应该类似于这样：</p>
+<script type="math/tex; mode=display">S=\begin{bmatrix}50 & 40\\ 40& 50\end{bmatrix}</script><p>可以回去看看我们的目标，降维要找到新的坐标轴，为了保留数据的重要信息，第一个新的坐标轴的选取就是方差最大的那个方向，而第二个新的坐标轴，如果选方差第二大的方向，那么不太有意义，因为那必定和第一个新坐标轴几乎重叠，那么他们是相关的，没有意义，因此应该选取与之正交的方向。</p>
+<p>至此，还没有达到目的，还需要对协方差矩阵<code>对角化</code>。</p>
+<h3 id="对角化"><a href="#对角化" class="headerlink" title="对角化"></a>对角化</h3><p>先回顾一下线性代数中的知识。</p>
+<ul>
+<li>定理：如果A是实对称矩阵($A=A^{T}$)，那么A是正交矩阵，并且可对角化，而且只有实特征值，换句话说，存在实数特征值$\lambda_{1},…\lambda_{n}$，和正交的非零向量(特征向量)$\vec{v_{1}}, …, \vec{v_{n}}$，使：<script type="math/tex; mode=display">A\vec{v_{i}}=\lambda_{i}\vec{v_{i}}</script></li>
+</ul>
+<p>注意前提，是<code>对称矩阵</code>，但是，如果A是m*n的矩阵，那么$AA^{T}$和$A^{T}A$都是对称矩阵！</p>
+<ul>
+<li>推论：矩阵$AA^{T}$和$A^{T}A$的拥有相同的非零特征值。</li>
+<li>证明：设$\vec{v}$是$A^{T}A$的特征值，那么：<script type="math/tex">(A^{T}A)\vec{v}=\lambda\vec{v}</script>两边同时左乘$A$，利用矩阵的结合律，得到：<script type="math/tex">AA^{T}(A\vec{v})=\lambda(A\vec{v})</script>即虽然$AA^{T}$和$A^{T}A$的特征向量不同，但是<code>特征值</code>相同！<br>这有什么用呢？比如A是一个<code>500*2</code>的矩阵，如果要算$AA^{T}$的特征值，那么就要处理<code>500*500</code>的矩阵，通过上面的定理，等价于求$A^{T}A$的特征值，那么只用处理<code>2*2</code>的矩阵！得到两个特征值，剩下的498个特征值均为0！</li>
+</ul>
+<p>接下来回到PCA，首先明确，为什么需要将协方差矩阵对角化？</p>
+<p>结合前面<code>基变换</code>(忘记了可以跳回去)的推导，和矩阵的相关知识，基变换后<code>X</code>变为<code>Y</code>，设<code>Y</code>的协方差矩阵为$C_{Y}$，设原始数据矩阵<code>X</code>的协方差矩阵为$C_{x}$，那么</p>
+<script type="math/tex; mode=display">\begin{array}{l l l}C_{Y} & = & \frac{1}{m}YY^\mathsf{T}\\& = & \frac{1}{m}(PX)(PX)^\mathsf{T}\\& = & \frac{1}{m}PXX^\mathsf{T}P^\mathsf{T} \\& = & P(\frac{1}{m}XX^\mathsf{T})P^\mathsf{T} \\& = & PC_{X}P^\mathsf{T}\end{array}</script><p>还记得<code>P</code>是新坐标向量的矩阵吗？</p>
+<p>那么，只要对角化原始矩阵<code>X</code>，(这里涉及矩阵分解的知识)，所得到的<code>P</code>，满足$PCP^T$是一个对角矩阵，并且对角元素按从大到小依次排列，那么<strong>P的前K行就是要寻找的基</strong>(K取决于你要将数据降到几维)，用P的前K行组成的矩阵乘以X就使得X从N维降到了K维，并满足上述优化条件。</p>
+<p>对角化一般简单的方法就是解<code>特征方程</code>，得到<code>特征值</code>，求<code>特征向量</code>，这里就不再赘述。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>下面是如何在数据集中使用<code>PCA</code>。</p>
+<ol>
+<li>去数据集中n个样本构成n个m维向量 $\vec{x_{1}}, …, \vec{x_{n}}$，计算均值再减掉(这是为了方便，当然也可以计算方差的时候再减)，然后计算协方差矩阵。</li>
+<li>计算协方差矩阵的特征值，并降序排列 $ \lambda_{1}, …, \lambda_{m}$还有对应的特征向量 $ \vec{v_{1}}, …, \vec{v_{m}} $.</li>
+<li>如果一些 $\lambda_{i}$明显的大于其他的，那么意味着，降维是一种可行的处理方法，就取对应的特征向量为新的基。</li>
+</ol>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>回到上面<code>目标</code>那一节的数据。</p>
+<script type="math/tex; mode=display">\begin{pmatrix}-1 & -1 & 0 & 2 & 0\\-2 & 0 & 0 & 1 & 1\end{pmatrix}</script><p>这是已经减去均值之后的了。</p>
+<p>进入第二步，求解其协方差矩阵：</p>
+<script type="math/tex; mode=display">C=\frac{1}{5}\begin{pmatrix}-1 & -1 & 0 & 2 & 0 \\-2 & 0 & 0 & 1 & 1\end{pmatrix}\begin{pmatrix}-1 & -2 \\-1 & 0  \\0  & 0\\2  & 1  \\0  & 1\end{pmatrix}=\begin{pmatrix}\frac{6}{5} &\frac{4}{5} \\\frac{4}{5} & \frac{6}{5}\end{pmatrix}</script><p>第三步，求特征值，得到：</p>
+<script type="math/tex; mode=display">\lambda_1=2,\lambda_2=2/5</script><p>可以看到2和2/5还是相差挺多的。</p>
+<p>对应的特征向量通解：</p>
+<script type="math/tex; mode=display">c_1\begin{pmatrix}1 \\1\end{pmatrix},c_2\begin{pmatrix}-1\\1\end{pmatrix}</script><p>其中c1,c2为任意实数，习惯上标准化，得到：</p>
+<script type="math/tex; mode=display">\begin{pmatrix}1/\sqrt{2} \\1/\sqrt{2}\end{pmatrix},\begin{pmatrix}-1/\sqrt{2} \\1/\sqrt{2}\end{pmatrix}</script><p>即得新基矩阵<code>P</code>：</p>
+<script type="math/tex; mode=display">P=\begin{pmatrix}1/\sqrt{2}  & 1/\sqrt{2}  \\-1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}</script><p>可以<code>验证</code>对角化：</p>
+<script type="math/tex; mode=display">PCP^\mathsf{T}=\begin{pmatrix}1/\sqrt{2}  & 1/\sqrt{2}  \\-1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}\begin{pmatrix}6/5 & 4/5 \\4/5 & 6/5\end{pmatrix}\begin{pmatrix}1/\sqrt{2} & -1/\sqrt{2}  \\1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}=\begin{pmatrix}2 & 0  \\0 & 2/5\end{pmatrix}</script><p>要使二维降到一维，去<code>P</code>中的第一行作为新基，就得到这些点降维后的表示：</p>
+<script type="math/tex; mode=display">Y=\begin{pmatrix}1/\sqrt{2} & 1/\sqrt{2}\end{pmatrix}\begin{pmatrix}-1 & -1 & 0 & 2 & 0 \\-2 & 0 & 0 & 1 & 1\end{pmatrix}=\begin{pmatrix}-3/\sqrt{2} & -1/\sqrt{2} & 0 & 3/\sqrt{2} & -1/\sqrt{2}\end{pmatrix}</script><p><img src="/images/pca/1-8.png" alt></p>
+<h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a><a href="#局限" title="局限"></a>局限</h2><p><code>PCA</code>的优势和弱点都在于它的<code>无参数</code>分析，它的步骤很固定，也不需要调参之类的，当然这也成了它的局限性。拓展可以考虑通过<code>Kernel</code>函数将非线性相关转为线性相关。有兴趣可以查阅相关论文。</p>
+<p>参考资料：<br>1.<a href="https://www.cs.cmu.edu/~elaw/papers/pca.pdf" target="_blank" rel="noopener">A Tutorial on Principal Component Analysis</a> ,Jonathon Shlens<br>2.<a href="http://blog.codinglabs.org/articles/pca-tutorial.html" target="_blank" rel="noopener">PCA的数学原理</a><br>3.<a href="http://www.math.union.edu/~jaureguj/PCA.pdf" target="_blank" rel="noopener">Principal component analysis with linear algebra</a> ,Jeff Jauregui</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/02/28/pca/" target="_blank" title="PCA--主成分分析">https://12vv.github.io/2018/02/28/pca/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Analysis/">Data Analysis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/09/pygc/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Python 的垃圾回收机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/04/distribution/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一些常见的分布</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要PCA"><span class="nav-text">为什么需要PCA?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCA原理分析"><span class="nav-text">PCA原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标"><span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基变换"><span class="nav-text">基变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方差和协方差"><span class="nav-text">方差和协方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对角化"><span class="nav-text">对角化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局限"><span class="nav-text">局限</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Jaythan All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>

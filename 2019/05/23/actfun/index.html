@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>激活函数 --- activation function | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Deep Learning">
+  
+  
+  
+  
+  <meta name="description" content="什么是激活函数在计算网络中， 一个节点的激活函数定义了该节点在给定的输入或输入的集合下的输出。标准的计算机芯片电路可以看作是根据输入得到开(1)或关(0)输出的数字电路激活函数。这与神经网络中的线性感知机的行为类似。然而，只有非线性激活函数才允许这种网络仅使用少量节点来计算非平凡问题。 在人工神经网络中，这个功能也被称为传递函数。">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="激活函数 --- Activation function">
+<meta property="og:url" content="https://12vv.github.io/2019/05/23/actfun/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="什么是激活函数在计算网络中， 一个节点的激活函数定义了该节点在给定的输入或输入的集合下的输出。标准的计算机芯片电路可以看作是根据输入得到开(1)或关(0)输出的数字电路激活函数。这与神经网络中的线性感知机的行为类似。然而，只有非线性激活函数才允许这种网络仅使用少量节点来计算非平凡问题。 在人工神经网络中，这个功能也被称为传递函数。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/sigmoid1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/zig.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/tanh1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/leaky.jpeg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/maxall.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/actfun/all.png">
+<meta property="og:updated_time" content="2019-05-27T07:36:18.948Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="激活函数 --- Activation function">
+<meta name="twitter:description" content="什么是激活函数在计算网络中， 一个节点的激活函数定义了该节点在给定的输入或输入的集合下的输出。标准的计算机芯片电路可以看作是根据输入得到开(1)或关(0)输出的数字电路激活函数。这与神经网络中的线性感知机的行为类似。然而，只有非线性激活函数才允许这种网络仅使用少量节点来计算非平凡问题。 在人工神经网络中，这个功能也被称为传递函数。">
+<meta name="twitter:image" content="https://12vv.github.io/images/actfun/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-actfun" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      激活函数 --- Activation function
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/05/23/actfun/" class="article-date">
+	  <time datetime="2019-05-23T16:00:00.000Z" itemprop="datePublished">2019-05-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/actfun.md">
+	<span id="edit">Edit</span>
+	
+	</a>
+
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是激活函数"><a href="#什么是激活函数" class="headerlink" title="什么是激活函数"></a>什么是激活函数</h2><p>在计算网络中， 一个节点的激活函数定义了该节点在给定的输入或输入的集合下的输出。标准的计算机芯片电路可以看作是根据输入得到<code>开(1)</code>或<code>关(0)</code>输出的数字电路激活函数。这与神经网络中的线性感知机的行为类似。然而，只有非线性激活函数才允许这种网络仅使用少量节点来计算非平凡问题。 在人工神经网络中，这个功能也被称为传递函数。</p>
+<a id="more"></a>
+<h2 id="为什么需要激活函数"><a href="#为什么需要激活函数" class="headerlink" title="为什么需要激活函数"></a>为什么需要激活函数</h2><p>激活函数在神经网络中起非常大的作用，如果不用激活函数，每一层输出都是上层输入的线性函数，无论神经网络有多少层，输出都是输入的线性组合，激活函数给神经元引入了非线性因素，使得神经网络可以任意逼近任何非线性函数，这样神经网络就可以应用到众多的非线性模型中。</p>
+<p>如图，这是一个简单的浅神经网络。<br><img src="/images/actfun/1.jpg" alt="神经网络"></p>
+<p>如果不考虑非线性激活函数</p>
+<script type="math/tex; mode=display">
+z^{[1]} = W^{[1]}X + b^{[1]}
+\\
+a^{[1]} = z^{[1]}</script><ul>
+<li>$z^{[L]} $是每一层的输出</li>
+<li>$W^{[1]} $是每一层的神经元的权重</li>
+<li>X 是输入向量</li>
+<li>$b^{[1]} $是每一层的神经元的偏置</li>
+</ul>
+<blockquote>
+<p>以上都经过向量化处理</p>
+</blockquote>
+<p>那么， </p>
+<script type="math/tex; mode=display">
+z^{[2]} = W^{[2]}a^{[1]} + b^{[2]}
+\\
+a^{[2]} = z^{[2]}</script><p>代入，得到</p>
+<script type="math/tex; mode=display">
+z^{[2]} = (W^{[2]} * [ W^{[1]}X + b^{[1]}]) + b^{[2]}
+\\
+        = [ W^{[2]} * W^{[1]}] * X + [ W^{[2]}*b^{[1]} + b^{[2]}]</script><p>令, </p>
+<script type="math/tex; mode=display">
+[ W^{[2]} * W^{[1]}] = W
+\\
+[[ W^{[2]}*b^{[1]} + b^{[2]}] = b</script><p>得到</p>
+<script type="math/tex; mode=display">z(2) = W*X + b</script><p>仍然是线性函数！</p>
+<blockquote>
+<p>一般在输出层可能会使用线性的激活函数。</p>
+</blockquote>
+<h2 id="激活函数的性质"><a href="#激活函数的性质" class="headerlink" title="激活函数的性质"></a>激活函数的性质</h2><p>激活函数通常都有这些性质：</p>
+<ul>
+<li>非线性：当激活函数是线性的时候，无法拟合复杂的情况。</li>
+<li>可微性：当优化方法是基于梯度的时候，这个性质是必须的。</li>
+<li>单调性：当激活函数是单调的时候，单层网络能够保证是凸函数。</li>
+</ul>
+<h2 id="常见的激活函数"><a href="#常见的激活函数" class="headerlink" title="常见的激活函数"></a>常见的激活函数</h2><h3 id="1-Sigmoid"><a href="#1-Sigmoid" class="headerlink" title="1.Sigmoid"></a>1.Sigmoid</h3><script type="math/tex; mode=display">\sigma(x; a) = \frac{1}{1 + \mathrm{e}^{-ax}}</script><p><img src="/images/actfun/sigmoid1.jpg" alt="sigmoid and its gradient"></p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li><p>此函数范围为 [0, 1]，因此很适合二分类问题，设定一个阈值(如0.5)，那么大于这个阈值划为正类，反之分为负类。也可直接输出概率。</p>
+</li>
+<li><p>便于求导，在向前传播的运算中较为方便。</p>
+</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>从图上可以发现，激活函数接近饱和区时，变化太缓慢，导数接近0，即容易出现梯度消失(gradient  vanishing)，神经网络在学习的时候，在反向传播更新参数的过程中，需要计算梯度，据是微积分求导的链式法则，当前导数需要之前各层导数的乘积，几个比较小的数相乘，导数结果很接近0，从而无法完成深层网络的训练。甚至如果初始值没有选取好就直接饱和了，导致网络变的难以学习。</p>
+<p>另外，Sigmoid的输出不是0均值(zero-centered)的，这会导致后层的神经元的输入是非0均值的信号，这会对梯度产生影响。以 f=sigmoid(wx+b)为例， 假设输入均为正数（或负数），那么对w的导数总是正数（或负数），这样在反向传播过程中要么都往正方向更新，要么都往负方向更新，导致有一种捆绑效果，使得收敛缓慢。</p>
+<blockquote>
+<p>为什么<code>非zero-centered</code>会产生问题？</p>
+</blockquote>
+<p>根据反向传播权重的更新法则，</p>
+<script type="math/tex; mode=display">
+\frac{\partial L}{\partial w_i} = \frac{\partial L}{\partial f}\frac{\partial f}{\partial w_i} = x_i \cdot \frac{\partial L}{\partial f}
+\\
+w_i \gets w_i - \eta x_i\cdot \frac{\partial L}{\partial f}</script><p>可以看出，其更新方向又当层的输入$ x^{(i)} $决定！除了第0层，隐藏层的输入均为前一层线性处理后再激活，当激活函数为<code>sigmoid</code>，处理过后送给下一层神经元的输入均为同号，导致权重的更新方向都相同，可能会产生如下(ZIG ZAG)情形。</p>
+<p><img src="/images/actfun/zig.jpg" alt></p>
+<h3 id="2-Tanh-hyperbolic-tangent"><a href="#2-Tanh-hyperbolic-tangent" class="headerlink" title="2.Tanh(hyperbolic tangent)"></a>2.Tanh(hyperbolic tangent)</h3><script type="math/tex; mode=display">
+\tanh(x) = 2\sigma(2x) - 1 = \frac{\mathrm{e}^{x} - \mathrm{e}^{-x}}{\mathrm{e}^{x} + \mathrm{e}^{-x}}</script><p><img src="/images/actfun/tanh1.jpg" alt="tanh and its gradient"></p>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><p><code>tanh函数</code>将输入值压缩到 [-1, 1] 的范围，因此它是0均值(zero-centered)的，解决了<code>Sigmoid函数</code>的<code>非zero-centered</code>问题。</p>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><p>同<code>Sigmoid函数</code>，仍然存在梯度消失问题。</p>
+<h3 id="3-ReLU-Rectified-Linear-Unit"><a href="#3-ReLU-Rectified-Linear-Unit" class="headerlink" title="3.ReLU(Rectified Linear Unit)"></a>3.ReLU(Rectified Linear Unit)</h3><script type="math/tex; mode=display">f(x) = max(0, x)</script><h4 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>梯度不会饱和，解决了梯度消失问题。</li>
+<li>计算复杂度低，不需要进行指数运算。</li>
+<li>ReLU会使很多的隐藏层输出为0，即网络变得稀疏，起到了类似L1的正则化作用，可以在一定程度上缓解过拟合。</li>
+</ul>
+<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>ReLU的输出不是zero-centered；</li>
+<li>ReLU不会对数据做幅度压缩，所以数据的幅度会随着模型层数的增加不断扩张。</li>
+<li>Dead ReLU Problem：某些神经元可能永远不会被激活，导致相应参数永远不会被更新(在负数部分，梯度为0)。</li>
+</ul>
+<h4 id="Leaky-ReLU"><a href="#Leaky-ReLU" class="headerlink" title="Leaky ReLU"></a>Leaky ReLU</h4><script type="math/tex; mode=display">f(x) = max(ax, x)</script><p><img src="/images/actfun/leaky.jpeg" alt></p>
+<p>负数部分梯度也不为0，可以解决 <code>Dead ReLU Problem</code>。</p>
+<h3 id="4-Softmax"><a href="#4-Softmax" class="headerlink" title="4.Softmax"></a>4.Softmax</h3><script type="math/tex; mode=display">
+a_j^L = \frac{e^{z_j^L}}{\sum_k e^{z_k^L}}</script><p>通常用于多分类。</p>
+<h3 id="5-Maxout"><a href="#5-Maxout" class="headerlink" title="5. Maxout"></a>5. Maxout</h3><script type="math/tex; mode=display">
+h_i(x)=\max_{j\in[1,k]}z_{ij}
+\\
+z_{ij}=x^TW_{...ij}+b_{ij}</script><h4 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>Maxout的拟合能力非常强，可以拟合任意的凸函数。</li>
+<li>具有<code>ReLU</code>的所有优点，线性、不饱和性。</li>
+<li>解决<code>Dead ReLU Problem</code>。</li>
+</ul>
+<h4 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h4><p>每个神经元中有两组(w,b)参数，那么参数量就增加了一倍，导致整体参数的数量激增。</p>
+<p><img src="/images/actfun/maxall.jpg" alt="Maxout &amp; ReLU"></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p><img src="/images/actfun/all.png" alt="Activation Function Cheetsheet"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现今，通常使用<code>ReLU</code>来作为隐藏层的激活函数，如果存在<code>Dead ReLU Problem</code>则使用<code>Leaky ReLU</code>或 Maxout, 由于<code>Sigmoid</code>和<code>Tanh</code>的梯度消失问题，一般不使用这两种激活函数。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://www.geeksforgeeks.org/activation-functions-neural-networks/" target="_blank" rel="noopener">Activation functions in Neural Networks</a></li>
+<li><a href="https://baike.baidu.com/item/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/2520792?fr=aladdin" target="_blank" rel="noopener">激活函数</a></li>
+<li><a href="https://blog.csdn.net/NOT_GUY/article/details/78749509" target="_blank" rel="noopener">深度学习中激活函数的优缺点</a></li>
+<li><a href="https://www.zhihu.com/question/50396271" target="_blank" rel="noopener">sigmoid和tanh</a></li>
+<li><a href="https://medium.com/%E5%AD%B8%E4%BB%A5%E5%BB%A3%E6%89%8D/activation-function-relu-maxout-f958f066fbfa" target="_blank" rel="noopener">Activation Function: ReLU &amp; Maxout</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/05/23/actfun/" target="_blank" title="激活函数 --- Activation function">https://12vv.github.io/2019/05/23/actfun/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/24/sysconv/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          信号与系统中的卷积
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/17/mulithreadpaper/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">A Parallel Task-based Approach to Linear Algebra 论文学习</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是激活函数"><span class="nav-text">什么是激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要激活函数"><span class="nav-text">为什么需要激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#激活函数的性质"><span class="nav-text">激活函数的性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的激活函数"><span class="nav-text">常见的激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Sigmoid"><span class="nav-text">1.Sigmoid</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Tanh-hyperbolic-tangent"><span class="nav-text">2.Tanh(hyperbolic tangent)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点-1"><span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点-1"><span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ReLU-Rectified-Linear-Unit"><span class="nav-text">3.ReLU(Rectified Linear Unit)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点-2"><span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点-2"><span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Leaky-ReLU"><span class="nav-text">Leaky ReLU</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Softmax"><span class="nav-text">4.Softmax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Maxout"><span class="nav-text">5. Maxout</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点-3"><span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点-3"><span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Jaythan All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>一些常见的分布 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Math">
+  
+  
+  
+  
+  <meta name="description" content="分布一些不同的分布的总结。">
+<meta name="keywords" content="Math">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些常见的分布">
+<meta property="og:url" content="https://12vv.github.io/2018/02/04/distribution/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="分布一些不同的分布的总结。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/dis/3.png">
+<meta property="og:image" content="https://12vv.github.io/images/dis/1.png">
+<meta property="og:image" content="https://12vv.github.io/images/dis/2.png">
+<meta property="og:updated_time" content="2019-05-08T03:48:30.044Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一些常见的分布">
+<meta name="twitter:description" content="分布一些不同的分布的总结。">
+<meta name="twitter:image" content="https://12vv.github.io/images/dis/3.png">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-distribution" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      一些常见的分布
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/02/04/distribution/" class="article-date">
+	  <time datetime="2018-02-04T16:00:00.000Z" itemprop="datePublished">2018-02-04</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/数学/">数学</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/distribution.md">
+	<span id="edit">Edit</span>
+	
+	</a>
+
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="分布"><a href="#分布" class="headerlink" title="分布"></a>分布</h2><p>一些不同的分布的总结。<br><a id="more"></a></p>
+<h3 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h3><p><img src="/images/dis/3.png" alt></p>
+<p>(图摘自wikipedia)</p>
+<h3 id="Beta分布"><a href="#Beta分布" class="headerlink" title="Beta分布"></a>Beta分布</h3><p>不同于正态分布，Beta分布的取值范围在0到1之间，所以可以作为概率的分布。</p>
+<h4 id="密度函数"><a href="#密度函数" class="headerlink" title="密度函数"></a>密度函数</h4><script type="math/tex; mode=display">P(\mu|\alpha,\beta)=\frac{1}{B(\alpha,\beta)} \mu^{\alpha-1} (1-\mu)^{\beta-1}  \propto  \mu^{\alpha-1} (1-\mu)^{\beta-1}</script><p>在这里$B(\alpha,\beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ 并且 $\Gamma(\cdot)$ 是<code>Gamma函数</code> ：$\Gamma(x)=\int_0^\infty t^{x-1} e^{-t}dt$。</p>
+<p>看起来有点像<code>二项分布</code>：$ p(x=\theta|n,\mu) = C_n^\theta \mu^{\theta} (1-\mu)^{1-\theta} $ ，<code>二项分布即n重伯努利实验</code>，需要注意的是这里 $\mu$ 的取值只能是0或1，而在<code>Beta分布</code>中可以取0和1之间的数(包括0和1)。</p>
+<p><img src="/images/dis/1.png" alt></p>
+<p>这张图表明了改变两个参数 $\alpha$ 或 $\beta$ 的值，或同时改变，函数的形态会很不一样。</p>
+<h4 id="均值和方差"><a href="#均值和方差" class="headerlink" title="均值和方差"></a>均值和方差</h4><script type="math/tex; mode=display">E[\mu] = \frac{\alpha}{\alpha+\beta} \qquad \qquad  var(\mu) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}</script><p>由均值可以看出，如果参数$\alpha$ 或 $\beta$ 的值<code>相等</code>，那么均值为 1/2，密度函数图像的对称轴为 1/2 。</p>
+<blockquote>
+<p>补充：<code>共轭先验(Conjugate Prior)</code><br>在贝叶斯统计理论中，如果某个随机变量 $\theta$ 的后验概率 $p(θ|x)$和先验概率 $p(θ)$ 属于同一个分布簇的，那么称 $p(θ|x)$ 和 $p(θ)$ 为共轭分布，同时，也称 $p(θ)$ 为似然函数 $p(x|θ)$ 的共轭先验。<br>换句话说，如果先验概率满足Beta分布，那么后验概率也满足Beta分布！</p>
+</blockquote>
+<p>在贝叶斯统计中，Beta分布作为</p>
+<h3 id="分布-1"><a href="#分布-1" class="headerlink" title="分布"></a>分布</h3><p>如果说Beta分布可以看做<code>一维</code>的概率分布，那么可以将<code>Dirichlet分布</code>理解成<code>K维</code>概率分布</p>
+<h4 id="密度函数-1"><a href="#密度函数-1" class="headerlink" title="密度函数"></a>密度函数</h4><script type="math/tex; mode=display">p(\boldsymbol{\mu}|\boldsymbol{\alpha}) = Dir(\boldsymbol{\mu}|\boldsymbol{\alpha}) = \frac{\Gamma(\hat\alpha)}{\Gamma(\alpha_1) \cdots \Gamma(\alpha_d)} \prod_{i=1}^d \mu_i^{\alpha_i-1}</script><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>（摘自Youtube）这个比喻便于理解<br><img src="/images/dis/2.png" alt></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2018/02/04/distribution/" target="_blank" title="一些常见的分布">https://12vv.github.io/2018/02/04/distribution/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Math/">Math</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/28/pca/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          PCA--主成分分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/31/svm/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SVM理解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布"><span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正态分布"><span class="nav-text">正态分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Beta分布"><span class="nav-text">Beta分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#密度函数"><span class="nav-text">密度函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#均值和方差"><span class="nav-text">均值和方差</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布-1"><span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#密度函数-1"><span class="nav-text">密度函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Jaythan All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>

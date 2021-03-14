@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>ray tracing in one weekend 总结 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="cg杂">
+  
+  
+  
+  
+  <meta name="description" content="概述这两天在看Ray Tracing in One Weekend, 中间遇到了一些问题，查资料记录下来，特此总结。">
+<meta name="keywords" content="cg,杂">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ray Tracing in One Weekend 总结">
+<meta property="og:url" content="https://12vv.github.io/2019/12/07/raytracer/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="概述这两天在看Ray Tracing in One Weekend, 中间遇到了一些问题，查资料记录下来，特此总结。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-16T13:39:15.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ray Tracing in One Weekend 总结">
+<meta name="twitter:description" content="概述这两天在看Ray Tracing in One Weekend, 中间遇到了一些问题，查资料记录下来，特此总结。">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-raytracer" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Ray Tracing in One Weekend 总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/12/07/raytracer/" class="article-date">
+	  <time datetime="2019-12-07T16:00:00.000Z" itemprop="datePublished">2019-12-07</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Computer-Graphics/">Computer Graphics</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/raytracer.md">
+	<span id="edit">Edit</span>
+	
+	</a>
+
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这两天在看<a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html" target="_blank" rel="noopener">Ray Tracing in One Weekend</a>, 中间遇到了一些问题，查资料记录下来，特此总结。</p>
+<a id="more"></a>
+<h2 id="关于PPM"><a href="#关于PPM" class="headerlink" title="关于PPM"></a>关于PPM</h2><p><code>PPM(Portable Pixmap Format)</code></p>
+<h2 id="c-virtual-function"><a href="#c-virtual-function" class="headerlink" title="c++ virtual function"></a>c++ virtual function</h2><p>看下面这个没有虚函数的例子。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating generic food."</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span> <span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm eating a rat."</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在<code>main</code>主函数中，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Animal *animal = <span class="keyword">new</span> Animal;</span><br><span class="line">Animal *catty = <span class="keyword">new</span> Cat;</span><br><span class="line">Cat *cat = <span class="keyword">new</span> Cat;</span><br><span class="line"></span><br><span class="line">animal-&gt;eat(); <span class="comment">// Outputs: "I'm eating generic food."</span></span><br><span class="line">catty-&gt;eat();  <span class="comment">// outputs: "I'm eating generic food."</span></span><br><span class="line">cat-&gt;eat();    <span class="comment">// Outputs: "I'm eating a rat."</span></span><br></pre></td></tr></table></figure>
+<p>从上面例子可以看到，由于没有虚函数，第二行<code>catty</code>子类无法实现自己的函数。使用了虚函数，函数的调用就是在运行时才确定，基于一个类型选择调用哪一个函数，而不是编译时。</p>
+<h3 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Abstract</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">pure_virtual</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义了纯虚函数的类为<code>抽象类</code>。</p>
+<h2 id="关于头文件"><a href="#关于头文件" class="headerlink" title="关于头文件"></a>关于头文件</h2><p>这里是看到作者有函数直接写在了头文件中，想起来在书上看见过<code>头文件声明，源文件定义</code>，但是不记得原因，查找资料回顾一下。</p>
+<p>首先，预编译指令<code>#include</code>相当于宏，把文件包含内容全部复制到<code>#include</code>处。而<code>c++</code>允许多次声明，一次实现，如果编译时多个cpp文件中include了同一个头文件，就会报错—-找到一个或多个重定义的符号。</p>
+<p>另外，就算用<code>#pragma once</code>或是<code>#ifndef</code>避免重复定义，这里引用轮子哥的解释，#ifndef的意思只是说，同一个cpp里面不能被复制两遍，但是不同的cpp是分开编译的。</p>
+<h2 id="gamma-correction"><a href="#gamma-correction" class="headerlink" title="gamma correction"></a>gamma correction</h2><h2 id="全反射"><a href="#全反射" class="headerlink" title="全反射"></a>全反射</h2><p><code>全内反射(Total Internal Reflection)</code>, 当光线经过两个不同折射率的介质时，部分的光线会于介质的界面被折射，其余的则被反射。但是，当入射角比临界角大时（光线远离法线），光线会停止进入另一界面，反之会全部向内面反射。</p>
+<h2 id="反射与折射"><a href="#反射与折射" class="headerlink" title="反射与折射"></a>反射与折射</h2><h3 id="Schlick’s-approximation"><a href="#Schlick’s-approximation" class="headerlink" title="Schlick’s approximation"></a>Schlick’s approximation</h3><script type="math/tex; mode=display">
+R(\theta) = R_{0} + (1-R_{0})(1-cos\theta)^{5}</script><p>$R(\theta)$ - probability of reflection when the incident ray angle is $\theta$<br>$R_{0}$ - probability of reflection on normal incidence, $\theta=0$</p>
+<script type="math/tex; mode=display">
+R_{0} = (\frac{n_1-n_2}{n_1+n_2})^{2}</script>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/12/07/raytracer/" target="_blank" title="Ray Tracing in One Weekend 总结">https://12vv.github.io/2019/12/07/raytracer/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cg/">cg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/杂/">杂</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/02/16/stanfordcg/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Stanford CS148 Assignment01
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/19/ps_pre1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">photoshop上色练习准备</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于PPM"><span class="nav-text">关于PPM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-virtual-function"><span class="nav-text">c++ virtual function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#纯虚函数"><span class="nav-text">纯虚函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于头文件"><span class="nav-text">关于头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gamma-correction"><span class="nav-text">gamma correction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全反射"><span class="nav-text">全反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射与折射"><span class="nav-text">反射与折射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Schlick’s-approximation"><span class="nav-text">Schlick’s approximation</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Jaythan All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>

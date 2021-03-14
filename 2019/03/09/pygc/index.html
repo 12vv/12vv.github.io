@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>python 的垃圾回收机制 | INTERSTELLAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="Python">
+  
+  
+  
+  
+  <meta name="description" content="垃圾回收(Garbage Collection)垃圾回收(Garbage Collection, GC)的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 的垃圾回收机制">
+<meta property="og:url" content="https://12vv.github.io/2019/03/09/pygc/index.html">
+<meta property="og:site_name" content="INTERSTELLAR">
+<meta property="og:description" content="垃圾回收(Garbage Collection)垃圾回收(Garbage Collection, GC)的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://12vv.github.io/images/gc/1.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/gc/2.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/gc/3.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/gc/4.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/gc/5.jpg">
+<meta property="og:image" content="https://12vv.github.io/images/gc/6.jpg">
+<meta property="og:updated_time" content="2019-07-04T11:13:24.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 的垃圾回收机制">
+<meta name="twitter:description" content="垃圾回收(Garbage Collection)垃圾回收(Garbage Collection, GC)的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。">
+<meta name="twitter:image" content="https://12vv.github.io/images/gc/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">Tags</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">About</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder>
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-pygc" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Python 的垃圾回收机制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/03/09/pygc/" class="article-date">
+	  <time datetime="2019-03-09T16:00:00.000Z" itemprop="datePublished">2019-03-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/python/">python</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		PV:<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+      
+	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/pygc.md">
+	<span id="edit">Edit</span>
+	
+	</a>
+
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="垃圾回收-Garbage-Collection"><a href="#垃圾回收-Garbage-Collection" class="headerlink" title="垃圾回收(Garbage Collection)"></a>垃圾回收(Garbage Collection)</h3><p><code>垃圾回收(Garbage Collection, GC)</code>的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。</p>
+<a id="more"></a>
+<h3 id="python中的GC"><a href="#python中的GC" class="headerlink" title="python中的GC"></a>python中的GC</h3><blockquote>
+<p>python采用的是<code>引用计数</code>机制为主，<code>标记-清除</code>和<code>分代收集</code>机制为辅的策略</p>
+</blockquote>
+<h4 id="引用计数-Reference-counting"><a href="#引用计数-Reference-counting" class="headerlink" title="引用计数(Reference counting)"></a>引用计数(Reference counting)</h4><p><code>PyObject</code>结构体如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct_object &#123;</span><br><span class="line"> int ob_refcnt;</span><br><span class="line"> struct_typeobject *ob_type;</span><br><span class="line">&#125; PyObject</span><br></pre></td></tr></table></figure>
+<p><code>PyObject</code>是每个对象必有的内容，其中<code>ob_refcnt</code>就是做为引用计数。创建一个对象时，python将引用计数设置为1。当一个对象有新的引用时，它的<code>ob_refcnt</code>就会增加。<br><img src="/images/gc/1.jpg" alt></p>
+<p>现在创建一个新的<code>Node</code>实例。<br><img src="/images/gc/2.jpg" alt></p>
+<p>由于改变了 n1 的指向，所以”ABC”的引用数便置为0了，当引用它的对象被删除，它的<code>ob_refcnt</code>就会减少。</p>
+<p>当对象的引用数减为0，<code>Python</code>将立即释放内存。</p>
+<h5 id="引用计数加一"><a href="#引用计数加一" class="headerlink" title="引用计数加一"></a>引用计数加一</h5><ol>
+<li>对象被创建，如：<code>a=23</code>。</li>
+<li>对象被引用，如：<code>b=a</code>。</li>
+<li>对象被作为参数，传入一个函数中，如：<code>func(a)</code>。</li>
+<li>对象作为一个元素，存储在容器中，如：<code>list1=[a,a]</code>。</li>
+</ol>
+<h5 id="引用计数减一"><a href="#引用计数减一" class="headerlink" title="引用计数减一"></a>引用计数减一</h5><ol>
+<li>对象的别名被显示销毁，如：<code>del a</code>。</li>
+<li>对象的别名被赋予新的对象，如：<code>a=24</code>。</li>
+<li>一个对象离开它的作用域，如f函数执行完毕时，func函数中的<code>局部变量</code>。</li>
+<li>对象所在的容器被销毁，或从容器中删除对象。</li>
+</ol>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol>
+<li>简单</li>
+<li>实时性：一旦没有引用，内存就直接释放了。不用像其他机制等到特定时机。</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>维护引用计数消耗资源</li>
+<li>无法解决循环引用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_cycle</span><span class="params">()</span>:</span> </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># create a list x </span></span><br><span class="line">    x = [ ] </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># A reference cycle is created </span></span><br><span class="line">    <span class="comment"># here as x contains reference to </span></span><br><span class="line">    <span class="comment"># to self. </span></span><br><span class="line">    x.append(x) </span><br><span class="line">   </span><br><span class="line">create_cycle()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>上面这个函数<code>create_cycle()</code>创造了x指向它自己。所以即使函数返回了x的空间也不会被释放。</p>
+<p>可以使用<code>Python</code>的<code>gc</code>模块进行手动垃圾回收。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc </span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># create a cycle and on each iteration x as a dictionary </span></span><br><span class="line"><span class="comment"># assigned to 1 </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_cycle</span><span class="params">()</span>:</span> </span><br><span class="line">	x = &#123; &#125; </span><br><span class="line">	x[i+<span class="number">1</span>] = x </span><br><span class="line">	<span class="keyword">print</span> x </span><br><span class="line"></span><br><span class="line"><span class="comment"># lists are cleared whenever a full collection or </span></span><br><span class="line"><span class="comment"># collection of the highest generation (2) is run </span></span><br><span class="line">collected = gc.collect() <span class="comment"># or gc.collect(2) </span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Garbage collector: collected %d objects."</span> % (collected) </span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Creating cycles..."</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>): </span><br><span class="line">	create_cycle() </span><br><span class="line"></span><br><span class="line">collected = gc.collect() </span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Garbage collector: collected %d objects."</span> % (collected) </span><br><span class="line"></span><br><span class="line"><span class="comment"># output:</span></span><br><span class="line"><span class="comment"># Garbage collector: collected 0 objects.</span></span><br><span class="line"><span class="comment"># Creating cycles...</span></span><br><span class="line"><span class="comment"># &#123;1: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;2: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;3: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;4: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;5: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;6: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;7: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;8: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;9: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># &#123;10: &#123;...&#125;&#125;</span></span><br><span class="line"><span class="comment"># Garbage collector: collected 10 objects.</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="分代收集-Generational-GC"><a href="#分代收集-Generational-GC" class="headerlink" title="分代收集(Generational GC)"></a>分代收集(Generational GC)</h4><p><code>Python</code>使用一种不同的链表来持续追踪活跃的对象，Python的内部C代码将其称为<code>零代(Generation Zero)</code>。</p>
+<p>每次创建一个对象时，<code>Python</code>将其加入零代链表。<br><img src="/images/gc/3.jpg" alt></p>
+<p>可以看到创建节点 “ABC”, <code>Python</code>将其加入零代链表。这个链表并不能直接使用代码访问。</p>
+<p><img src="/images/gc/4.jpg" alt><br>创建节点 “DEF”, <code>Python</code>同样将其加入零代链表。(链表中还将包含Python创建的每个其他值，与一些<code>Python</code>自己使用的内部值。)</p>
+<p>随后，Python会循环遍历零代列表上的每个对象，检查列表中每个互相引用的对象，根据规则减掉其引用计数。</p>
+<p>在这个过程中，Python会一个接一个的统计内部引用的数量以防过早地释放对象。</p>
+<p><img src="/images/gc/5.jpg" alt></p>
+<p>由上图，”ABC” 和 “DEF” 节点包含的引用数为1.有三个其他的对象同时存在于零代链表中，蓝色的箭头指示了有一些对象正在被零代链表之外的其他对象所引用。</p>
+<p>下图显示<code>Python</code>识别内部(循环)引用并减小他们的引用计数。</p>
+<p><img src="/images/gc/6.jpg" alt></p>
+<p>通过识别内部引用，<code>Python</code> 能够减少许多零代链表对象的引用计数。在上图的第一行中你能够看见 “ABC” 和 “DEF” 的引用计数已经变为零了，这意味着收集器可以释放它们并回收内存空间了。</p>
+<p>剩下的活跃的对象则被移动到一个新的链表：一代链表。</p>
+<h3 id="python的gc模块"><a href="#python的gc模块" class="headerlink" title="python的gc模块"></a>python的gc模块</h3><p><a href="https://docs.python.org/2/library/gc.html" target="_blank" rel="noopener">Garbage Collector interface</a><br>有三种情况触发垃圾回收：</p>
+<ol>
+<li>调用gc.collect()。</li>
+<li>当gc模块的计数器达到阈值的时候。</li>
+<li>程序退出的时候。</li>
+</ol>
+<h4 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h4><ol>
+<li>gc.set_debug(flags): 设置gc的debug日志，一般设置为gc.DEBUG_LEAK</li>
+<li>gc.collect([generation]): 显式进行垃圾回收，可以输入参数，0代表只检查第一代的对象，1代表检查一，二代的对象，2代表检查一，二，三代的对象，如果不传参数，执行一个full collection，也就是等于传2。返回不可达（unreachable objects）对象的数目。</li>
+<li>gc.set_threshold(threshold0[, threshold1[, threshold2]): 设置自动执行垃圾回收的频率。</li>
+<li>gc.get_count(): 获取当前自动执行垃圾回收的计数器，返回一个长度为3的列表。</li>
+</ol>
+<h5 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h5><p>get_count()长度为3的列表，第一位代表距离上一次一代垃圾检查，python分配内存数目减去释放内存的数目。同理第二位代表距离上一次二代垃圾检查，一代垃圾检查的次数，第三位代表距离上一次三代垃圾检查，二代垃圾检查的次数。</p>
+<p>gc模快有一个自动垃圾回收的阀值，即通过<code>gc.get_threshold</code>函数获取到的长度为3的元组，例如<code>(700,10,10)</code></p>
+<p>每一次计数器的增加，gc模块就会检查增加后的计数是否达到阀值的数目，如果是，就会执行对应的代数的垃圾检查，然后重置计数器。</p>
+<p>例如，假设阀值是<code>(700,10,10)</code>：</p>
+<ul>
+<li>当计数器从<code>(699,3,0)</code>增加到<code>(700,3,0)</code>，gc模块就会执行<code>gc.collect(0)</code>,即检查一代对象的垃圾，并重置计数器为<code>(0,4,0)</code></li>
+<li>当计数器从(699,9,0)增加到<code>(700,9,0)</code>，gc模块就会执行<code>gc.collect(1)</code>,即检查一、二代对象的垃圾，并重置计数器为<code>(0,0,1)</code></li>
+<li>当计数器从<code>(699,9,9)</code>增加到<code>(700,9,9)</code>，gc模块就会执行<code>gc.collect(2)</code>,即检查一、二、三代对象的垃圾，并重置计数器为<code>(0,0,0)</code></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>应避免循环引用</li>
+<li>引入gc模块，启动gc模块的自动清理循环引用的对象机制</li>
+<li>由于分代收集，所以把需要长期使用的变量集中管理，并尽快移到二代以后，减少GC检查时的消耗</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="https://my.oschina.net/hebianxizao/blog/57367?fromerr=KJozamtm" target="_blank" rel="noopener">python垃圾回收机制</a></li>
+<li><a href="https://www.geeksforgeeks.org/garbage-collection-python/" target="_blank" rel="noopener">Garbage Collection in Python</a></li>
+<li><a href="https://www.cnblogs.com/Xjng/p/5128269.html" target="_blank" rel="noopener">Python垃圾回收机制详解</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      <div>
+        <ul class="post-copyright">
+          <li class="post-copyright-author">
+          <strong>Post author:  </strong>Jaythan
+          </li>
+          <li class="post-copyright-link">
+          <strong>Post link:  </strong>
+          <a href="/2019/03/09/pygc/" target="_blank" title="Python 的垃圾回收机制">https://12vv.github.io/2019/03/09/pygc/</a>
+          </li>
+          <li class="post-copyright-license">
+            <strong>Copyright Notice:   </strong>
+            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+            unless stating additionally.
+          </li>
+         
+        </ul>
+<div>
+</div></div>
+      
+      
+      
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/09/auto/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          自动调参---Automated Hyperparameter Tuning
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/28/pca/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PCA--主成分分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾回收-Garbage-Collection"><span class="nav-text">垃圾回收(Garbage Collection)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python中的GC"><span class="nav-text">python中的GC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数-Reference-counting"><span class="nav-text">引用计数(Reference counting)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#引用计数加一"><span class="nav-text">引用计数加一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用计数减一"><span class="nav-text">引用计数减一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分代收集-Generational-GC"><span class="nav-text">分代收集(Generational GC)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python的gc模块"><span class="nav-text">python的gc模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用函数"><span class="nav-text">常用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#补充"><span class="nav-text">补充</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
+	      
+
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            INTERSTELLAR
+          </div>
+          <div class="panel-body">
+            Copyright © 2021 Jaythan All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+</body>
+</html>
