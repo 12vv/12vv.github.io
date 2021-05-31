@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <style>
@@ -55,8 +57,25 @@ body {
   }
 }
 </style>
-<body>
+<!-- <body> -->
+  <body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in overlay">
+        <!-- Intro 头部显示 s -->
+        <%- partial('_partial intro' , {}, {cache: true}) %>
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <%- partial('_partial headerlogo' , {}, {cache: true}) %>
+        <!-- Header 头部logo end -->
+        <!-- Nav 导航条 start -->
+        <%- partial('_partial nav' , {}, {cache: true} ) %>
+        <!-- Nav 导航条 end -->
+        <!-- Main 主要部分 start -->
+        <% if( (page.current="==" 1) && (is_home()) ) { %>
+        <!-- Main-first -->
+            <%- partial('_partial mainfirst' , {}, {cache: true} ) %>
 
+        <% } %>
 
 <div class="header">
     <h1>Rendering</h1>
@@ -93,7 +112,7 @@ body {
 
 
     </div>
-    
+</%></%-></%></%-></%-></%-></div>    
 
 
 <!-- Header -->
@@ -147,6 +166,18 @@ body {
     </div>
   </div>
 
+        <!-- 文章列表   end -->
+        <!-- Main 主要部分 end -->
+        <!-- footer  页码 start-->
+        <%- partial('_partial footer') %>
 
-</body>
+        <!-- footer  页码 end-->
+        <!-- Copyright 版权 start -->
+        <%- partial('_partial copyright' , {}, {cache: true}) %>
+        <!-- Copyright 版权 end -->
+    
+    <!-- Wrapper 外包 e-->
+    <!-- Scripts -->
+</%-></%-></body>
+
 </html>
