@@ -1,224 +1,162 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
+
 <head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-  
-  <title>light and color | INTERSTELLAR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <meta name="keywords" content="Computer Graphicsgamma correction">
-  
-  
-  
-  
-  <meta name="description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
-<meta name="keywords" content="Computer Graphics,gamma correction">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Light and Color">
-<meta property="og:url" content="https://12vv.github.io/2020/02/18/stcg02/index.html">
-<meta property="og:site_name" content="INTERSTELLAR">
-<meta property="og:description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/electro.png">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/dayavgspectrum.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/retina.jpeg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/rc.jpeg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/conesrespond.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/matchexp.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/addsub.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/Colorspace.png">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/rgbcs.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/rgb4.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/trans.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/hsv.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/bf.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/camvseyes.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/gamma2.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/workflow.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/imggamma.jpg">
-<meta property="og:image" content="https://12vv.github.io/images/stcg/disgamma.jpg">
-<meta property="og:updated_time" content="2021-03-14T19:00:03.262Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Light and Color">
-<meta name="twitter:description" content="电磁波谱 (Electromagnetic Spectrum)依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。 波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$ 光谱 (Spectrum)光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大">
-<meta name="twitter:image" content="https://12vv.github.io/images/stcg/electro.png">
-  
-    <link rel="alternate" href="/atom.xml" title="INTERSTELLAR" type="application/atom+xml">
-  
-
-  
-
-  <link rel="icon" href="/css/images/mylogo.jpg">
-  <link rel="apple-touch-icon" href="/css/images/mylogo.jpg">
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-  <style type="text/css">
-    @font-face{font-family:futura-pt; src:url("/css/fonts/FuturaPTBold.otf") format("woff");font-weight:500;font-style:normal;}
-    @font-face{font-family:futura-pt-light; src:url("/css/fonts/FuturaPTBook.otf") format("woff");font-weight:lighter;font-style:normal;}
-    @font-face{font-family:futura-pt-italic; src:url("/css/fonts/FuturaPTBookOblique.otf") format("woff");font-weight:400;font-style:italic;}
-}
-
-  </style>
-  <link rel="stylesheet" href="/css/style.css">
-
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
-
-  
-    <link rel="stylesheet" href="/css/dialog.css">
-  
-
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-  
-
-  
-  
-  
-
-</head>
-</html>
-
-
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
-
-
-  
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
-    <div id="wrap">
-      
-        <header>
-
-    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-inner">
-          
-          <div class="container"> 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            
-              <a class="brand" style="
-                 margin-top: 0px;" href="#" data-toggle="modal" data-target="#myModal">
-                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
-              </a>
-            
-            
-            <div class="navbar-collapse collapse">
-              <ul class="hnav navbar-nav">
-                
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/categories">Categories</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tag">profile</a> </li>
-                
-                  <li> <a class="main-nav-link" href="/tags">About</a> </li>
-                
-                  <li><div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder>
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something...">
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div></li>
-            </ul></div>
-          </div>
-                
-      </div>
-    </div>
-
-</header>
-
-
-
-      
-            
-      <div id="content" class="outer">
-        
-          <section id="main" style="float:none;"><article id="post-stcg02" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      Light and Color
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2020/02/18/stcg02/" class="article-date">
-	  <time datetime="2020-02-18T07:00:00.000Z" itemprop="datePublished">2020-02-18</time>
-	</a>
-
-      
-      
-	<a class="article-views">
-	<span id="busuanzi_container_page_pv">
-		PV:<span id="busuanzi_value_page_pv"></span>
-	</span>
-	</a>
-
-      
-	<a class="article-edit" target="_blank" rel="noopener" href="https://github.com/12vv/blog/edit/master/source/_posts/stcg02.md">
-	<span id="edit">Edit</span>
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><link rel="bookmark" type="image/x-icon" href="/img/logo_miccall.png">
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
 	
-	</a>
+			    <title>
+    INTERSTELLAR
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/mic_main.css">
+    <link rel="stylesheet" href="/css/dropdownMenu.css">
+    <meta name="keywords" content="miccall">
+    
+    	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	 
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css">
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
 
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="电磁波谱-Electromagnetic-Spectrum"><a href="#电磁波谱-Electromagnetic-Spectrum" class="headerlink" title="电磁波谱 (Electromagnetic Spectrum)"></a>电磁波谱 (Electromagnetic Spectrum)</h3><p>依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。<br><img src="/images/stcg/electro.png" alt></p>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+	
+</head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css">
+<link rel="stylesheet" href="/css/typo.css">
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a href="/" class="logo">MICCALL</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special">
+            <ul class="menu links">
+			<!-- Homepage  主页  --> 
+			<li>
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <li class="active">
+	            <a href="#s1">分类</a>
+	                    <ul class="submenu">
+	                        <li>
+	                        
+	                    </li></ul>
+	        </li>
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/about/" title="简历">
+		                简历
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/group/" title="团队">
+		                团队
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+		        <li>
+		            <a href="/tag/" title="标签">
+		                标签
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+                    <li>
+                        <a title="github" href="https://github.com/miccall" target="_blank" rel="noopener">
+                            <i class="icon fa fa-github"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a title="500px" href="http://500px.com" target="_blank" rel="noopener">
+                            <i class="icon fa fa-500px"></i>
+                        </a>
+                    </li>
+                    
+			</ul>
+</nav>
+
+        <div id="main">
+            <div class="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;">
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2>Light and Color</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h3 id="电磁波谱-Electromagnetic-Spectrum"><a href="#电磁波谱-Electromagnetic-Spectrum" class="headerlink" title="电磁波谱 (Electromagnetic Spectrum)"></a>电磁波谱 (Electromagnetic Spectrum)</h3><p>依照波长的长短、频率以及波源的不同，电磁波谱可大致分为：无线电波、微波、红外线、可见光、紫外线、x射线和伽马射线。<br><img src="/images/stcg/electro.png" alt></p>
 <p>波长($\lambda $)和能量($\Delta E$)的关系：$\lambda \Delta E = 1239.9$</p>
 <h3 id="光谱-Spectrum"><a href="#光谱-Spectrum" class="headerlink" title="光谱 (Spectrum)"></a>光谱 (Spectrum)</h3><p>光谱可以看成是光子数目和波长的关系，又因为同样波长的光子，数目越多能量越大，所以也可以看成是波长和能量的关系。<br><img src="/images/stcg/dayavgspectrum.jpg" alt></p>
 <p>然而基于上述关系构建的光谱渲染器(spectral renderer)代价太过高昂，因此考虑到使用红绿蓝的组合来模拟光(暂不考虑光的偏振，衍射和干涉等)。</p>
@@ -307,247 +245,105 @@ Vout = Vin^{gamma}</script><ul>
 <li><a href="https://www.cambridgeincolour.com/tutorials/gamma-correction.htm" target="_blank" rel="noopener">UNDERSTANDING GAMMA CORRECTION</a></li>
 </ol>
 
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      <div>
-        <ul class="post-copyright">
-          <li class="post-copyright-author">
-          <strong>Post author:  </strong>Jaythan
-          </li>
-          <li class="post-copyright-link">
-          <strong>Post link:  </strong>
-          <a href="/2020/02/18/stcg02/" target="_blank" title="Light and Color">https://12vv.github.io/2020/02/18/stcg02/</a>
-          </li>
-          <li class="post-copyright-license">
-            <strong>Copyright Notice:   </strong>
-            All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-            unless stating additionally.
-          </li>
-         
-        </ul>
-<div>
-</div></div>
-      
-      
-      
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tag/Computer-Graphics/">Computer Graphics</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tag/gamma-correction/">gamma correction</a></li></ul>
+            </div>
 
-      
+            <!-- Post Comments -->
+            
+    <!-- 使用 DISQUS_CLICK -->
+<div id="disqus-comment">
+    <div id="disqus_thread"></div>
 
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/02/29/stcg05/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Optics
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/01/01/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-<!-- Table of Contents -->
-
-  <aside id="toc-sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
-    
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电磁波谱-Electromagnetic-Spectrum"><span class="nav-text">电磁波谱 (Electromagnetic Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光谱-Spectrum"><span class="nav-text">光谱 (Spectrum)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人眼-Human-eye"><span class="nav-text">人眼 (Human eye)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三色理论-Trichromatic-Theory"><span class="nav-text">三色理论 (Trichromatic Theory)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#格拉斯曼颜色定律-Grassmann’s-laws"><span class="nav-text">格拉斯曼颜色定律 (Grassmann’s laws)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色实验-Color-Matching-Experiments"><span class="nav-text">配色实验 (Color Matching Experiments)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加色与减色-Additive-vs-Subtractive-Colors"><span class="nav-text">加色与减色 (Additive vs Subtractive Colors)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#色彩空间-Color-Space"><span class="nav-text">色彩空间 (Color Space)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#色调映射-Tone-Mapping"><span class="nav-text">色调映射 (Tone Mapping)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态范围-Dynamic-Range"><span class="nav-text">动态范围 (Dynamic Range)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-text">应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于频率的方法-Frequency-Based-Operators"><span class="nav-text">基于频率的方法 (Frequency-Based Operators)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gamma校正-Gamma-Correction"><span class="nav-text">Gamma校正 (Gamma Correction)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原因"><span class="nav-text">原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gamma定义"><span class="nav-text">Gamma定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GAMMA-WORKFLOW"><span class="nav-text">GAMMA WORKFLOW</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-Gamma"><span class="nav-text">Image Gamma</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Display-Gamma"><span class="nav-text">Display Gamma</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#System-Gamma"><span class="nav-text">System Gamma</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol>
-    
-    </div>
-  </aside>
-
-</section>
-        
-      </div>
-      
-      <footer id="footer">
-  
-
-  <div class="container">
-      	<div class="row">
-	      <p> Powered by <a href="https://12vv.github.io" target="_blank">Jay‘s Cat</a>  </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 INTERSTELLAR All Rights Reserved.</p>
-	      
-
-		</div>
-
-		
-  </div>
-</footer>
-
-
-<!-- min height -->
-
-<script>
-    var wrapdiv = document.getElementById("wrap");
-    var contentdiv = document.getElementById("content");
-    var allheader = document.getElementById("allheader");
-
-    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
-    if (allheader != null) {
-      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    } else {
-      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
-    }
-</script>
-    </div>
-    <!-- <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/categories" class="mobile-nav-link">Categories</a>
-  
-    <a href="/tag" class="mobile-nav-link">Profile</a>
-  
-    <a href="/tags" class="mobile-nav-link">About</a>
-  
-</nav> -->
-    
-
-<!-- mathjax config similar to math.stackexchange -->
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
+<!-- add animation -->
+<style>
+	.disqus_click_btn {
+            line-height: 30px;
+            margin: 0;
+            min-width: 50px;
+            padding: 0 14px;
+            display: inline-block;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            overflow: hidden;
+            will-change: box-shadow;
+            transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+            outline: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            border: 0;
+            background: rgba(158, 158, 158, .2);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+            color: #fff;
+            background-color: #7EC0EE;
+            text-shadow: 0
         }
+</style>
+	
+<div class="btn_click_load" id="disqus_bt"> 
+    <button class="disqus_click_btn">点击查看评论</button>
+</div>
+
+<!--
+<script type="text/javascript">
+$('.btn_click_load').click(function() {
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-miccall-tech'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    document.getElementById('disqus_bt').style.display = "none";
+});
+</script>
+-->
+<script type="text/javascript">
+    var disqus_config = function () {
+        this.page.url = 'https://12vv.github.io/2020/02/18/stcg02/';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = 'https://12vv.github.io/2020/02/18/stcg02/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+</script>
+
+<script type="text/javascript">
+    $('.btn_click_load').click(function() {  //click to load comments
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document;
+            var s = d.createElement('script');
+            s.src = '//http-miccall-tech.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', + new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        $('.btn_click_load').css('display','none');
     });
 </script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/scripts.js"></script>
-
-
-
-
-  <script src="/js/dialog.js"></script>
-
-
-
-
-
-
-
-
-
-	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-	</script>
-
-
-
-
-
-
-  </div>
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">设置</h2>
-      </div>
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-
-
-      <div class="modal-body">
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
-              正文字号大小
-            </a>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            您已调整页面字体大小
-          </div>
-        </div>
-      
-
-
-          <div style="margin:6px;">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
-              夜间护眼模式
-            </a>
-        </div>
-          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            夜间模式已经开启，再次单击按钮即可关闭 
-          </div>
-        </div>
-
-        <div>
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-        </div>
-         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            INTERSTELLAR
-          </div>
-          <div class="panel-body">
-            Copyright © 2021 Jaythan All Rights Reserved.
-          </div>
-        </div>
-      </div>
-
-
-      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
-      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
-      <div class="modal-footer">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-      </div>
-    </div>
-  </div>
 </div>
-  
-  <a id="rocket" href="#top" class=""></a>
-  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<style>
+    #disqus-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;Powered By <a href="https://hexo.io/zh-cn/" style="border-bottom: none;">hexo</a></li>
+                <li>Design: <a href="http://miccall.tech " style="border-bottom: none;">miccall</a></li>
+            </ul>
+            
+                <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+			
+        </div>
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -565,6 +361,9 @@ Vout = Vin^{gamma}</script><ul>
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-  
 </body>
+
+
+
+ 	
 </html>
