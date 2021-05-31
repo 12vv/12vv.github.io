@@ -1,0 +1,84 @@
+<hr>
+<p>title: Optics<br>date: 2020-02-29<br>tag: [Computer Graphics, BRDF, radiometry]</p>
+<h1 id="categories"><a href="#categories" class="headerlink" title="categories: []"></a>categories: []</h1><hr>
+<h3 id="经验模型"><a href="#经验模型" class="headerlink" title="经验模型"></a>经验模型</h3><p>经典光照模型属于经验模型，单独计算<code>环境光(ambient)</code>，<code>漫反射光(diffuse)</code>和<code>镜面光(specular)</code>，再进行叠加。</p>
+<p><img src="/images/stcg/05lightmod.jpg" alt></p>
+<ul>
+<li><code>环境光(ambient)</code>：不来自于特定光源，不依赖于观察方向和场景中其他的任意光。</li>
+<li><code>漫反射光(diffuse)</code>：均匀的散射在表面各个方向，独立于观察方向，依赖于表面法向量和光源方向，也和表面的颜色有关。</li>
+<li><code>镜面光(specular)</code>：表面反射的高光，与表面材质有关，依赖于表面法向量和光源方向和观察方向，颜色可或不可结合表面颜色。<code>光泽度(shininess)</code>越高，高光越趋近于一个亮点。</li>
+</ul>
+<p>例如<code>1975</code>年<code>Phong</code>提出的<code>Phong反射模型(Phong Reflection Model)</code>:</p>
+<script type="math/tex; mode=display">
+I_{Phong} = k_aI_a + k_d(n \cdot l)I_d + k_s(r \cdot v)^aI_s</script><h3 id="基于物理的分析模型"><a href="#基于物理的分析模型" class="headerlink" title="基于物理的分析模型"></a>基于物理的分析模型</h3><p>经典光照模型没有遵循<code>能量守恒定律(Energy Conservation)</code>: 出射光线的能量永远不能超过入射光线的能量（发光面除外）。而基于微平面理论的物理分析模型是能量守恒的。这项理论认为，达到微观尺度之后任何平面都可以用被称为<code>微平面(Microfacets)</code>的细小镜面来进行描绘。根据平面粗糙程度的不同，这些细小镜面的取向排列可以相当不一致。如下图所示，不同的微表面分布造成不同的微表面上发现的分布，以此可以模拟不同的材质。</p>
+<p><img src="/images/stcg/05micro.jpg" alt="不同的微表面分布"></p>
+<p>产生的效果就是：一个平面越是粗糙，这个平面上的微平面的排列就越混乱。这些微小镜面这样无序取向排列的影响就是，当我们特指镜面光/镜面反射时，入射光线更趋向于向完全不同的方向<code>发散(Scatter)</code>开来，进而产生出分布范围更广泛的镜面反射。而与之相反的是，对于一个光滑的平面，光线大体上会更趋向于向同一个方向反射，造成更小更锐利的反射。</p>
+<p><img src="/images/stcg/surface.png" alt="粗糙和光滑平面的反射"></p>
+<p>为了遵守能量守恒定律，当一束光线接触到一个表面，分成一个折射部分和一个反射部分。反射部分就是会直接反射开来而不会进入平面的那部分光线，这就是我们所说的镜面光照。而折射部分就是余下的会进入表面并被吸收的那部分光线，这也就是我们所说的漫反射光照。</p>
+<h3 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h3><p>以下是一些专有名词的解释。</p>
+<p><img src="/images/stcg/terminology.jpg" alt="Terminology"></p>
+<h4 id="Radiant-Flux"><a href="#Radiant-Flux" class="headerlink" title="Radiant Flux"></a>Radiant Flux</h4><p>辐射通量是光源发出的单位时间总能量的量度，$\Phi = \frac{dQ}{dt} $ 单位是瓦特。</p>
+<p>下图是日光的光谱分布，<code>辐射通量(radiant Flux)</code>是函数的面积(确切地说，该面积是<code>光通量(luminous flux)</code>，因为图表将波长限制在人类可见光范围内)。</p>
+<p><img src="/images/stcg/dayavgspectrum.jpg" alt="Daylight spectral distribution"></p>
+<p>注意：一般在计算机图形中不实用波长强度而是使用三原色编码，即<code>RGB</code>，作为辐射通量表示的简化。虽然有一些信息上的损失，但是对于视觉效果的影响几乎可以忽略。</p>
+<h4 id="Solid-angle"><a href="#Solid-angle" class="headerlink" title="Solid angle"></a>Solid angle</h4><p><code>立体角(solid angle)</code>是一种测量物体在观察者看来有多大的方法。 下图展示将物体的轮廓投射到一个以我们观察点为中心的单位球体的表面上。 我们得到的形状的<code>面积</code>是立体角。下图中单位球面上的区域<code>w</code>即为浅蓝色多边形的投影的立体角。</p>
+<p><img src="/images/stcg/solid_angle.png" alt="Solid angle"></p>
+<p>下图是角和立体角的类比。</p>
+<p><img src="/images/stcg/solid2.jpg" alt="Angle and solid angle"></p>
+<h4 id="Radiant-Intensity"><a href="#Radiant-Intensity" class="headerlink" title="Radiant Intensity"></a>Radiant Intensity</h4><p><code>辐射强度(radiant Intensity)</code>是在单位球面上，一个光源向每单位立体角的<code>通量(flow of energy)</code>。 如果你有一个向各个方向发射的光源，那么有多少光(通量)实际上是朝着一个特定的方向发射的？ 强度是一种衡量的方法，描述沿着一个方向通过一个立体角的通量。 描述它的公式是$I =\frac{d\Phi}{ d\omega}$，其中$\Phi$是辐射通量，$\omega$是立体角。</p>
+<p><img src="/images/stcg/intensity.png" alt="Light intensity"></p>
+<h4 id="Irradiance"><a href="#Irradiance" class="headerlink" title="Irradiance"></a>Irradiance</h4><p>所有投射到某单位面积上的光线的总和，而这个和就称为辐射照度或者<code>辐照度(Irradiance)</code>。</p>
+<p><img src="/images/stcg/irradiance.jpg" alt="Irradiance on a Surface"></p>
+<h4 id="Radiance"><a href="#Radiance" class="headerlink" title="Radiance"></a>Radiance</h4><p><code>radiance</code>辐射率表示一个拥有辐射强度<code>Φ</code>的光源在单位面积<code>A</code>，单位立体角<code>ω</code>上的辐射出的总能量，辐射率方程如下。(与<code>irradiance</code>不同的是它考虑特定方向的光。)</p>
+<script type="math/tex; mode=display">
+L = \frac{dI}{dA cos\theta} = \frac{d\phi^2}{ dA d\omega cos\theta} = \frac{dE}{dwcos\theta}</script><p><img src="/images/stcg/radiance.png" alt="Radiance components"></p>
+<p>其中，$\Phi$是辐射通量，<code>A</code>是收到光照影响的区域，$\omega$是立体角，$cos\theta$ 是一个缩放因子，随着角度的变化，光线逐渐消失。</p>
+<p><img src="/images/stcg/05explain.jpg" alt="Radiant Intensity, Irradiance and radiance"></p>
+<h3 id="反射方程"><a href="#反射方程" class="headerlink" title="反射方程"></a>反射方程</h3><script type="math/tex; mode=display">
+L_o(p,\omega_o) = \int\limits_{\Omega} f_r(p,\omega_i,\omega_o) L_i(p,\omega_i) n \cdot \omega_i  d\omega_i</script><p>其中的$n \cdot \omega_i$等同于$cos\theta_i$。</p>
+<p>$L_0$ 表示了从$\omega_0$方向上观察，光线投射到点<code>p</code>上反射出来的辐照度。就是要把以点<code>p</code>为中心的单位表面接收到的所有入射光，在半球领域Ω内所有方向上的入射光的<code>积分(亦即求和)</code>。</p>
+<h4 id="BRDF"><a href="#BRDF" class="headerlink" title="BRDF"></a>BRDF</h4><p><code>双向反射分布函数(Bidirectional reflectance distribution function, BRDF)</code>，定义了给定入射方向$w_i$上的<code>辐射照度(irradiance)</code>如何影响给定出射方向$w_o$上的<code>辐射率(radiance)</code>，定义如下。</p>
+<script type="math/tex; mode=display">
+BRDF(w_i, w_o) = \frac{dL_o(w_o)}{dE_i(w_i)}</script><p><img src="/images/stcg/05brdf.jpg" alt="BRDF"></p>
+<p>通俗来说，<code>BRDF</code>描述的是一个特定表面把一个方向收集到的能量反射到一个特定方向的能量分布。这是由材质决定的，比如漫反射材质，收到的能量会被均等的分到各个上半球方向上。</p>
+<p><code>BRDF</code>基于微平面理论来近似的求得材质的反射与折射属性。对于一个BRDF，为了实现物理学上的可信度，它必须遵守能量守恒定律，也就是说反射光线的总和永远不能超过入射光线的总量。严格上来说，同样采用$\omega_i$和$\omega_0$作为输入参数的<code>Blinn-Phong</code>光照模型也被认为是一个<code>BRDF</code>。然而由于<code>Blinn-Phong</code>模型并没有遵循能量守恒定律，属于经验模型，不被认为是基于物理的渲染。</p>
+<p>再回到反射方程，查看公式容易理解，反射方程中的$f_r$即为<code>BRDF</code>，根据<code>BRDF</code>的定义，反映了对于某个入射方向，出射方向的辐照度，所以对于每一个入射方向，用$f_r$乘以该方位角的<code>radiance</code>，即可得到对这一方向入射光反射出光的照度，再对半球面各个方向，所有方位角得到的结果积分，就可以得到在点<code>p</code>接收到的所有光，在某一方向的出射照度。</p>
+<p>另一个理解方法是$L_i(p,\omega_i) n \cdot \omega_i  d\omega_i$即入射的<code>irradiance</code>，而$f_r$为<code>radiance</code>和<code>irradiance</code>的比值，使用$f_r$乘以<code>irradiance</code>即可得到出射的<code>radiance</code>，再求积分即可。</p>
+<p>基于反射率公式是围绕所有入射辐射率的总和，也就是辐照度来计算的，所以我们需要计算的就不只是是单一的一个方向上的入射光，而是一个以点<code>p</code>为球心的半球领域Ω内所有方向上的入射光。一个<code>半球领域(Hemisphere)</code>可以描述为以平面法线<code>n</code>为轴所环绕的半个球体。</p>
+<p><img src="/images/stcg/hemisphere.png" alt="hemisphere"></p>
+<p><strong>注：通用的渲染方程可以理解为反射方程加上一个自发光项。</strong></p>
+<h4 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h4><p>这是一个简化版本的渲染方程式。用<code>BRDF</code>乘以入射的辐照度即得到外向的辐射。</p>
+<script type="math/tex; mode=display">
+L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) dE_i</script><p>根据上面<code>Radiance</code>那一节推导的$dE = L d\omega cos\theta$，代入上式得</p>
+<script type="math/tex; mode=display">
+L_o(\omega_i, \omega_o) = BRDF(w_i, w_o) L_i d\omega_i cos\theta_i</script><p>最后，考虑各个方向的光，因此对上式求积分，得到</p>
+<script type="math/tex; mode=display">
+L_o = \underset{i\in in}{\int } BRDF(w_i, w_o) L_i cos\theta_i d\omega_i</script><p>有时为了便于计算，转换称球面坐标的表示方法。</p>
+<p><img src="/images/stcg/05d_solid_angles.jpg" alt="Differential Solid Angle"></p>
+<p>根据上图，$d\omega_i = \sin(\theta) d\theta d\phi$，代入上面的式子得到下式，这里可以这样理解：因为立体角在空间中是均匀分布的，使用$d\omega$即可，但是转换成球面坐标的表示方法，$\theta$在接近<code>0</code>的时候采样会更多，在接近$\frac{\pi}{2}$时更少，所以乘以$sin(\theta)$作为补偿项。</p>
+<p><img src="/images/stcg/change_angle.jpg" alt="the differential solid angle can be defined in terms of the differential polar (θ) and azimuthal (ϕ) angles"></p>
+<script type="math/tex; mode=display">
+L_o = {\int_{\phi=0}^{2\pi}}{ \int_{\theta=0}^{\pi/2}} BRDF(w_i, w_o) L_i sin(\theta) d \theta d \phi</script><h4 id="Cook-Torrance-BRDF"><a href="#Cook-Torrance-BRDF" class="headerlink" title="Cook-Torrance BRDF"></a>Cook-Torrance BRDF</h4><p><code>BRDF</code>基于微平面理论来近似的求得材质的反射与折射属性。对于一个BRDF，为了实现物理学上的可信度，它必须遵守能量守恒定律，也就是说反射光线的总和永远不能超过入射光线的总量。严格上来说，同样采用$\omega_i$和$\omega_0$作为输入参数的<code>Blinn-Phong</code>光照模型也被认为是一个<code>BRDF</code>。然而由于<code>Blinn-Phong</code>模型并没有遵循能量守恒定律，属于经验模型，不被认为是基于物理的渲染。</p>
+<p>目前最常用的基于物理的渲染模型是<code>Cook-Torrance BRDF模型</code>，有漫反射和镜面反射两个部分，公式如下，其中$k_d$是早先提到过的入射光线中被折射部分的能量所占的比率，而$k_s$是被反射部分的比率。</p>
+<script type="math/tex; mode=display">
+f_r = k_d f_{lambert} +  k_s f_{cook-torrance}</script><p>第一部分漫反射部分$f_{lambert}$被称为<code>Lambertian漫反射</code>，通常用$f_{lambert} = \frac{\rho}{\pi}$计算。$\rho$是<code>反照率(Albedo)</code>，除以$\pi$的原因是如下，为了对漫反射光进行标准化，因为前面含有<code>BRDF</code>的积分方程是受$\pi$影响的。简单推导如下(利用了漫反射<code>BRDF</code>不再和入射出射光有关，因而是一个常数)：</p>
+<p><img src="/images/stcg/05diffuse.jpg" alt="light is equally reflected in each output direction"></p>
+<p>公式第二部分镜面反射部分形式如下：</p>
+<script type="math/tex; mode=display">
+f_{cook-torrance} = \frac{DFG}{4(\omega_o \cdot n)(\omega_i \cdot n)}</script><p>下面分别分析函数<code>D, F ,G</code>。</p>
+<p>在微表面理论中，物体表面被分为无数个微小的镜面，根据表面的粗糙程度不同，微镜面的分布也不同，以此模拟不同材质的粗糙程度，对于镜面来说，只有法线方向和中间向量重合的时候反射光线才有效，函数D是一个正态分布函数，就是用来衡量中间向量H和法线重合的分布，在该模型中采用<code>TROWBRIDGE-REITZ GGX</code>计算，从公式中可以看到，当粗糙度$\alpha$越低即表面越光滑，与中间向量取向一致的微平面将会集中在很小的半径范围内，造成明亮的的点：</p>
+<script type="math/tex; mode=display">
+NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 - 1) + 1)^2}</script><p>因为微表面分布不均，反射出来的光线可能为被同一物体的其他微表面所遮挡，几何函数G使用SCHLICK-GGX近似计算求得微平面间相互遮蔽的比率，并使用史密斯方法把几何遮蔽和几何阴影都纳入其中：</p>
+<script type="math/tex; mode=display">
+G_{SchlickGGX}(n, v, k) = \frac{n \cdot v}{(n \cdot v)(1 - k) + k }</script><p>当垂直观察的时候，任何物体或者材质表面都有一个基础反射率<code>(Base Reflectivity)</code>，但是如果以一定的角度往平面上看的时候所有反光都会变得明显起来。比如用垂直的视角观察木制或金属的桌面，此时一定只有最基本的反射性。但是如果你从近乎90度（与法线的夹角）的角度观察的话反光就会变得明显的多。如果从理想的90度视角观察，所有的平面理论上来说都能完全的反射光线。这种现象因菲涅尔而闻名，并体现在了菲涅尔方程之中。</p>
+<p>菲涅尔方程是一个相当复杂的方程式，不过幸运的是菲涅尔方程可以用Fresnel-Schlick近似法求得近似解：</p>
+<script type="math/tex; mode=display">
+F_{Schlick}(h, v, F_0) = F_0 + (1 - F_0) ( 1 - (h \cdot v))^5</script><p>$F_0$表示平面的基础反射率，它是利用所谓<code>折射指数(Indices of Refraction)</code>或者说<code>IOR</code>计算得出的。</p>
+<p>最后得到<code>Cook-Torrance</code>的反射率方程，</p>
+<script type="math/tex; mode=display">
+L_o(p,\omega_o) = \int\limits_{\Omega} (k_d\frac{c}{\pi} + k_s\frac{DFG}{4(\omega_o \cdot n)(\omega_i \cdot n)})L_i(p,\omega_i) n \cdot \omega_i  d\omega_i</script><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="http://web.stanford.edu/class/cs148/lectures.html">Stanford CS148 Introduction to Computer Graphics and Imaging (Fall 2019)</a></li>
+<li>Fundamentals of Computer Graphics, 4th Edition.<br>Steve Marschner and Peter Shirley, A K Peters/CRC Press, 2015. (Ch10)</li>
+<li>OpenGL Programming Guide: The Official Guide to Learning OpenGL, Version 4.3 (8th Edition) Dave Shreiner, Addison-Wesley Professional, 2013. (Ch7)</li>
+<li><a href="http://www.codinglabs.net/article_physically_based_rendering.aspx">Article - Physically Based Rendering</a></li>
+</ol>
