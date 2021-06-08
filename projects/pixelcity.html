@@ -175,6 +175,11 @@
 <script>
 
 
+/****** Settings *********/
+
+const max_freq = 15;
+
+/*********************************/
 
 var scene = new THREE.Scene();
 
@@ -211,6 +216,16 @@ var render = function() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
 }
+
+const scale = (inputY, yRange, xRange) => {
+  const [xMin, xMax] = xRange;
+  const [yMin, yMax] = yRange;
+
+  const percent = (inputY - yMin) / (yMax - yMin);
+  const outputX = percent * (xMax - xMin) + xMin;
+
+  return outputX;
+};
 
 
 function onDocumentMouseMove( event ) {
@@ -367,8 +382,9 @@ function analyzeIMG(imgEl) {
             freq[hex] = 1;
         }else{
             freq[hex] = parseInt(freq[hex]) + 1;
-            if(freq[hex] > maxVal)
-                maxVal = freq[hex];
+            if(freq[hex] > max_freq){
+                freq[hex] = max_freq;
+            }
         }
 
     }
@@ -376,8 +392,7 @@ function analyzeIMG(imgEl) {
 
 
     Object.keys(freq).forEach(function (key) { 
-        var value = freq[key];
-        freq[key] = scaleValue(value, [1,15], [1,200]);
+        freq[key] = scale(freq[key], [1,max_freq], [0.1,5]);
     })
 
 
