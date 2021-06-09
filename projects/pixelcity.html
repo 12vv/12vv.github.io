@@ -13,14 +13,16 @@
         }
         .file-upload {
         /* background-color: #ffffff; */
-        width: 200px;
+        width: 300px;
+        text-align: center;
         position: fixed;
         /* margin: 0 auto; */
         padding: 20px;
         }
 
         .file-upload-btn {
-        width: 100%;
+        /* width: 100%; */
+        text-align: center;
         margin: 0;
         color: #fff;
         background: #1FB264;
@@ -91,8 +93,8 @@
         }
 
         .file-upload-image {
-        max-height: 40px;
-        max-width: 40px;
+        max-height: 200px;
+        max-width: 200px;
         margin: auto;
         padding: 20px;
         }
@@ -178,6 +180,7 @@
 /****** Settings *********/
 
 const max_freq = 15;
+const resize_to = 200;
 
 /*********************************/
 
@@ -452,7 +455,7 @@ function readURL(input) {
         $('.image-title').html(input.files[0].name);
 
         loadImage(e.target.result).then(imgEl => {
-            while (imgEl.width > 128) {
+            while (imgEl.width > resize_to) {
 
                 imgEl = halfSize(imgEl);
             }
