@@ -95,6 +95,13 @@
   </url>
   
   <url>
+    <loc>https://12vv.github.io/tags/gamma-correction/</loc>
+    <lastmod>2021-08-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://12vv.github.io/tags/BRDF/</loc>
     <lastmod>2021-08-14</lastmod>
     <changefreq>daily</changefreq>
@@ -103,13 +110,6 @@
   
   <url>
     <loc>https://12vv.github.io/tags/radiometry/</loc>
-    <lastmod>2021-08-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://12vv.github.io/tags/gamma-correction/</loc>
     <lastmod>2021-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

@@ -724,7 +724,7 @@ header label {
   color: #87878d !important;
 }
 .post-wrap .post-meta a {
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-wrap .post-meta a {
   color: #eee;
@@ -737,7 +737,7 @@ header label {
 }
 .post-content {
   padding-top: 2rem;
-  text-align: justify;
+  text-align: left;
 }
 .post-content h2,
 .post-content h3,
@@ -750,7 +750,7 @@ header label {
 .post-content h1::before {
   content: "#";
   margin-right: 5px;
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-content h1::before {
   color: #eee;
@@ -758,7 +758,7 @@ header label {
 .post-content h2::before {
   content: "#";
   margin-right: 5px;
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-content h2::before {
   color: #eee;
@@ -766,7 +766,7 @@ header label {
 .post-content h3::before {
   content: "|";
   margin-right: 5px;
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-content h3::before {
   color: #eee;
@@ -774,13 +774,13 @@ header label {
 .post-content h4::before {
   content: "*";
   margin-right: 5px;
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-content h4::before {
   color: #eee;
 }
 .post-content a {
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-content a {
   color: #eee;
@@ -922,16 +922,13 @@ header label {
   float: right;
   text-align: right;
 }
-.post-content .post-wrap p {
-  text-align: left;
-}
 .post-copyright {
   margin-top: 5rem;
   border-top: 1px solid #e8e8e8;
   border-bottom: 1px solid #e8e8e8;
 }
 .post-copyright a {
-  color: #2d96bd;
+  color: #a2a2a2;
 }
 .dark-theme .post-copyright a {
   color: #eee;
@@ -1101,7 +1098,7 @@ header label {
   background-color: #fff;
 }
 .post-toc .is-active-link::before {
-  background-color: #2d96bd;
+  background-color: #a2a2a2;
 }
 .post-toc .tocbot-list-menu {
   margin: 1rem 0.75rem;
