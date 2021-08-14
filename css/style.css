@@ -922,6 +922,9 @@ header label {
   float: right;
   text-align: right;
 }
+.post-content .post-wrap p {
+  text-align: left;
+}
 .post-copyright {
   margin-top: 5rem;
   border-top: 1px solid #e8e8e8;
