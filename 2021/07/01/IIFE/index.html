@@ -281,7 +281,7 @@
 <p>网上很多解释是说是因为事件队列的原因，说因为回调函数被放到事件队列中，<code>for</code>循环执行完毕<code>i</code>的值已经变成了<code>5</code>，再执行<code>5</code>个<code>console.log(i)</code>所以会输出<code>5</code>个<code>5</code>。</p>
 <p>开始我看到这种解释有些困惑，为什么换成<code>let</code>就能解决呢？如果说是因为事件循环的原因，那换成<code>let</code>，循环完毕<code>i</code>也变成<code>5</code>了。</p>
 <p>之后我补充了作用域，作用域链，执行上下文等知识，才了解到这种现象是由于作用域造成的。</p>
-<p>之所以使用<code>let</code>就可以得到期望结果，是由于<code>let</code>的块级作用域，每一轮循环都会有一个新的词法作作用域环境保存每一轮的<code>**i**</code>。</p>
+<p>之所以使用<code>let</code>就可以得到期望结果，是由于<code>let</code>的块级作用域，每一轮循环都会有一个新的词法作作用域环境保存每一轮的<code>i</code>。</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">blockLexicalEnvironment = &#123;</span><br><span class="line">  i: <span class="number">0</span>,</span><br><span class="line">  outer: &lt;globalLexicalEnvironment&gt;</span><br><span class="line">&#125;</span><br><span class="line">blockLexicalEnvironment = &#123;</span><br><span class="line">  i: 1,</span><br><span class="line">  outer: &lt;globalLexicalEnvironment&gt;</span><br><span class="line">&#125;</span><br><span class="line">blockLexicalEnvironment = &#123;</span><br><span class="line">  i: 2,</span><br><span class="line">  outer: &lt;globalLexicalEnvironment&gt;</span><br><span class="line">&#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 <p>之后执行<code>console.log(i)</code>，由于当前作用域没有<code>i</code>，所以沿着<strong>作用域链</strong>找，即找到了他上一层的块级词法环境中的<code>i</code>。</p>
 <p>所以使用这里使用立即执行函数也是同样的原理。</p>
@@ -289,7 +289,7 @@
 <blockquote>
 <p>在迭代内使用 IIFE 会为每个迭代都生成一个新的作用域，使得延迟函数的回调可以将新的<br>作用域封闭在每个迭代内部，每个迭代中都会含有一个具有正确值的变量供我们访问。</p>
 </blockquote>
-<h3 id="立即执行函数的递归"><a href="#立即执行函数的递归" class="headerlink" title="立即执行函数的递归"></a>立即执行函数的递归</h3><p>立即执行函数是如果不加名字，又想要自身递归调用怎么办呢？可以使用<code>[arguments.callee](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments/callee)</code>，已在ES5严格模式中被废弃，了解原因可以看<a href="https://stackoverflow.com/questions/103598/why-was-the-arguments-callee-caller-property-deprecated-in-javascript" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="立即执行函数的递归"><a href="#立即执行函数的递归" class="headerlink" title="立即执行函数的递归"></a>立即执行函数的递归</h3><p>立即执行函数是如果不加名字，又想要自身递归调用怎么办呢？可以使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments/callee" target="_blank" rel="noopener">arguments.callee</a>，已在ES5严格模式中被废弃，了解原因可以看<a href="https://stackoverflow.com/questions/103598/why-was-the-arguments-callee-caller-property-deprecated-in-javascript" target="_blank" rel="noopener">这里</a>。</p>
 <blockquote>
 <p><code>callee</code>是<code>arguments</code>对象的一个属性。它可以用于引用该函数的函数体内当前正在执行的函数。</p>
 </blockquote>

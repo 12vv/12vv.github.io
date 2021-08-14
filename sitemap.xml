@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://12vv.github.io/2021/07/01/IIFE/</loc>
+    
+    <lastmod>2021-08-14</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://12vv.github.io/categories/index.html</loc>
     
     <lastmod>2021-08-14</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://12vv.github.io/tags/index.html</loc>
     
     <lastmod>2021-08-14</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://12vv.github.io/2021/07/01/IIFE/</loc>
-    
-    <lastmod>2021-08-13</lastmod>
     
   </url>
   
