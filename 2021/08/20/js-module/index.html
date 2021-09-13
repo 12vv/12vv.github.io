@@ -250,7 +250,7 @@
             <h2 id="模块化的演变"><a href="#模块化的演变" class="headerlink" title="模块化的演变"></a>模块化的演变</h2><p>在没有模块化的概念之前，代码量也不大的时候，可以直接将<code>JavaScript</code>代码写在<code>html</code>的<code>&lt;script&gt;</code>标签中，如下</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 <p>当代码量变多了，也可以在<code>html</code>引入外部<code>js</code>脚本，如下</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"js/index.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">"js/index.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>当业务变得复杂，人们开始<strong>根据页面</strong>来引入脚本，即一个页面就引入包含此逻辑的脚本，公用的脚本可以每个页面都引入。但是，当这个公用的脚本过于复杂，有多个处理逻辑，如下</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ... many other functions</span></span><br></pre></td></tr></table></figure>
 <p>有可能<code>页面1</code>只需要<code>fn1,fn2</code>等等很多函数，<code>页面2</code>却只需要<code>fn1</code>，却都要引入整个脚本，这就不太合理了。</p>
@@ -352,10 +352,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/09/12/device/"></a>
             
-            
-            <a class="next" rel="next" href="/2021/07/01/IIFE/">IIFE-立即调用函数表达式</a>
+            <a class="next" rel="next" href="/2021/08/11/device/">移动端适配方案</a>
             
         </section>
 
