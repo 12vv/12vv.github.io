@@ -256,7 +256,7 @@
 <p>我们给文字设置<code>font-size: 12px</code> 时，屏幕不能按照物理像素和<code>CSS</code>像素<code>1:1</code>的比例来绘制，否则文字会小到看不见。换个分辨率低的设备，文字大小又会变大很多。</p>
 <p>这时候设备厂商发明了一个<strong>逻辑像素</strong>(设备独立像素)的概念。比如 <code>IPhone 12 Pro Max</code> 水平方向的逻辑像素是<code>428px</code>，那么在默认情况下，当我们给页面元素设置样式 <code>width: 428px</code> 时，在<code>IPhone 12 Pro Max</code> 正好能水平撑满整个屏幕。</p>
 <p>在不同设备逻辑像素相同则视觉尺寸相同，每一个逻辑像素包含物理像素点不一样多，包含越多物理像素点越多则越清晰。</p>
-<p><img src="/images/3.png" alt="Untitled"></p>
+<p><img src="/images/device/3.png" alt="Untitled"></p>
 <p><strong>屏幕像素密度</strong></p>
 <p><code>屏幕像素密度 (Pibel Per Inch)</code> 简称<code>ppi</code>，表示每<strong>英寸(屏幕对角线长度)</strong>物理像素。</p>
 <p>对于 iPhone12 mini，5.4英寸(屏幕对角线长度)，分辨率为1080 x 2340，则</p>
@@ -264,8 +264,8 @@
 <p>缩写简称dpr，也就是我们经常在谷歌控制台移动端调试顶端会看到的一个值。</p>
 <p>设备像素比 = 设备像素 / css像素（垂直方向或水平方向）</p>
 <p>可以通过JS来获取：<code>window.devicePixelRatio</code></p>
-<p><img src="/images/1.png" alt="Untitled"></p>
-<p><img src="/images/2.png" alt="Untitled"></p>
+<p><img src="/images/device/1.png" alt="Untitled"></p>
+<p><img src="/images/device/2.png" alt="Untitled"></p>
 <h3 id="CSS单位"><a href="#CSS单位" class="headerlink" title="CSS单位"></a>CSS单位</h3><p><strong>PX</strong></p>
 <p>在屏幕分辨率固定，不考虑屏幕缩放的情况下，<code>px</code>是绝对的，不会随着浏览器视口变化而变化。比如，电脑屏幕分辨率调为<code>1440*900</code>时，<code>css</code>里设置的<code>1px</code>实际的物理尺寸就是屏幕宽度的<code>1/1440</code>。</p>
 <p><strong>em</strong></p>
@@ -299,7 +299,7 @@
 <h2 id="布局视口"><a href="#布局视口" class="headerlink" title="布局视口"></a>布局视口</h2><p>在移动端，默认的情况下，布局视口的宽度是要远远大于浏览器的宽度的。</p>
 <p>浏览器厂商为了让用户在小屏幕下网页也能够显示地很好，所以把布局视口宽度设置地很大，一般在<code>768px-1024px</code>之间，最常见的宽度是<code>980px</code>。</p>
 <p>如下图例子，在<code>iPhone6(375*667)</code>下，浏览器宽度只有<code>375px</code>，但是<code>body</code>的宽度却是<code>980px</code>。</p>
-<p><img src="/images/4.png" alt></p>
+<p><img src="/images/device/4.png" alt></p>
 <p>这个宽度可以通过<code>document.documentElement.clientWidth</code>得到。</p>
 <p>为何要这样设计呢？</p>
 <p>在没有做任何移动端适配的时候，浏览器希望在移动端也尽可能合适的显示网页，如果没有设置比较大的布局适口宽度，移动端的宽度比 PC 端是小很多的，很容易造成布局崩溃。</p>
