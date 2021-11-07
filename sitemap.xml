@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://12vv.github.io/2021/11/07/JS%20%E6%89%8B%E5%86%99%20Promise/</loc>
+    
+    <lastmod>2021-11-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://12vv.github.io/2021/09/30/dmfyms/</loc>
     
     <lastmod>2021-10-01</lastmod>
@@ -109,7 +116,7 @@
 
   <url>
     <loc>https://12vv.github.io/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -117,35 +124,35 @@
   
   <url>
     <loc>https://12vv.github.io/tags/Computer-Graphics/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://12vv.github.io/tags/gamma-correction/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://12vv.github.io/tags/BRDF/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://12vv.github.io/tags/radiometry/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://12vv.github.io/tags/Front-End/</loc>
-    <lastmod>2021-10-01</lastmod>
+    <lastmod>2021-11-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
