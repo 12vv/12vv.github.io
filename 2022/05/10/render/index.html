@@ -349,7 +349,7 @@
 <p>当页面中元素样式的改变并不影响它在文档流中的位置时（例如：<code>color、background-color、visibility</code>等），浏览器会将新样式赋予给元素并重新绘制，这个过程称为重绘。</p>
 <p><strong>浏览器优化</strong></p>
 <p>浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。</p>
-<p>但是<strong>获取布局信息的操作的时候，会强制队列刷新</strong>，比如访问以下属性或者使用以下方法：</p>
+<p>但是获取布局信息的操作的时候，会<code>强制队列刷新</code>，比如访问以下属性或者使用以下方法：</p>
 <ul>
 <li>offsetTop、offsetLeft、offsetWidth、offsetHeight</li>
 <li>scrollTop、scrollLeft、scrollWidth、scrollHeight</li>
@@ -366,7 +366,7 @@
 <li><p>避免频繁操作<code>DOM</code>，创建一个<code>documentFragment</code>，在它上面应用所有 DOM 操作，最后再把它添加到文档中。<strong><code>DocumentFragment</code> 节点不属于文档树</strong>，在把它插入文档节点之前，增删节点都不会引起回流。</p>
 </li>
 <li>先为元素设置<code>display: none</code>，操作结束后再把它显示出来。因为在<code>display</code>属性为<code>none</code>的元素上进行的<code>DOM</code>操作不会引发回流和重绘。</li>
-<li><strong>避免频繁读取会引发回流/重绘的属性</strong>，如果确实需要多次使用，就用一个变量缓存起来。</li>
+<li>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
 <li>对具有复杂动画的元素使用<code>绝对定位</code>，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</li>
 <li>避免使用<code>CSS</code>表达式（例如：<code>calc()</code>）</li>
 <li>避免使用<code>table</code>布局，<code>table</code>是个和罕见的可以影响在它们之前已经进入的<code>DOM</code>元素的显示的元素。<strong>即使一些小的变化将导致表格(table)中的所有其他节点回流。</strong></li>
@@ -376,10 +376,10 @@
 <p>在每个层上完成绘制过程之后，浏览器会将绘制的位图发送给<code>GPU</code>绘制到屏幕上，将所有层按照合理的顺序合并成一个图层,然后在屏幕上呈现。</p>
 <p>对于有位置重叠的元素的页面,这个过程尤其重要，因为一旦图层的合并顺序出错,将会导致元素显示异常。</p>
 <p><img src="/images/render/4.png" alt="/images/render/4.png"></p>
-<p>DOM 树中得<strong>每个 Node 节点</strong>都有一个对应的 <code>LayoutObject</code> 。<code>LayoutObject</code> 知道如何在屏幕上 paint Node 的内容。</p>
+<p><code>DOM树</code>中得每个<code>Node节点</code>都有一个对应的 <code>LayoutObject</code> 。<code>LayoutObject</code> 知道如何在屏幕上 paint Node 的内容。</p>
 <p><strong>从 LayoutObjects 到 PaintLayers</strong></p>
-<p>一般来说，拥有<strong>相同的坐标空间</strong>的 <code>LayoutObjects</code>，属于同一个<code>渲染层 (Paint Layer)</code>。</p>
-<p><code>PaintLayer</code> 最初是用来实现 <code>stacking contest（层叠上下文）</code>，以此来保证页面元素以正确的顺序合成（composite），这样才能正确的展示元素的重叠以及半透明元素等等。</p>
+<p>一般来说，拥有<code>相同的坐标空间</code>的 <code>LayoutObjects</code>，属于同一个<code>渲染层 (Paint Layer)</code>。</p>
+<p><code>PaintLayer</code>最初是用来实现 <code>stacking contest（层叠上下文）</code>，以此来保证页面元素以正确的顺序合成（composite），这样才能正确的展示元素的重叠以及半透明元素等等。</p>
 <p>因此满足形成层叠上下文条件的 <code>LayoutObject</code> 一定会为其创建新的渲染层，当然还有其他的一些特殊情况，为一些特殊的 <code>LayoutObjects</code> 创建一个新的渲染层，比如 <code>overflow != visible</code> 的元素。</p>
 <ul>
 <li>创建新的渲染层的常见情况<ul>
@@ -406,7 +406,7 @@
 <li>3D transforms：translate3d、translateZ 等</li>
 <li>video、canvas、iframe 等元素</li>
 <li>通过 Element.animate() 实现的 opacity 动画转换</li>
-<li>通过 СSS 动画实现的 opacity 动画转换</li>
+<li>通过 CSS 动画实现的 opacity 动画转换</li>
 <li>position: fixed</li>
 <li>具有 will-change 属性</li>
 <li>对 opacity、transform、fliter、backdropfilter 应用了 animation 或者 transition</li>
@@ -507,20 +507,17 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span> /&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/render/11.png" alt="/images/render/11.png"></p>
 <ul>
-<li>需要 HTML 和 CSS 来构建渲染树，因此 HTML 和 CSS 均为关键资源，<strong>共 2 个关键资源</strong></li>
-<li>浏览器需要<strong>一个网络往返过程</strong>来提取 HTML 文档，又检索到需要 CSS 文件，<strong>最少</strong>需要 <strong>2</strong> <strong>个往返过程</strong></li>
-<li>两种资源加起来的<strong>关键字节总量最多为 9 KB</strong></li>
+<li>需要<code>HTML</code>和<code>CSS</code>来构建渲染树，因此<code>HTML</code>和<code>CSS</code>均为关键资源，共<code>2</code>个关键资源</li>
+<li>浏览器需要一个网络往返过程来提取 HTML 文档，又检索到需要 CSS 文件，最少需要<code>2</code>个往返过程</li>
+<li>两种资源加起来的关键字节总量最多为<code>9 KB</code></li>
 </ul>
 <p>例子二</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="name">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"awesome-photo.jpg"</span> /&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"app.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="/images/render/12.png" alt="/images/render/12.png"></p>
 <ul>
-<li>比<code>例子1</code>多了一个 JS 关键资源，<strong>共 3 个关键资源</strong><ul>
-<li>如果在<code>&lt;script&gt;</code>中加入<code>async</code>属性，<code>&lt;script src=&quot;app.js&quot; async&gt;&lt;/script&gt;</code>，则可以减少为 2 个</li>
-</ul>
-</li>
-<li><strong>关键路径长度仍然是 <code>2</code> 个往返过程</strong>！因为 CSS 和 JavaScript 可以并行传输</li>
-<li>关键字节 11kb</li>
+<li>比<code>例子1</code>多了一个 JS 关键资源，共<code>3</code>个关键资源，如果在<code>&lt;script&gt;</code>中加入<code>async</code>属性，<code>&lt;script src=&quot;app.js&quot; async&gt;&lt;/script&gt;</code>，则可以减少为<code>2</code>个</li>
+<li>关键路径长度仍然是 <code>2</code> 个往返过程！因为<code>CSS</code>和<code>JavaScript</code>可以并行传输</li>
+<li>关键字节<code>11kb</code></li>
 </ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a href="https://juejin.cn/post/6844903553795014663" target="_blank" rel="noopener">从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理</a></li>
