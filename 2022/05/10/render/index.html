@@ -282,7 +282,7 @@
 <ul>
 <li>负责渲染浏览器界面，解析<code>HTML/CSS</code>，构建<code>DOM</code>树和<code>Render</code>树，布局和绘制</li>
 <li>当界面需要<code>重绘(Repaint)</code>，或者由于某些操作引发<code>回流(Reflow)</code>时，该线程就会执行</li>
-<li><code>**GUI</code>渲染线程**与<code>JS引擎线程</code>是互斥的，当<code>JS引擎</code>执行时<code>GUI线程</code>会被挂起，<code>GUI更新</code>会被保存在一个队列中等到<code>JS引擎</code>空闲时立即被执行</li>
+<li><code>**GUI</code>渲染线程**与<code>JS引擎线程</code>是互斥的，当<code>JS引擎</code>执行时<code>GUI线程</code>会被挂起，<code>GUI更新</code>会被保存在一个队列中等到<code>JS引擎</code>空闲时立即被执行。</li>
 </ul>
 <p><code>**JS</code>引擎线程**</p>
 <ul>
@@ -328,7 +328,7 @@
 <li><p>defer 和 async<br>没有<code>defer</code>或<code>async</code>，浏览器会立即加载并执行指定的脚本，不等待后续载入的文档元素,读到就加载并执行。<br>有<code>async</code>，加载和渲染后续文档元素的过程将和<code>script.js</code> 的加载与执行并行进行（异步）。<br>有 <code>defer</code>，加载后续文档元素的过程将和 <code>script.js</code> 的加载并行进行（异步）。<br><strong>但是 <code>script.js</code> 的执行要在所有元素解析完成之后，<code>DOMContentLoaded</code> 事件触发之前完成。</strong><br>从实用角度来说，首先把所有脚本都丢到 <code>&lt;/body&gt;</code> 之前是最佳实践，因为对于旧浏览器来说这是唯一的优化选择，此法可保证非脚本的其他一切元素能够以最快的速度得到加载和解析。<br><strong>结论:</strong><br><code>defer</code> 和 <code>async</code> 在网络读取（下载）是一样的，都是异步的（相较于 HTML 解析）<br>差别在于脚本下载完之后何时执行，显然 <code>defer</code> 是最接近我们对于应用脚本加载和执行的要求的<br>关于 <code>defer</code>，是按照加载顺序执行脚本的，这一点要善加利用<br><code>async</code> 则是一个乱序执行，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，<strong>只要它加载完了就会立刻执行</strong><br><code>async</code> 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行）,不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的</p>
 </li>
 </ol>
-<h3 id="浏览器的回流与重绘"><a href="#浏览器的回流与重绘" class="headerlink" title="浏览器的回流与重绘"></a>浏览器的回流与重绘</h3><p>回流必将引起重绘,重绘不一定会引起回流。s</p>
+<h3 id="浏览器的回流与重绘"><a href="#浏览器的回流与重绘" class="headerlink" title="浏览器的回流与重绘"></a>浏览器的回流与重绘</h3><p>回流必将引起重绘,重绘不一定会引起回流。</p>
 <p><strong>回流 (Reflow)</strong></p>
 <p>当 <code>Render Tree</code>中部分或全部元素的<code>尺寸、结构、或某些属性</code>发生改变时,浏览器重新渲染部分或全部文档的过程称为回流。需要重新生成<code>DOM</code>树。</p>
 <ul>
@@ -337,7 +337,7 @@
 <li>元素尺寸或位置发生改变（包括外边距、内边框、边框大小、高度和宽度等）</li>
 <li>元素内容变化（文字数量或图片大小，比如用户在<code>input</code>框中输入文字等等）</li>
 <li>元素字体大小变化</li>
-<li>添加或者删除<strong>可见</strong>的<code>DOM</code>元素</li>
+<li>添加或者删除可见的<code>DOM</code>元素</li>
 <li>激活<code>CSS</code>伪类（例如：<code>:hover）</code></li>
 <li>查询某些属性或调用某些方法</li>
 </ul>
@@ -369,14 +369,14 @@
 <li><code>css3</code>硬件加速（<code>GPU</code>加速），可以让<code>transform、opacity、filters</code>这些动画不会引起回流重绘</li>
 </ol>
 <h3 id="渲染层合并-Composite"><a href="#渲染层合并-Composite" class="headerlink" title="渲染层合并 (Composite)"></a>渲染层合并 (Composite)</h3><p>对于页面中 DOM 元素的<code>绘制(Paint)</code>是在多个层上进行的。</p>
-<p>在每个层上完成绘制过程之后，浏览器会将绘制的位图发送给 GPU 绘制到屏幕上，<strong>将所有层按照合理的顺序合并成一个图层,然后在屏幕上呈现。</strong></p>
+<p>在每个层上完成绘制过程之后，浏览器会将绘制的位图发送给<code>GPU</code>绘制到屏幕上，将所有层按照合理的顺序合并成一个图层,然后在屏幕上呈现。</p>
 <p>对于有位置重叠的元素的页面,这个过程尤其重要，因为一旦图层的合并顺序出错,将会导致元素显示异常。</p>
 <p><img src="/images/render/4.png" alt="/images/render/4.png"></p>
 <p>DOM 树中得<strong>每个 Node 节点</strong>都有一个对应的 <code>LayoutObject</code> 。<code>LayoutObject</code> 知道如何在屏幕上 paint Node 的内容。</p>
 <p><strong>从 LayoutObjects 到 PaintLayers</strong></p>
 <p>一般来说，拥有<strong>相同的坐标空间</strong>的 <code>LayoutObjects</code>，属于同一个<code>渲染层 (Paint Layer)</code>。</p>
 <p><code>PaintLayer</code> 最初是用来实现 <code>stacking contest（层叠上下文）</code>，以此来保证页面元素以正确的顺序合成（composite），这样才能正确的展示元素的重叠以及半透明元素等等。</p>
-<p>因此满足形成层叠上下文条件的 <code>LayoutObject</code> 一定会为其<strong>创建新的渲染层</strong>，当然还有其他的一些特殊情况，为一些特殊的 <code>LayoutObjects</code> 创建一个新的渲染层，比如 <code>overflow != visible</code> 的元素。</p>
+<p>因此满足形成层叠上下文条件的 <code>LayoutObject</code> 一定会为其创建新的渲染层，当然还有其他的一些特殊情况，为一些特殊的 <code>LayoutObjects</code> 创建一个新的渲染层，比如 <code>overflow != visible</code> 的元素。</p>
 <ul>
 <li>创建新的渲染层的常见情况<ul>
 <li>根元素 document</li>
@@ -438,12 +438,12 @@
 <p>有四个<code>absolute</code>定位的<code>div</code>在屏幕内发生了交叠。此时处于最下方的<code>div</code>在加上了<code>CSS</code>属性 <code>transform: translateZ(0)</code> 后被浏览器提升为合成层。</p>
 <p>按照隐式合成的原理，盖在它上边的<code>div</code>会提升为一个新的合成层，第三个<code>div</code>又盖在了第二个上，自然也会被提升为合成层，第四个也同理。这样一来，就会产生四个合成层。</p>
 <p><img src="/images/render/8.png" alt="/images/render/8.png"></p>
-<p>然而由于浏览器的层压缩机制，会将隐式合成的多个渲染层压缩到同一个 GraphicsLayer 中进行渲染，也就是说，上方的三个 div 最终会处于同一个合成层中，这就是浏览器的层压缩。</p>
+<p>然而由于浏览器的层压缩机制，会将隐式合成的多个渲染层压缩到同一个<code>GraphicsLayer</code>中进行渲染，也就是说，上方的三个 div 最终会处于同一个合成层中，这就是浏览器的层压缩。</p>
 <p><img src="/images/render/9.png" alt="/images/render/9.png"></p>
 <p><strong>优化建议</strong></p>
 <ol>
 <li><p>动画使用 transform 实现</p>
-<p>对于一些体验要求较高的关键动画，比如一些交互复杂的玩法页面，存在持续变化位置的<code>animation</code>元素，我们最好是使用<code>transform</code>来实现而不是通过改变<code>left/top</code>的方式。这样做的原因是，如果使用<code>left/top</code>来实现位置变化，<code>animation</code>节点和<code>Document</code>将被放到了同一个<code>GraphicsLayer</code>中进行渲染，持续的动画效果将导致整个<code>Document</code>不断地执行重绘，而使用<code>transform</code>的话，能够让<code>animation</code>节点被放置到一个独立合成层中进行渲染绘制，动画发生时不会影响到其它层。<strong>并且另一方面，动画会完全运行在 GPU 上，相比起 CPU 处理图层后再发送给显卡进行显示绘制来说，这样的动画往往更加流畅。</strong></p>
+<p>对于一些体验要求较高的关键动画，比如一些交互复杂的玩法页面，存在持续变化位置的<code>animation</code>元素，我们最好是使用<code>transform</code>来实现而不是通过改变<code>left/top</code>的方式。这样做的原因是，如果使用<code>left/top</code>来实现位置变化，<code>animation</code>节点和<code>Document</code>将被放到了同一个<code>GraphicsLayer</code>中进行渲染，持续的动画效果将导致整个<code>Document</code>不断地执行重绘，而使用<code>transform</code>的话，能够让<code>animation</code>节点被放置到一个独立合成层中进行渲染绘制，动画发生时不会影响到其它层。<br>并且另一方面，动画会完全运行在 GPU 上，相比起 CPU 处理图层后再发送给显卡进行显示绘制来说，这样的动画往往更加流畅。</p>
 </li>
 <li><p>减少隐式合成</p>
 <p>虽然隐式合成从根本上来说是为了保证正确的图层重叠顺序，但具体到实际开发中，隐式合成很容易就导致一些无意义的合成层生成，归根结底其实就要求我们在开发时约束自己的布局习惯，避免踩坑。</p>
@@ -456,7 +456,7 @@
 <p>利用<code>Chrome Devtools</code>查看这两个合成层的内存占用后发现，<code>.bottom</code> 内存占用是 <code>39.1 KB</code>，而 <code>.top</code> 是 <code>400 B</code>，差距十分明显。这是因为 <code>.top</code> 是合成层，<code>transform</code> 位于的 <code>Composite</code> 阶段，现在完全在 <code>GPU</code> 上执行。因此对于一些纯色图层来说，我们可以使用 <code>width</code> 和 <code>height</code> 属性减小合成层的物理尺寸，然后再用 <code>transform: scale()</code> 放大，这样一来可以极大地减少层合成带来的内存消耗。</p>
 </li>
 </ol>
-<h2 id="关键渲染路径-Critical-Rendering-Path-CRP"><a href="#关键渲染路径-Critical-Rendering-Path-CRP" class="headerlink" title="关键渲染路径(Critical Rendering Path, CRP)"></a>关键渲染路径(Critical Rendering Path, CRP)</h2><p>关键渲染路径是浏览器将 <code>HTML, CSS, JavaScript</code> 转换为在屏幕上呈现的像素内容所经历的一系列步骤。也就是浏览器渲染流程。</p>
+<h2 id="关键渲染路径-CRP"><a href="#关键渲染路径-CRP" class="headerlink" title="关键渲染路径(CRP)"></a>关键渲染路径(CRP)</h2><p><code>关键渲染路径(Critical Rendering Path, CRP)</code>是浏览器将 <code>HTML, CSS, JavaScript</code> 转换为在屏幕上呈现的像素内容所经历的一系列步骤。也就是浏览器渲染流程。</p>
 <p>为尽快完成首次渲染，我们需要最大限度减小以下三种可变因素：</p>
 <ul>
 <li>关键资源的数量：可能阻止网页首次渲染的资源。</li>
@@ -470,19 +470,19 @@
 <li>结合 HTTP 缓存文件。</li>
 </ul>
 <p><strong>优化 CSSOM</strong></p>
-<p><strong>缩小、压缩以及缓存</strong>同样重要，对于  <strong>CSSOM</strong>  我们前面重点提过了它会<strong>阻止页面呈现</strong>，因此我们可以从这方面考虑去优化。</p>
+<p><code>缩小、压缩以及缓存</code>同样重要，对于<code>CSSOM</code>我们前面重点提过了它会阻止页面呈现，因此我们可以从这方面考虑去优化。</p>
 <ul>
 <li>减少关键 CSS 元素数量</li>
 <li>当我们声明样式表时，请密切关注媒体查询的类型，它们极大地影响了 CRP 的性能 。</li>
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 阻塞渲染，匹配所有情况--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 声明只适用于打印(媒体类型)，因此页面在浏览器中首次加载时，不会阻塞渲染--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"print.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">media</span>=<span class="string">"print"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 提供了媒体查询，由浏览器判断:</span></span><br><span class="line"><span class="comment">		 如果条件符合，则在该样式表下载并处理完以前，浏览器会阻塞渲染 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"other.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">media</span>=<span class="string">"(min-width: 40em)"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>优化 JavaScript</strong></p>
-<p>当浏览器遇到<code>&lt;script&gt;</code>标记时，会<strong>阻止解析器继续操作,直到 CSSOM 构建完毕，</strong>JavaScript 才会运行并继续完成 DOM 构建过程。</p>
+<p>当浏览器遇到<code>&lt;script&gt;</code>标记时，会阻止解析器继续操作,直到<code>CSSOM</code>构建完毕，<code>JavaScript</code> 才会运行并继续完成 <code>DOM</code> 构建过程。</p>
 <ul>
 <li>使用 <code>async</code> 或 <code>defer</code>：<ul>
-<li><strong><code>async</code>：</strong> 当我们在<code>&lt;script&gt;</code>标记添加 <code>async</code> 属性以后，浏览器遇到这个<code>&lt;script&gt;</code>标记时会继续解析 DOM，同时脚本也不会被 CSSOM 阻止，即不会阻止 CRP。</li>
+<li><strong><code>async</code>：</strong> 当我们在<code>&lt;script&gt;</code>标记添加 <code>async</code> 属性以后，浏览器遇到这个<code>&lt;script&gt;</code>标记时会继续解析 <code>DOM</code>，同时脚本也不会被 <code>CSSOM</code> 阻止，即不会阻止 <code>CRP</code>。</li>
 <li><strong><code>defer</code>：</strong>与 <code>async</code> 的区别在于，脚本需要等到文档解析后（ <code>DOMContentLoaded</code> 事件前）执行，而 <code>async</code> 允许脚本在文档解析时位于后台运行（两者下载的过程不会阻塞 DOM，但执行会）。</li>
-<li>当我们的脚本不会修改 DOM 或 CSSOM 时，推荐使用 <code>async</code> 。</li>
+<li>当我们的脚本不会修改 <code>DOM</code> 或 <code>CSSOM</code> 时，推荐使用 <code>async</code> 。</li>
 </ul>
 </li>
 <li>预加载 —— preload &amp; prefetch 。</li>
@@ -491,7 +491,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- dns-prefetch 结合 preconnect --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"preconnect"</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/"</span> <span class="attr">crossorigin</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"dns-prefetch"</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <p>希望在 HTTPS 页面开启自动解析功能时，添加如下标记</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-dns-prefetch-control"</span> <span class="attr">content</span>=<span class="string">"on"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- off 则是关闭--&gt;</span></span><br></pre></td></tr></table></figure>
-<p>或者通过在服务器端发送 X-DNS-Prefetch-Control 报头</p>
+<p>或者通过在服务器端发送 <code>X-DNS-Prefetch-Control</code> 报头。</p>
 <p><strong>总结优化 CRP 常规步骤</strong></p>
 <ol>
 <li>分析、描述关键路径：关键资源数量、字节数、关键路径长度</li>
