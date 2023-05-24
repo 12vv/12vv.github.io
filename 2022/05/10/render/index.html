@@ -278,13 +278,13 @@
 <ul>
 <li>称为浏览器渲染进程或浏览器内核，内部是<strong>多线程</strong>的。</li>
 </ul>
-<h2 id="渲染进程-浏览器内核"><a href="#渲染进程-浏览器内核" class="headerlink" title="渲染进程 (浏览器内核)"></a>渲染进程 (浏览器内核)</h2><p><code>GUI</code>渲染线程</p>
+<h2 id="渲染进程-浏览器内核"><a href="#渲染进程-浏览器内核" class="headerlink" title="渲染进程 (浏览器内核)"></a>渲染进程 (浏览器内核)</h2><p><strong>GUI 渲染线程</strong></p>
 <ul>
 <li>负责渲染浏览器界面，解析<code>HTML/CSS</code>，构建<code>DOM</code>树和<code>Render</code>树，布局和绘制</li>
 <li>当界面需要<code>重绘(Repaint)</code>，或者由于某些操作引发<code>回流(Reflow)</code>时，该线程就会执行</li>
 <li><code>GUI渲染线程</code>与<code>JS引擎线程</code>是互斥的，当<code>JS引擎</code>执行时<code>GUI线程</code>会被挂起，<code>GUI更新</code>会被保存在一个队列中等到<code>JS引擎</code>空闲时立即被执行。</li>
 </ul>
-<p><code>JS</code>引擎线程</p>
+<p><strong>JS 引擎线程</strong></p>
 <ul>
 <li>JavaScript 引擎，也成为 <code>JS内核</code>，负责处理<code>Javascript</code>脚本程序。(例如 V8 引擎)</li>
 <li><code>JS引擎</code>等待着任务队列中任务的到来，然后加以处理。一个 Tab 页（renderer 进程）中无论什么时候都只有一个 JS 线程在运行 JS 程序。</li>
@@ -361,9 +361,9 @@
 <p><strong>手动优化</strong></p>
 <ol>
 <li><p>避免频繁操作样式，最好一次性重写<code>style</code>属性，或者将样式列表定义为<code>class</code>并通过更改元素<code>class</code>属性来应用样式。</p>
-<p>通过<code>style</code>属性设置样式导致回流。<strong>避免设置多级内联样式</strong>，因为每个都会造成回流，样式应该合并在一个外部类，这样当该元素的<code>class</code>属性可被操控时仅会产生一个<code>reflow</code>。</p>
+<p>通过<code>style</code>属性设置样式导致回流。避免设置<code>多级内联样式</code>，因为每个都会造成回流，样式应该合并在一个外部类，这样当该元素的<code>class</code>属性可被操控时仅会产生一个<code>reflow</code>。</p>
 </li>
-<li><p>避免频繁操作<code>DOM</code>，创建一个<code>documentFragment</code>，在它上面应用所有 DOM 操作，最后再把它添加到文档中。<strong><code>DocumentFragment</code> 节点不属于文档树</strong>，在把它插入文档节点之前，增删节点都不会引起回流。</p>
+<li><p>避免频繁操作<code>DOM</code>，创建一个<code>documentFragment</code>，在它上面应用所有 DOM 操作，最后再把它添加到文档中。<code>DocumentFragment</code> 节点不属于文档树，在把它插入文档节点之前，增删节点都不会引起回流。</p>
 </li>
 <li>先为元素设置<code>display: none</code>，操作结束后再把它显示出来。因为在<code>display</code>属性为<code>none</code>的元素上进行的<code>DOM</code>操作不会引发回流和重绘。</li>
 <li>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
