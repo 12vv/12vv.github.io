@@ -292,7 +292,7 @@
 </ul>
 <p><strong>事件触发线程</strong></p>
 <ul>
-<li><strong>归属于浏览器</strong>而不是 JS 引擎，用来控制事件循环</li>
+<li>归属于浏览器而不是 JS 引擎，用来控制事件循环</li>
 <li>当 JS 引擎执行代码块如 <code>setTimeOut</code> 时（或来自浏览器内核的其他线程，如鼠标点击、AJAX 异步请求等），会将对应任务添加到事件线程中</li>
 <li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待 JS 引擎的处理</li>
 <li>由于 JS 的单线程关系，这些待处理队列中的事件都得排队等待 JS 引擎处理（当 JS 引擎空闲时才会去执行）</li>
@@ -300,8 +300,8 @@
 <p><strong>定时器触发线程</strong></p>
 <ul>
 <li><code>setInterval</code> 与 <code>setTimeout</code> 所在线程</li>
-<li>浏览器定时计数器并不是由 JavaScript 引擎计数的，（因为 JavaScript 引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确），因此通过单独线程来计时并触发定时（<strong>计时完毕后，添加到事件队列中</strong>，等待 JS 引擎空闲后执行）</li>
-<li>W3C 在 HTML 标准中规定，要求 <code>setTimeout</code> 中<strong>低于 4ms 的时间间隔算为 4ms</strong>。</li>
+<li>浏览器定时计数器并不是由 JavaScript 引擎计数的，（因为 JavaScript 引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确），因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待 JS 引擎空闲后执行）</li>
+<li>W3C 在 HTML 标准中规定，要求 <code>setTimeout</code> 中低于 4ms 的时间间隔算为 4ms。</li>
 </ul>
 <p><strong>异步 Http 请求线程</strong></p>
 <ul>
@@ -310,22 +310,26 @@
 </ul>
 <h2 id="浏览器渲染流程"><a href="#浏览器渲染流程" class="headerlink" title="浏览器渲染流程"></a>浏览器渲染流程</h2><p><img src="/images/render/2.png" alt="/images/render/2.png"></p>
 <ol>
-<li>解析 HTML 文件，构建 DOM 树，同时浏览器主进程负责下载 CSS 文件</li>
-</ol>
-<p>构建 DOM 树的详细流程: 字节流转 tokens (StartTag, EndTag, 文本 token) → 生成节点 node → 最后生成 DOM :</p>
-<p><img src="/images/render/3.png" alt="/images/render/3.png"></p>
-<ol>
-<li><code>CSS</code> 文件下载完成，解析 <code>CSS</code> 文件成树形的数据结构，然后结合 <code>DOM</code> 树合并成 <code>RenderObject</code> 树</li>
+<li><p>解析 HTML 文件，构建 DOM 树，同时浏览器主进程负责下载 CSS 文件<br>构建 DOM 树的详细流程: 字节流转 tokens (StartTag, EndTag, 文本 token) → 生成节点 node → 最后生成 DOM :<br><img src="/images/render/3.png" alt="/images/render/3.png"></p>
+</li>
+<li><p><code>CSS</code> 文件下载完成，解析 <code>CSS</code> 文件成树形的数据结构，然后结合 <code>DOM</code> 树合并成 <code>RenderObject</code> 树</p>
+</li>
 <li>布局 <code>RenderObject</code> 树 （<code>Layout/reflow</code>），负责 <code>RenderObject</code> 树中的元素的尺寸，位置等计算</li>
-<li>绘制 <code>RenderObject</code> 树 （paint），绘制页面的<strong>像素</strong>信息</li>
-<li>浏览器主进程将默认的图层和复合图层<strong>交给 GPU 进程</strong>，GPU 进程再将各个图层合成（composite），最后显示出页面</li>
+<li>绘制 <code>RenderObject</code> 树 （paint），绘制页面的<code>像素</code>信息</li>
+<li>浏览器主进程将默认的图层和复合图层交给<code>GPU 进程</code>，GPU 进程再将各个图层<code>合成（composite）</code>，最后显示出页面</li>
 </ol>
 <h3 id="JavaScript-线程"><a href="#JavaScript-线程" class="headerlink" title="JavaScript 线程"></a>JavaScript 线程</h3><ol>
 <li><p>单线程机制<br><code>JavaScript</code> 为处理页面中用户的交互，以及操作 <code>DOM</code> 树、<code>CSS</code> 样式树来给用户呈现一份动态而丰富的交互体验和服务器逻辑的交互处理。<br>如果 <code>JavaScript</code> 是多线程的方式来操作这些 <code>UI DOM</code>，则可能出现 <code>UI</code> 操作的冲突。假设存在两个线程同时操作一个 <code>DOM</code>，一个负责修改一个负责删除，那么这个时候就需要浏览器来裁决如何生效哪个线程的执行结果。<br>可以通过锁来解决上面的问题。但为了避免因为引入了锁而带来更大的复杂性，<code>Javascript</code>在最初就选择了单线程执行。</p>
 </li>
 <li><p>GUI 渲染线程与 JavaScript 引擎的互斥关系<br>由于<code>JavaScript</code>是可操纵<code>DOM</code>的，如果在修改这些元素属性同时渲染界面（即 JavaScript 线程和 GUI 线程同时运行），那么渲染线程前后获得的元素数据就可能不一致了。<br>为了防止渲染出现不可预期的结果，浏览器设置  <strong>GUI 渲染线程与 JavaScript 引擎为互斥</strong>的关系。</p>
 </li>
-<li><p>defer 和 async<br>没有<code>defer</code>或<code>async</code>，浏览器会立即加载并执行指定的脚本，不等待后续载入的文档元素,读到就加载并执行。<br>有<code>async</code>，加载和渲染后续文档元素的过程将和<code>script.js</code> 的加载与执行并行进行（异步）。<br>有 <code>defer</code>，加载后续文档元素的过程将和 <code>script.js</code> 的加载并行进行（异步）。<br><strong>但是 <code>script.js</code> 的执行要在所有元素解析完成之后，<code>DOMContentLoaded</code> 事件触发之前完成。</strong><br>从实用角度来说，首先把所有脚本都丢到 <code>&lt;/body&gt;</code> 之前是最佳实践，因为对于旧浏览器来说这是唯一的优化选择，此法可保证非脚本的其他一切元素能够以最快的速度得到加载和解析。<br><strong>结论:</strong><br><code>defer</code> 和 <code>async</code> 在网络读取（下载）是一样的，都是异步的（相较于 HTML 解析）<br>差别在于脚本下载完之后何时执行，显然 <code>defer</code> 是最接近我们对于应用脚本加载和执行的要求的<br>关于 <code>defer</code>，是按照加载顺序执行脚本的，这一点要善加利用<br><code>async</code> 则是一个乱序执行，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，<strong>只要它加载完了就会立刻执行</strong><br><code>async</code> 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行）,不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的</p>
+<li><p>defer 和 async<br>没有<code>defer</code>或<code>async</code>，浏览器会立即加载并执行指定的脚本，不等待后续载入的文档元素,读到就加载并执行。<br>有<code>async</code>，加载和渲染后续文档元素的过程将和<code>script.js</code> 的加载与执行并行进行（异步）。<br>有<code>defer</code>，加载后续文档元素的过程将和 <code>script.js</code> 的加载并行进行（异步）。但是 <code>script.js</code> 的执行要在所有元素解析完成之后，<code>DOMContentLoaded</code> 事件触发之前完成。<br>从实用角度来说，首先把所有脚本都丢到 <code>&lt;/body&gt;</code> 之前是最佳实践，因为对于旧浏览器来说这是唯一的优化选择，此法可保证非脚本的其他一切元素能够以最快的速度得到加载和解析。<br><strong>结论:</strong></p>
+<ol>
+<li><code>defer</code> 和 <code>async</code> 在网络读取（下载）是一样的，都是异步的（相较于 HTML 解析）</li>
+<li>差别在于脚本下载完之后何时执行，显然 <code>defer</code> 是最接近我们对于应用脚本加载和执行的要求的</li>
+<li><code>defer</code>是按照加载<code>顺序</code>执行脚本的，这一点要善加利用, <code>async</code> 则是一个<code>乱序</code>执行，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，<strong>只要它加载完了就会立刻执行</strong></li>
+<li><code>async</code> 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行）,不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的</li>
+</ol>
 </li>
 </ol>
 <h3 id="浏览器的回流与重绘"><a href="#浏览器的回流与重绘" class="headerlink" title="浏览器的回流与重绘"></a>浏览器的回流与重绘</h3><p>回流必将引起重绘,重绘不一定会引起回流。</p>
@@ -338,11 +342,11 @@
 <li>元素内容变化（文字数量或图片大小，比如用户在<code>input</code>框中输入文字等等）</li>
 <li>元素字体大小变化</li>
 <li>添加或者删除可见的<code>DOM</code>元素</li>
-<li>激活<code>CSS</code>伪类（例如：<code>:hover）</code></li>
+<li>激活<code>CSS</code>伪类（例如：<code>:hover</code>）</li>
 <li>查询某些属性或调用某些方法</li>
 </ul>
 <p><strong>重绘 (Repaint)</strong></p>
-<p>当页面中元素样式的改变并不影响它在文档流中的位置时（例如：<strong><code>color、background-color、visibility</code></strong>等），浏览器会将新样式赋予给元素并重新绘制，这个过程称为重绘。</p>
+<p>当页面中元素样式的改变并不影响它在文档流中的位置时（例如：<code>color、background-color、visibility</code>等），浏览器会将新样式赋予给元素并重新绘制，这个过程称为重绘。</p>
 <p><strong>浏览器优化</strong></p>
 <p>浏览器会维护一个队列，把所有引起回流和重绘的操作放入队列中，如果队列中的任务数量或者时间间隔达到一个阈值的，浏览器就会将队列清空，进行一次批处理，这样可以把多次回流和重绘变成一次。</p>
 <p>但是<strong>获取布局信息的操作的时候，会强制队列刷新</strong>，比如访问以下属性或者使用以下方法：</p>
@@ -356,14 +360,14 @@
 <p><strong>因为属性和方法都需要返回最新的布局信息，因此浏览器不得不清空队列，触发回流重绘来返回正确的值。</strong></p>
 <p><strong>手动优化</strong></p>
 <ol>
-<li><p><strong>避免频繁操作样式</strong>，最好一次性重写<code>style</code>属性，或者将样式列表定义为<code>class</code>并通过更改元素<code>class</code>属性来应用样式。</p>
+<li><p>避免频繁操作样式，最好一次性重写<code>style</code>属性，或者将样式列表定义为<code>class</code>并通过更改元素<code>class</code>属性来应用样式。</p>
 <p>通过<code>style</code>属性设置样式导致回流。<strong>避免设置多级内联样式</strong>，因为每个都会造成回流，样式应该合并在一个外部类，这样当该元素的<code>class</code>属性可被操控时仅会产生一个<code>reflow</code>。</p>
 </li>
-<li><p><strong>避免频繁操作<code>DOM</code></strong>，创建一个<code>documentFragment</code>，在它上面应用所有 DOM 操作，最后再把它添加到文档中。<strong><code>DocumentFragment</code> 节点不属于文档树</strong>，在把它插入文档节点之前，增删节点都不会引起回流。</p>
+<li><p>避免频繁操作<code>DOM</code>，创建一个<code>documentFragment</code>，在它上面应用所有 DOM 操作，最后再把它添加到文档中。<strong><code>DocumentFragment</code> 节点不属于文档树</strong>，在把它插入文档节点之前，增删节点都不会引起回流。</p>
 </li>
 <li>先为元素设置<code>display: none</code>，操作结束后再把它显示出来。因为在<code>display</code>属性为<code>none</code>的元素上进行的<code>DOM</code>操作不会引发回流和重绘。</li>
 <li><strong>避免频繁读取会引发回流/重绘的属性</strong>，如果确实需要多次使用，就用一个变量缓存起来。</li>
-<li>对具有复杂动画的元素使用<strong>绝对定位，使它脱离文档流</strong>，否则会引起父元素及后续元素频繁回流。</li>
+<li>对具有复杂动画的元素使用<code>绝对定位</code>，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</li>
 <li>避免使用<code>CSS</code>表达式（例如：<code>calc()</code>）</li>
 <li>避免使用<code>table</code>布局，<code>table</code>是个和罕见的可以影响在它们之前已经进入的<code>DOM</code>元素的显示的元素。<strong>即使一些小的变化将导致表格(table)中的所有其他节点回流。</strong></li>
 <li><code>css3</code>硬件加速（<code>GPU</code>加速），可以让<code>transform、opacity、filters</code>这些动画不会引起回流重绘</li>
@@ -438,7 +442,7 @@
 <p>有四个<code>absolute</code>定位的<code>div</code>在屏幕内发生了交叠。此时处于最下方的<code>div</code>在加上了<code>CSS</code>属性 <code>transform: translateZ(0)</code> 后被浏览器提升为合成层。</p>
 <p>按照隐式合成的原理，盖在它上边的<code>div</code>会提升为一个新的合成层，第三个<code>div</code>又盖在了第二个上，自然也会被提升为合成层，第四个也同理。这样一来，就会产生四个合成层。</p>
 <p><img src="/images/render/8.png" alt="/images/render/8.png"></p>
-<p>然而由于浏览器的层压缩机制，会将隐式合成的多个渲染层压缩到同一个<code>GraphicsLayer</code>中进行渲染，也就是说，上方的三个 div 最终会处于同一个合成层中，这就是浏览器的层压缩。</p>
+<p>然而由于浏览器的层压缩机制，会将隐式合成的多个渲染层压缩到同一个<code>GraphicsLayer</code>中进行渲染，也就是说，上方的三个<code>div</code>最终会处于同一个合成层中，这就是浏览器的层压缩。</p>
 <p><img src="/images/render/9.png" alt="/images/render/9.png"></p>
 <p><strong>优化建议</strong></p>
 <ol>
